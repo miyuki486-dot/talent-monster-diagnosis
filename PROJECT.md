@@ -60,4 +60,9 @@
 - 必要に応じて公式ロゴ・本番モンスター画像
 - みゆきによる質問文、診断結果、見た目の確認
 
-現在はCloudflare Quick Tunnelによる一時テスト公開中。パソコンまたは公開用プロセスを停止するとURLは使えなくなる。
+## 固定公開
+
+- GitHubリポジトリ: `miyuki486-dot/talent-monster-diagnosis`
+- 固定URL: https://miyuki486-dot.github.io/talent-monster-diagnosis/
+- `main` ブランチへ変更を送ると、GitHub Actionsが `dist/` をGitHub Pagesへ自動公開する
+- パソコンや一時公開プロセスを停止しても固定URLは利用できる

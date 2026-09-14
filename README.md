@@ -2,6 +2,8 @@
 
 「こども起業家研究所 ～博士ちゃんラボ～」の親子向け診断ツールです。
 
+公開サイト: https://miyuki486-dot.github.io/talent-monster-diagnosis/
+
 ## 公開方法
 
 `main` ブランチへ更新を送ると、GitHub Actionsが `dist/` の静的サイトをGitHub Pagesへ公開します。
