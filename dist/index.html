@@ -1,0 +1,1225 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#0a1742">
+  <meta name="description" content="お子さんの性格・好きなもの・星座から、これから育つ才能モンスターを発見する親子向け診断です。">
+  <title>才能モンスター発見！博士ちゃん診断</title>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%230a1742'/%3E%3Cpath d='M32 10c11 0 19 18 19 30 0 9-8 14-19 14S13 49 13 40c0-12 8-30 19-30Z' fill='%23ffd45a'/%3E%3Cpath d='m19 36 8-5 5 5 7-8 7 6' fill='none' stroke='%230a1742' stroke-width='4' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
+  <style>
+    :root {
+      color-scheme: light;
+      --navy: #08163d;
+      --navy-2: #10245e;
+      --blue: #2b70e4;
+      --cyan: #46d7f4;
+      --gold: #ffd45a;
+      --coral: #ff6f61;
+      --ink: #12203f;
+      --muted: #607093;
+      --paper: #f7f9ff;
+      --white: #ffffff;
+      --line: #dfe7fa;
+      --shadow: 0 20px 60px rgba(5, 20, 60, .22);
+      font-family: "Hiragino Sans", "Yu Gothic UI", "Yu Gothic", Meiryo, system-ui, sans-serif;
+    }
+
+    * { box-sizing: border-box; }
+
+    html { min-height: 100%; background: var(--navy); }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      color: var(--ink);
+      background:
+        radial-gradient(circle at 15% 10%, rgba(70, 215, 244, .17), transparent 27rem),
+        radial-gradient(circle at 88% 84%, rgba(255, 111, 97, .17), transparent 30rem),
+        linear-gradient(145deg, #071334 0%, #10245d 55%, #132f73 100%);
+    }
+
+    button, input, select { font: inherit; }
+    button { touch-action: manipulation; }
+
+    .page-shell {
+      min-height: 100vh;
+      display: grid;
+      grid-template-rows: auto 1fr auto;
+      padding: 20px;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .page-shell::before,
+    .page-shell::after {
+      content: "";
+      position: fixed;
+      border: 1px solid rgba(255,255,255,.12);
+      border-radius: 50%;
+      pointer-events: none;
+    }
+
+    .page-shell::before { width: 340px; height: 340px; left: -180px; top: 18%; }
+    .page-shell::after { width: 240px; height: 240px; right: -120px; bottom: 10%; }
+
+    .topbar, .footer {
+      width: min(940px, 100%);
+      margin: 0 auto;
+      position: relative;
+      z-index: 1;
+    }
+
+    .topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      color: white;
+      padding: 2px 2px 18px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-weight: 800;
+      letter-spacing: .02em;
+    }
+
+    .brand-mark {
+      display: grid;
+      place-items: center;
+      width: 36px;
+      height: 36px;
+      border-radius: 11px;
+      background: var(--gold);
+      color: var(--navy);
+      box-shadow: 0 7px 20px rgba(255, 212, 90, .25);
+    }
+
+    .official-chip {
+      font-size: .78rem;
+      font-weight: 800;
+      padding: 7px 10px;
+      border: 1px solid rgba(255,255,255,.28);
+      border-radius: 999px;
+      color: #e8efff;
+      white-space: nowrap;
+    }
+
+    main {
+      display: grid;
+      place-items: center;
+      position: relative;
+      z-index: 1;
+    }
+
+    .app-card {
+      width: min(940px, 100%);
+      min-height: min(680px, calc(100vh - 140px));
+      background: rgba(247, 249, 255, .98);
+      border: 1px solid rgba(255,255,255,.7);
+      border-radius: 32px;
+      box-shadow: var(--shadow);
+      overflow: hidden;
+      position: relative;
+    }
+
+    .screen {
+      display: none;
+      min-height: inherit;
+      animation: enter .35s ease-out;
+    }
+
+    .screen.active { display: grid; }
+    @keyframes enter { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+
+    .start-screen {
+      grid-template-columns: 1.04fr .96fr;
+      align-items: stretch;
+    }
+
+    .start-copy {
+      padding: clamp(34px, 6vw, 76px);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: flex-start;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin: 0 0 18px;
+      color: #255bc1;
+      font-size: .9rem;
+      font-weight: 900;
+      letter-spacing: .08em;
+    }
+
+    h1, h2, h3, p { margin-top: 0; }
+
+    h1 {
+      margin-bottom: 18px;
+      font-size: clamp(2.1rem, 5vw, 4.5rem);
+      line-height: 1.04;
+      letter-spacing: -.045em;
+    }
+
+    .title-accent {
+      color: var(--blue);
+      display: block;
+    }
+
+    .project-tagline { margin-bottom: 9px; color: #255bc1; font-size: clamp(.95rem, 1.6vw, 1.1rem); font-weight: 900; letter-spacing: .06em; }
+    .project-name { margin-bottom: 7px; font-size: clamp(2rem, 4.6vw, 4rem); line-height: 1.08; }
+    .project-nickname { display: block; margin-top: 9px; color: var(--blue); font-size: .48em; letter-spacing: .02em; }
+    .diagnosis-label { margin: 19px 0 5px; color: #7a89a7; font-size: .72rem; font-weight: 900; letter-spacing: .12em; }
+    .diagnosis-name { margin-bottom: 17px; color: #223969; font-size: clamp(1.15rem, 2.2vw, 1.55rem); line-height: 1.4; }
+
+    .lead {
+      max-width: 32rem;
+      margin-bottom: 28px;
+      color: var(--muted);
+      font-size: clamp(1rem, 1.6vw, 1.12rem);
+      line-height: 1.85;
+      font-weight: 600;
+    }
+
+    .primary-btn, .secondary-btn, .text-btn {
+      border: 0;
+      border-radius: 16px;
+      cursor: pointer;
+      font-weight: 900;
+      transition: transform .18s ease, box-shadow .18s ease, opacity .18s ease;
+    }
+
+    .primary-btn {
+      min-height: 56px;
+      padding: 14px 24px;
+      background: linear-gradient(135deg, #2a72e7, #1948ac);
+      color: white;
+      box-shadow: 0 12px 26px rgba(36, 94, 200, .3);
+    }
+
+    .start-actions { display: grid; gap: 10px; width: min(320px, 100%); }
+    .start-actions .primary-btn, .start-actions .secondary-btn { width: 100%; }
+
+    .primary-btn:hover, .secondary-btn:hover { transform: translateY(-2px); }
+    .primary-btn:focus-visible, .secondary-btn:focus-visible, .text-btn:focus-visible, input:focus-visible, select:focus-visible, .option:focus-visible { outline: 4px solid rgba(70,215,244,.45); outline-offset: 3px; }
+    .primary-btn:disabled { opacity: .38; cursor: not-allowed; transform: none; box-shadow: none; }
+
+    .start-note {
+      margin: 17px 0 0;
+      color: #75819d;
+      font-size: .85rem;
+      line-height: 1.7;
+    }
+
+    .egg-stage {
+      position: relative;
+      min-height: 520px;
+      background:
+        linear-gradient(rgba(255,255,255,.06) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,.06) 1px, transparent 1px),
+        radial-gradient(circle at 50% 46%, rgba(70,215,244,.35), transparent 35%),
+        linear-gradient(145deg, #0b1a47, #173b89);
+      background-size: 32px 32px, 32px 32px, auto, auto;
+      display: grid;
+      place-items: center;
+      overflow: hidden;
+    }
+
+    .orbit {
+      position: absolute;
+      width: min(410px, 88%);
+      aspect-ratio: 1;
+      border: 1px solid rgba(125, 230, 255, .38);
+      border-radius: 50%;
+      animation: spin 16s linear infinite;
+    }
+
+    .orbit::before, .orbit::after {
+      content: "✦";
+      position: absolute;
+      color: var(--gold);
+      font-size: 22px;
+      filter: drop-shadow(0 0 8px rgba(255,212,90,.7));
+    }
+
+    .orbit::before { top: 9%; left: 13%; }
+    .orbit::after { right: 2%; bottom: 27%; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    .egg {
+      width: 186px;
+      height: 234px;
+      position: relative;
+      display: grid;
+      place-items: center;
+      color: var(--navy);
+      font-size: 62px;
+      filter: drop-shadow(0 30px 38px rgba(0,0,0,.28));
+      isolation: isolate;
+    }
+
+    .egg::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      z-index: -1;
+      border-radius: 50% 50% 45% 45% / 62% 62% 38% 38%;
+      background:
+        radial-gradient(circle at 32% 24%, white 0 9%, transparent 10%),
+        radial-gradient(circle at 66% 65%, rgba(70,215,244,.5) 0 8%, transparent 9%),
+        linear-gradient(145deg, #fff8c9, #ffd45a 52%, #e7a42e);
+      border: 5px solid rgba(255,255,255,.48);
+    }
+
+    .egg-shadow {
+      position: absolute;
+      width: 220px;
+      height: 38px;
+      border-radius: 50%;
+      background: rgba(0,0,0,.28);
+      filter: blur(10px);
+      transform: translateY(135px);
+    }
+
+    .egg-caption {
+      position: absolute;
+      bottom: 38px;
+      left: 24px;
+      right: 24px;
+      color: white;
+      text-align: center;
+      font-weight: 800;
+      line-height: 1.7;
+    }
+
+    .quiz-screen {
+      grid-template-rows: auto 1fr auto;
+      padding: clamp(24px, 5vw, 54px);
+    }
+
+    .progress-wrap { display: grid; grid-template-columns: 1fr auto; align-items: center; gap: 14px; }
+    .progress-track { height: 10px; border-radius: 999px; background: #dde6fa; overflow: hidden; }
+    .progress-bar { height: 100%; width: 4%; border-radius: inherit; background: linear-gradient(90deg, var(--cyan), var(--blue)); transition: width .3s ease; }
+    .progress-label { color: var(--muted); font-size: .9rem; font-weight: 900; font-variant-numeric: tabular-nums; }
+
+    .question-wrap {
+      width: min(690px, 100%);
+      margin: auto;
+      padding: 34px 0;
+    }
+
+    .question-kicker { margin: 0 0 10px; color: #2b63c7; font-size: .88rem; font-weight: 900; letter-spacing: .05em; }
+    .question-title { margin-bottom: 10px; font-size: clamp(1.55rem, 3vw, 2.3rem); line-height: 1.35; letter-spacing: -.02em; }
+    .question-help { margin-bottom: 24px; color: var(--muted); line-height: 1.75; }
+
+    .field { display: grid; gap: 8px; color: #38486a; font-weight: 800; }
+    input[type="email"], select { width: 100%; min-height: 58px; border: 2px solid var(--line); border-radius: 15px; background: white; color: var(--ink); padding: 0 16px; font-size: 1rem; font-weight: 800; }
+    input[type="email"]::placeholder { color: #9aa7c0; font-weight: 600; }
+    .email-consent { display: flex; align-items: flex-start; gap: 10px; margin-top: 16px; color: #455575; font-size: .9rem; font-weight: 700; line-height: 1.65; cursor: pointer; }
+    .email-consent input { width: 19px; height: 19px; margin-top: 3px; accent-color: var(--blue); flex: 0 0 auto; }
+    .privacy-note { margin: 14px 0 0; padding: 13px 15px; border-radius: 13px; background: #eef4ff; color: #536487; font-size: .8rem; line-height: 1.65; }
+
+    .options { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    .zodiac-options { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .zodiac-option { min-height: 64px; justify-content: center; text-align: center; }
+    .option {
+      min-height: 78px;
+      display: flex;
+      align-items: center;
+      gap: 13px;
+      width: 100%;
+      border: 2px solid var(--line);
+      border-radius: 17px;
+      background: white;
+      color: var(--ink);
+      padding: 14px 16px;
+      text-align: left;
+      cursor: pointer;
+      font-weight: 800;
+      line-height: 1.55;
+      transition: border-color .18s ease, background .18s ease, transform .18s ease;
+    }
+
+    .option:hover { border-color: #9cbaf4; transform: translateY(-1px); }
+    .option.selected { border-color: var(--blue); background: #edf4ff; box-shadow: 0 0 0 3px rgba(43,112,228,.1); }
+    .option-letter { flex: 0 0 auto; display: grid; place-items: center; width: 32px; height: 32px; border-radius: 10px; background: #eaf0ff; color: #2457bb; font-size: .85rem; }
+    .option.selected .option-letter { background: var(--blue); color: white; }
+
+    .quiz-actions { display: flex; align-items: center; justify-content: space-between; gap: 16px; }
+    .text-btn { min-height: 48px; padding: 10px 14px; color: #52617f; background: transparent; }
+    .quiz-actions .primary-btn { min-width: 150px; }
+
+    .hatch-screen {
+      place-items: center;
+      text-align: center;
+      padding: 36px;
+      background:
+        radial-gradient(circle at center, rgba(70,215,244,.28), transparent 33%),
+        linear-gradient(145deg, #09163c, #14367d);
+      color: white;
+    }
+
+    .hatch-egg { font-size: clamp(7rem, 18vw, 11rem); animation: wobble .65s ease-in-out infinite alternate; filter: drop-shadow(0 20px 30px rgba(0,0,0,.35)); }
+    .hatch-screen h2 { margin-top: 24px; font-size: clamp(1.65rem, 4vw, 2.6rem); }
+    .hatch-screen p { color: #d9e8ff; font-weight: 700; }
+    @keyframes wobble { 0% { transform: rotate(-5deg) scale(.98); } 100% { transform: rotate(5deg) scale(1.04); } }
+
+    .result-screen { grid-template-columns: .92fr 1.08fr; }
+
+    .monster-panel {
+      min-height: 680px;
+      display: grid;
+      grid-template-rows: auto 1fr auto;
+      padding: 34px;
+      color: white;
+      background:
+        radial-gradient(circle at 50% 48%, var(--monster-glow, rgba(70,215,244,.42)), transparent 31%),
+        linear-gradient(145deg, #09163c, #173d8d);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .monster-panel::before { content: ""; position: absolute; inset: 26px; border: 1px solid rgba(255,255,255,.16); border-radius: 24px; pointer-events: none; }
+    .result-small { position: relative; z-index: 1; font-size: .84rem; font-weight: 900; letter-spacing: .08em; color: #cfe7ff; }
+
+    .monster-visual {
+      align-self: center;
+      justify-self: center;
+      width: min(340px, 84%);
+      aspect-ratio: 1;
+      display: grid;
+      place-items: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .monster-img {
+      display: none;
+      position: absolute;
+      max-width: none;
+      filter: drop-shadow(0 24px 28px rgba(0,0,0,.35));
+    }
+
+    .monster-img.visible { display: block; }
+    .monster-sigil { display: grid; place-items: center; width: 78%; aspect-ratio: 1; border-radius: 50%; color: var(--navy); background: radial-gradient(circle at 34% 25%, white, var(--monster-color, var(--gold)) 48%, #d29320); border: 8px solid rgba(255,255,255,.7); box-shadow: 0 20px 45px rgba(0,0,0,.28); font-size: clamp(4rem, 10vw, 7rem); }
+    .monster-sigil.hidden { display: none; }
+
+    .monster-id { position: relative; z-index: 1; text-align: center; }
+    .monster-id h2 { margin-bottom: 5px; font-size: clamp(2rem, 4.8vw, 3.8rem); letter-spacing: -.04em; }
+    .monster-id p { margin-bottom: 0; color: #dbe9ff; font-weight: 800; }
+
+    .result-copy { padding: clamp(30px, 5vw, 54px); overflow-y: auto; }
+    .attribute-chip { display: inline-flex; padding: 7px 11px; border-radius: 999px; background: #eaf2ff; color: #2459bd; font-size: .82rem; font-weight: 900; }
+    .result-heading { margin: 15px 0 12px; font-size: clamp(1.65rem, 3vw, 2.45rem); line-height: 1.35; letter-spacing: -.025em; }
+    .result-intro { color: var(--muted); line-height: 1.85; font-weight: 600; }
+
+    .result-block { margin-top: 24px; padding-top: 22px; border-top: 1px solid var(--line); }
+    .result-block h3 { margin-bottom: 12px; font-size: 1rem; display: flex; align-items: center; gap: 8px; }
+    .strength-list { display: flex; flex-wrap: wrap; gap: 8px; padding: 0; margin: 0; list-style: none; }
+    .strength-list li { padding: 9px 12px; border-radius: 12px; background: #eef3ff; color: #29446f; font-size: .92rem; font-weight: 800; }
+    .tip-box { padding: 17px 18px; border-radius: 16px; background: #fff7d9; border-left: 5px solid var(--gold); line-height: 1.75; font-weight: 700; }
+    .challenge-box { padding: 17px 18px; border-radius: 16px; background: #ebfbff; border-left: 5px solid var(--cyan); line-height: 1.75; font-weight: 700; }
+
+    .cta-stack { display: grid; gap: 10px; margin-top: 26px; }
+    .cta-stack a { text-decoration: none; text-align: center; display: grid; place-items: center; }
+    .line-btn { background: linear-gradient(135deg, #17b65b, #078e42); box-shadow: 0 12px 26px rgba(11,150,69,.22); }
+    .secondary-btn { min-height: 52px; padding: 13px 20px; background: white; color: #25498c; border: 2px solid #b9c9eb; }
+    .disabled-link { opacity: .55; cursor: default; pointer-events: none; }
+    .link-note { margin: 1px 0 0; color: #7b87a1; text-align: center; font-size: .78rem; line-height: 1.5; }
+    .retry-btn { width: 100%; margin-top: 13px; }
+    .result-tools { display: grid; gap: 10px; margin-top: 26px; padding: 18px; border: 1px solid #cad8f3; border-radius: 18px; background: #f2f6ff; }
+    .result-tools h3 { margin-bottom: 1px; font-size: 1rem; }
+    .result-tools p { margin-bottom: 4px; color: #647392; font-size: .82rem; line-height: 1.6; }
+    .email-status { min-height: 1.5em; margin: 1px 0 0 !important; color: #34568e !important; text-align: center; font-weight: 800; }
+    .coming-soon-zone.active { position: relative; margin-top: 24px; overflow: hidden; border: 2px dashed #9fb2d8; border-radius: 22px; background: #f5f7fc; isolation: isolate; }
+    .coming-soon-zone.active::after { content: ""; position: absolute; z-index: 1; inset: 0; background: repeating-linear-gradient(-45deg, rgba(74,101,158,.08) 0, rgba(74,101,158,.08) 9px, transparent 9px, transparent 19px); pointer-events: none; }
+    .coming-soon-zone.active .coming-soon-content { padding: 0 18px 18px; opacity: .38; filter: grayscale(.45); pointer-events: none; user-select: none; }
+    .coming-soon-ribbon { display: none; }
+    .coming-soon-zone.active .coming-soon-ribbon { position: relative; z-index: 2; display: grid; gap: 4px; justify-items: center; margin: 18px 18px 0; padding: 14px 18px; border: 1px solid #a9b9d8; border-radius: 15px; background: rgba(255,255,255,.94); color: #52617f; text-align: center; box-shadow: 0 8px 22px rgba(24,48,98,.1); }
+    .coming-soon-ribbon strong { color: #29446f; font-size: 1.08rem; letter-spacing: .12em; }
+    .coming-soon-ribbon span { font-size: .78rem; font-weight: 800; }
+    .print-only { display: none; }
+
+    .gallery-screen {
+      display: none;
+      padding: clamp(24px, 5vw, 52px);
+      background:
+        radial-gradient(circle at 95% 4%, rgba(70,215,244,.12), transparent 20rem),
+        var(--paper);
+    }
+
+    .gallery-screen.active { display: block; }
+    .gallery-header { display: flex; justify-content: space-between; align-items: flex-start; gap: 24px; margin-bottom: 28px; }
+    .gallery-header h2 { margin-bottom: 10px; font-size: clamp(2rem, 4vw, 3.4rem); letter-spacing: -.04em; }
+    .gallery-header p { max-width: 42rem; margin-bottom: 0; color: var(--muted); line-height: 1.75; font-weight: 650; }
+    .gallery-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
+    .monster-card { min-width: 0; overflow: hidden; border: 1px solid var(--line); border-radius: 20px; background: white; box-shadow: 0 10px 24px rgba(29,57,115,.08); }
+    .monster-card-head { padding: 16px 16px 12px; }
+    .monster-card-head h3 { margin-bottom: 3px; font-size: 1.12rem; }
+    .monster-card-head p { margin-bottom: 0; color: var(--muted); font-size: .8rem; font-weight: 750; line-height: 1.5; }
+    .evolution-pair { display: grid; grid-template-columns: 1fr 1fr; gap: 1px; background: var(--line); border-top: 1px solid var(--line); }
+    .evolution-stage { min-width: 0; padding: 9px; background: linear-gradient(145deg, #0c1c4c, #173c87); }
+    .stage-label { display: block; margin-bottom: 5px; color: #d9e8ff; text-align: center; font-size: .68rem; font-weight: 900; letter-spacing: .05em; }
+    .sprite-window { position: relative; width: 100%; aspect-ratio: 1; overflow: hidden; border-radius: 12px; background: radial-gradient(circle, rgba(70,215,244,.18), transparent 66%); }
+    .sprite-window img { position: absolute; max-width: none; width: 400%; height: 300%; object-fit: fill; }
+    .sprite-window img.single { inset: 0; width: 100%; height: 100%; object-fit: contain; }
+    .gallery-footer { display: flex; justify-content: center; padding-top: 30px; }
+
+    .footer { padding: 14px 2px 0; color: #c3d4f8; text-align: center; font-size: .78rem; line-height: 1.6; }
+
+    @media (max-width: 760px) {
+      .page-shell { padding: 10px; }
+      .topbar { padding: 3px 4px 11px; }
+      .brand span:last-child { display: none; }
+      .app-card { min-height: calc(100vh - 102px); border-radius: 24px; }
+      .start-screen, .result-screen { grid-template-columns: 1fr; }
+      .start-copy { padding: 34px 26px 28px; }
+      .egg-stage { min-height: 310px; }
+      .egg { width: 126px; height: 164px; font-size: 42px; }
+      .egg-shadow { width: 150px; transform: translateY(94px); }
+      .orbit { width: 270px; }
+      .egg-caption { bottom: 22px; font-size: .86rem; }
+      .quiz-screen { padding: 22px 18px; }
+      .question-wrap { padding: 28px 0 22px; }
+      .options { grid-template-columns: 1fr; }
+      .zodiac-options { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .option { min-height: 66px; }
+      .monster-panel { min-height: 440px; padding: 28px; }
+      .monster-visual { width: min(280px, 78%); }
+      .result-copy { padding: 30px 22px 38px; overflow: visible; }
+      .gallery-screen { padding: 24px 16px 34px; }
+      .gallery-header { display: block; }
+      .gallery-header .text-btn { margin: -8px 0 12px -10px; }
+      .gallery-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 11px; }
+      .monster-card-head { padding: 13px 12px 10px; }
+      .monster-card-head h3 { font-size: 1rem; }
+      .evolution-stage { padding: 6px; }
+    }
+
+    @media (max-width: 430px) {
+      .official-chip { font-size: .7rem; }
+      .quiz-actions .primary-btn { min-width: 130px; }
+      .gallery-grid { grid-template-columns: 1fr; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { scroll-behavior: auto !important; animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
+    }
+
+    @page { size: A4 portrait; margin: 0; }
+    @media print {
+      html, body { width: 210mm; height: 297mm; min-height: 0; background: white !important; }
+      body { print-color-adjust: exact; -webkit-print-color-adjust: exact; }
+      .page-shell { width: 210mm; height: 297mm; min-height: 0; padding: 0; display: block; overflow: hidden; }
+      .topbar, .footer, .screen, .result-tools, .cta-stack, #resultGalleryBtn, #retryBtn { display: none !important; }
+      main, .app-card { display: block; width: 210mm; height: 297mm; min-height: 0; margin: 0; padding: 0; overflow: hidden; border: 0; border-radius: 0; box-shadow: none; background: white; }
+      .result-screen.active { display: grid !important; grid-template-columns: 78mm 132mm; width: 210mm; height: 297mm; min-height: 0; animation: none; }
+      .monster-panel { min-height: 0; height: 297mm; padding: 12mm 7mm; grid-template-rows: auto 1fr auto; }
+      .monster-panel::before { inset: 7mm; border-radius: 5mm; }
+      .result-small { font-size: 7.5pt; }
+      .monster-visual { width: 64mm; }
+      .monster-id h2 { font-size: 27pt; }
+      .monster-id p { font-size: 9pt; }
+      .result-copy { height: 297mm; padding: 10mm 10mm 8mm; overflow: hidden; }
+      .print-only { display: block; }
+      .print-brandline { margin-bottom: 5mm; padding-bottom: 3mm; border-bottom: 1px solid #dfe7fa; color: #315fae; font-size: 8pt; font-weight: 900; letter-spacing: .08em; }
+      .attribute-chip { padding: 1.5mm 2.5mm; font-size: 7.5pt; }
+      .result-heading { margin: 4mm 0 2.5mm; font-size: 19pt; line-height: 1.25; }
+      .result-intro { margin-bottom: 0; font-size: 9pt; line-height: 1.65; }
+      .result-block { margin-top: 4.5mm; padding-top: 4mm; }
+      .result-block h3 { margin-bottom: 2.5mm; font-size: 9pt; }
+      .strength-list { gap: 1.5mm; }
+      .strength-list li { padding: 2mm 2.5mm; font-size: 8pt; }
+      .tip-box, .challenge-box { padding: 3mm 3.5mm; border-radius: 3mm; font-size: 8.3pt; line-height: 1.6; }
+      .sheet-note { margin: 4.5mm 0 0; padding-top: 3mm; border-top: 1px solid #dfe7fa; color: #75819d; font-size: 7pt; line-height: 1.5; }
+    }
+  </style>
+</head>
+<body>
+  <div class="page-shell">
+    <header class="topbar">
+      <div class="brand"><span class="brand-mark" aria-hidden="true">✦</span><span id="headerProjectName">こども起業家研究所</span></div>
+      <span class="official-chip">親子で見つける、好きの力</span>
+    </header>
+
+    <main>
+      <section class="app-card" aria-live="polite">
+        <div id="startScreen" class="screen start-screen active">
+          <div class="start-copy">
+            <p id="projectTagline" class="project-tagline">その子らしさで稼ぐチカラを</p>
+            <h1 id="projectName" class="project-name">こども起業家研究所<span id="projectNickname" class="project-nickname">～博士ちゃんラボ～</span></h1>
+            <p class="diagnosis-label">✦ 12のタマゴが待っている｜DIAGNOSIS TOOL</p>
+            <h2 id="diagnosisName" class="diagnosis-name">才能モンスター発見！博士ちゃん診断</h2>
+            <p id="diagnosisLead" class="lead">最初に結果送付先のメールアドレスを入力し、お子さんの星座と、いつもの姿について8つの質問に答えてください。まだタマゴの中にいる「好きの力」が、冒険モンスターになって現れます。</p>
+            <div class="start-actions">
+              <button id="startBtn" class="primary-btn" type="button">タマゴを見つけに行く</button>
+              <button id="galleryBtn" class="secondary-btn" type="button">12タイプを全部見る</button>
+            </div>
+            <p id="startNote" class="start-note">所要時間 約3分 ／ お名前や生まれ年は入力しません<br>メールアドレスは診断結果の送付にだけ使用します。</p>
+          </div>
+          <div class="egg-stage" aria-hidden="true">
+            <div class="orbit"></div>
+            <div class="egg-shadow"></div>
+            <div class="egg">✦</div>
+            <p class="egg-caption">どんな才能モンスターが<br>生まれるかな？</p>
+          </div>
+        </div>
+
+        <div id="galleryScreen" class="screen gallery-screen">
+          <div class="gallery-header">
+            <div>
+              <p class="eyebrow">✦ TALENT MONSTER BOOK</p>
+              <h2>12タイプのモンスター図鑑</h2>
+              <p>卵から顔を出した「孵化前」と、診断結果に登場する「孵化後」を見比べられます。どの姿も、これから育っていく才能の可能性です。</p>
+            </div>
+            <button id="galleryBackBtn" class="text-btn" type="button">← 診断トップへ</button>
+          </div>
+          <div id="galleryGrid" class="gallery-grid"></div>
+          <div class="gallery-footer"><button id="galleryStartBtn" class="primary-btn" type="button">診断をはじめる</button></div>
+        </div>
+
+        <div id="quizScreen" class="screen quiz-screen">
+          <div class="progress-wrap" aria-label="診断の進み具合">
+            <div class="progress-track"><div id="progressBar" class="progress-bar"></div></div>
+            <span id="progressLabel" class="progress-label">1 / 12</span>
+          </div>
+
+          <div id="questionWrap" class="question-wrap"></div>
+
+          <div class="quiz-actions">
+            <button id="backBtn" class="text-btn" type="button">← ひとつ戻る</button>
+            <button id="nextBtn" class="primary-btn" type="button" disabled>次へ</button>
+          </div>
+        </div>
+
+        <div id="hatchScreen" class="screen hatch-screen">
+          <div>
+            <div class="hatch-egg" aria-hidden="true">🥚</div>
+            <h2>タマゴが動きはじめた！</h2>
+            <p>お子さんの「好きの力」を読み解いています…</p>
+          </div>
+        </div>
+
+        <div id="resultScreen" class="screen result-screen">
+          <div id="monsterPanel" class="monster-panel">
+            <span class="result-small">YOUR TALENT MONSTER</span>
+            <div class="monster-visual" aria-hidden="true">
+              <img id="monsterImg" class="monster-img" alt="">
+              <div id="monsterSigil" class="monster-sigil">✦</div>
+            </div>
+            <div class="monster-id">
+              <h2 id="monsterName">ヒラメキラ</h2>
+              <p id="monsterTitle">ひらめき発明家タイプ</p>
+            </div>
+          </div>
+
+          <div class="result-copy">
+            <div id="printBrandline" class="print-only print-brandline">こども起業家研究所 ～博士ちゃんラボ～｜才能モンスター診断 結果シート</div>
+            <span id="attributeChip" class="attribute-chip">創造の星</span>
+            <h2 id="resultHeading" class="result-heading">まだないものを思いつく、アイデアの冒険者</h2>
+            <p id="resultIntro" class="result-intro"></p>
+
+            <div class="result-block">
+              <h3>✦ この子の強み</h3>
+              <ul id="strengthList" class="strength-list"></ul>
+            </div>
+
+            <div class="result-block">
+              <h3>☀ 力が伸びる声かけ</h3>
+              <div id="parentTip" class="tip-box"></div>
+            </div>
+
+            <div id="comingSoonZone" class="coming-soon-zone">
+              <div class="coming-soon-ribbon">
+                <strong>COMING SOON…</strong>
+                <span>ここから先は、ただいま準備中です</span>
+              </div>
+              <div class="coming-soon-content">
+                <div class="result-block">
+                  <h3 id="challengeHeading">🚩 博士ちゃんマルシェで試すなら</h3>
+                  <div id="challengeText" class="challenge-box"></div>
+                </div>
+
+                <p class="print-only sheet-note">この診断はお子さんを決めつけるものではなく、親子で「好き」と強みを見つけるきっかけです。<br><span id="resultDate"></span></p>
+
+                <div class="result-tools">
+                  <h3>結果を手元に残す</h3>
+                  <p>この結果をA4・1枚の資料として保存したり、入力したメールアドレスで受け取ったりできます。</p>
+                  <button id="printBtn" class="primary-btn" type="button">1枚の結果シートを保存・印刷</button>
+                  <button id="emailBtn" class="secondary-btn" type="button">この結果をメールで受け取る</button>
+                  <p id="emailStatus" class="email-status" role="status" aria-live="polite"></p>
+                </div>
+
+                <div class="cta-stack">
+                  <a id="lineCta" class="primary-btn line-btn" href="#">公式LINEで最新情報を見る</a>
+                  <a id="formCta" class="secondary-btn" href="#">参加申込みフォームへ</a>
+                  <p id="linkNote" class="link-note">リンクは本番公開前に設定できます</p>
+                </div>
+              </div>
+            </div>
+            <button id="resultGalleryBtn" class="secondary-btn retry-btn" type="button">12タイプを全部見る</button>
+            <button id="retryBtn" class="text-btn retry-btn" type="button">もう一度診断する</button>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer id="siteFooter" class="footer">こども起業家研究所 ～博士ちゃんラボ～｜その子らしさで稼ぐチカラを</footer>
+  </div>
+
+  <script src="settings.js"></script>
+  <script>
+    const TYPE_ORDER = ["spark", "maker", "explorer", "challenger", "grower", "messenger", "empath", "connector", "artist", "planner", "host", "leader"];
+
+    const monsters = {
+      spark: {
+        name: "ヒラメキラ", title: "ひらめき発明家タイプ", attribute: "創造の星", symbol: "✦", color: "#53d8f3", spriteIndex: 0,
+        heading: "まだないものを思いつく、アイデアの冒険者",
+        intro: "決まったやり方にとらわれず、「こんなのはどう？」と新しい景色を描ける子。ふとした思いつきの中に、誰かを驚かせる小さな発明が眠っています。",
+        strengths: ["発想する力", "工夫する力", "新しい見方"],
+        parentTip: "「おもしろいね。もう少し聞かせて」と、まずアイデアを最後まで聞いてみて。実現できるかを急いで決めず、絵やメモにすると才能が育ちます。",
+        challenge: "身近な困りごとを楽しく変える、オリジナル商品や新しい遊びのお店。"
+      },
+      maker: {
+        name: "ツクリオン", title: "ものづくり職人タイプ", attribute: "創作の大地", symbol: "◆", color: "#ffbd4a", spriteIndex: 1,
+        heading: "手を動かして、思い描いたものを形にする職人",
+        intro: "作りながら考え、細かなところにも自分らしいこだわりを込められる子。完成した瞬間だけでなく、試して直す時間そのものを楽しめます。",
+        strengths: ["形にする力", "手先の工夫", "完成まで向き合う力"],
+        parentTip: "完成品だけでなく、「ここを工夫したんやね」と途中の試行錯誤にも注目してみて。材料を自分で選べると、もっと力を発揮します。",
+        challenge: "工作、アクセサリー、小物、お菓子など、手作りのこだわりが伝わるお店。"
+      },
+      explorer: {
+        name: "ミッケル", title: "なぜなぜ探検家タイプ", attribute: "発見の水", symbol: "◎", color: "#51d1c2", spriteIndex: 2,
+        heading: "「なんで？」を追いかけ、秘密を見つける探検家",
+        intro: "気になったことを深く調べ、小さな違いにも気づける子。みんなが通り過ぎる場所にも、おもしろい発見を見つけます。",
+        strengths: ["観察する力", "調べる力", "深く考える力"],
+        parentTip: "すぐに答えを教えるより、「どうしたら確かめられそう？」と一緒に方法を考えてみて。図鑑や実験道具が良い相棒になります。",
+        challenge: "実験、クイズ、コレクションなど、見つけた秘密をお客さんにも体験してもらうお店。"
+      },
+      challenger: {
+        name: "トビコン", title: "まずやってみる勇者タイプ", attribute: "挑戦の炎", symbol: "▲", color: "#ff7868", spriteIndex: 3,
+        heading: "ドキドキしても一歩踏み出せる、挑戦の勇者",
+        intro: "新しいことを見つけると、考えるより先に体が動く子。うまくいかない経験さえ、次の冒険のエネルギーに変えられます。",
+        strengths: ["一歩目の速さ", "挑戦する勇気", "切り替える力"],
+        parentTip: "結果だけでなく、「最初にやってみたのがすごい」と一歩目を認めてあげて。安全な範囲を一緒に決めると、思い切り挑戦できます。",
+        challenge: "ゲーム、体験、実演など、お客さんも一緒にチャレンジできる元気なお店。"
+      },
+      grower: {
+        name: "コツミン", title: "じっくり育てる名人タイプ", attribute: "継続の岩", symbol: "⬢", color: "#8197e8", spriteIndex: 4,
+        heading: "小さな積み重ねを、大きな力に変える育て名人",
+        intro: "自分のペースで丁寧に続け、昨日より少し上手になることを喜べる子。すぐには見えない成長を、しっかり積み上げます。",
+        strengths: ["続ける力", "丁寧さ", "少しずつ伸ばす力"],
+        parentTip: "「前よりここができたね」と小さな変化を言葉にしてみて。急かさず集中できる時間を守ると、驚くほど力を伸ばします。",
+        challenge: "育てたもの、集めたもの、練習してきた技など、積み重ねが伝わるお店。"
+      },
+      messenger: {
+        name: "コトハネ", title: "ことばを届ける案内役タイプ", attribute: "伝達の風", symbol: "♬", color: "#55b9f2", spriteIndex: 5,
+        heading: "わくわくをことばにして、相手へ届ける案内役",
+        intro: "見つけたことや感じたことを、自分のことばで伝えられる子。話し方や表情で、周りの人を楽しい世界へ案内します。",
+        strengths: ["伝える力", "説明する力", "場を明るくする力"],
+        parentTip: "「一番おもしろかったのはどこ？」と、話したくなる入口を作ってみて。最後まで聞いてもらえる経験が、自信につながります。",
+        challenge: "おすすめ紹介、クイズ、呼び込みなど、ことばで商品の魅力を届ける役。"
+      },
+      empath: {
+        name: "ヨリソ", title: "気持ちを感じる癒やし手タイプ", attribute: "共感の泉", symbol: "♡", color: "#ff91ae", spriteIndex: 6,
+        heading: "小さな気持ちの変化に気づく、やさしい癒やし手",
+        intro: "相手の表情や声から気持ちを感じ取り、そっと寄り添える子。そのやさしさは、人が安心して集まれる場所を作る力です。",
+        strengths: ["気づかう力", "話を聴く力", "安心を作る力"],
+        parentTip: "やさしくできた場面を具体的に伝えてあげて。同時に「あなたはどうしたい？」と本人の気持ちも聞くと、無理なく力を使えます。",
+        challenge: "お客さんの好みを聞いて選んだり、ほっとできる時間を届けたりするお店。"
+      },
+      connector: {
+        name: "ムスビット", title: "仲間をつなぐ応援団タイプ", attribute: "仲間の森", symbol: "∞", color: "#54cf87", spriteIndex: 7,
+        heading: "みんなの違いをつないで、チームを強くする応援団",
+        intro: "一人ひとりの良さを見つけ、自然に仲間の輪を作れる子。誰かと誰かが力を合わせるきっかけを生み出します。",
+        strengths: ["協力する力", "つなぐ力", "応援する力"],
+        parentTip: "「みんなが楽しめたのは、どんな工夫があったから？」と聞いてみて。仲間のためにした行動を言葉にすると、強みを自覚できます。",
+        challenge: "友達と一緒に運営したり、お客さん同士も楽しめる仕掛けを作ったりするお店。"
+      },
+      artist: {
+        name: "イロドラ", title: "世界を彩る表現者タイプ", attribute: "表現の虹", symbol: "●", color: "#dc73e8", spriteIndex: 8,
+        heading: "心に浮かんだ景色を、自分らしく表すアーティスト",
+        intro: "色、音、動き、物語などを使い、感じたことを自由に表現できる子。その子だけの見え方が、誰かの心を動かします。",
+        strengths: ["表現する力", "感性", "自分らしさ"],
+        parentTip: "上手かどうかより、「どんな気持ちを表したの？」と聞いてみて。選んだ色や形の理由を話せると、表現がさらに深まります。",
+        challenge: "絵、音楽、ダンス、物語、デザインなど、世界観を丸ごと楽しんでもらうお店。"
+      },
+      planner: {
+        name: "ミチシル", title: "道すじを描く作戦家タイプ", attribute: "作戦の星図", symbol: "⌖", color: "#9b7cf2", spriteIndex: 9,
+        heading: "ゴールまでの道を見つける、頼れる作戦家",
+        intro: "何から始めるかを考え、必要なものを順番に整理できる子。みんなが迷ったとき、進みやすい道をそっと示します。",
+        strengths: ["計画する力", "整理する力", "先を考える力"],
+        parentTip: "予定を全部決めて渡すより、「最初に何をしたらよさそう？」と任せてみて。自分で組んだ作戦がうまくいくと、大きな自信になります。",
+        challenge: "商品の並べ方、値段、準備の順番など、お店全体の作戦を考える役。"
+      },
+      host: {
+        name: "ヨロコビィ", title: "笑顔を集めるおもてなしタイプ", attribute: "喜びの光", symbol: "☀", color: "#ffd45a", spriteIndex: 10,
+        heading: "相手の「うれしい！」を見つける、おもてなしの達人",
+        intro: "どうしたら喜んでもらえるかを考え、あたたかな工夫ができる子。人の笑顔が、自分の次のアイデアを生む力になります。",
+        strengths: ["喜ばせる力", "気配り", "相手目線で考える力"],
+        parentTip: "「あの人、どんなところが嬉しそうだった？」と一緒に振り返ってみて。喜びの理由に気づくほど、工夫の引き出しが増えます。",
+        challenge: "選ぶ楽しさや小さなサプライズなど、お客さんが笑顔になる工夫のあるお店。"
+      },
+      leader: {
+        name: "センディア", title: "みんなを導くリーダータイプ", attribute: "先導の空", symbol: "★", color: "#f1bd45", spriteIndex: 11,
+        heading: "進む方向を示し、仲間の勇気を引き出すリーダー",
+        intro: "やりたいことをはっきり描き、周りに声をかけて動き出せる子。自分だけで進むのではなく、仲間の力も見つけられる可能性を持っています。",
+        strengths: ["決める力", "声をかける力", "前へ進める力"],
+        parentTip: "「みんなはどう思っているかな？」と仲間の視点も添えてみて。自分の勢いと周りの良さが合わさると、頼れるリーダーに育ちます。",
+        challenge: "お店のテーマを決め、仲間へ役割を伝えながら全体を動かす店長役。"
+      }
+    };
+
+    const questions = [
+      { type: "email", kicker: "結果のお届け先", title: "メールアドレスを教えてください", help: "診断結果をお届けするために使用します。入力内容はこのブラウザに保存されません。" },
+      { type: "zodiac", kicker: "星座", title: "お子さんの星座は？", help: "当てはまる星座を選んでください。選ぶと、そのまま次の質問へ進みます。" },
+      {
+        category: "personality", kicker: "質問 1 / 8", title: "初めての遊びを見つけたとき、どんな様子が多い？",
+        options: [
+          { text: "まずやってみる", primary: "challenger", secondary: "leader" },
+          { text: "よく見て、遊び方を確かめる", primary: "explorer", secondary: "planner" },
+          { text: "自分なりの遊び方を思いつく", primary: "spark", secondary: "artist" },
+          { text: "誰かを誘って一緒に始める", primary: "connector", secondary: "messenger" }
+        ]
+      },
+      {
+        category: "personality", kicker: "質問 2 / 8", title: "思いどおりにできないときは？",
+        options: [
+          { text: "できるまで何度も試す", primary: "grower", secondary: "maker" },
+          { text: "別のやり方をひらめく", primary: "spark", secondary: "challenger" },
+          { text: "誰かに聞いたり、状況を説明したりする", primary: "messenger", secondary: "connector" },
+          { text: "周りの様子を見て、そっと助けを待つ", primary: "empath", secondary: "planner" }
+        ]
+      },
+      {
+        category: "personality", kicker: "質問 3 / 8", title: "グループで遊ぶとき、よく見られる姿は？",
+        options: [
+          { text: "「こうしよう」と方向を決める", primary: "leader", secondary: "planner" },
+          { text: "みんなが入れるように声をかける", primary: "connector", secondary: "empath" },
+          { text: "おもしろい表現で場を盛り上げる", primary: "artist", secondary: "messenger" },
+          { text: "自分の役割に集中して取り組む", primary: "maker", secondary: "grower" }
+        ]
+      },
+      {
+        category: "personality", kicker: "質問 4 / 8", title: "何かを始める前に、しそうなことは？",
+        options: [
+          { text: "順番や必要なものを考える", primary: "planner", secondary: "grower" },
+          { text: "絵や見本を作ってイメージする", primary: "maker", secondary: "artist" },
+          { text: "楽しさを誰かに話す", primary: "messenger", secondary: "host" },
+          { text: "小さく試してから考える", primary: "challenger", secondary: "explorer" }
+        ]
+      },
+      {
+        category: "personality", kicker: "質問 5 / 8", title: "近くの子が不安そうなとき、どうすることが多い？",
+        options: [
+          { text: "そばにいて気持ちを聞く", primary: "empath", secondary: "host" },
+          { text: "分かりやすくやり方を教える", primary: "messenger", secondary: "planner" },
+          { text: "自分が先にやって見せる", primary: "challenger", secondary: "leader" },
+          { text: "楽しくなる方法を考える", primary: "spark", secondary: "artist" }
+        ]
+      },
+      {
+        category: "likes", kicker: "質問 6 / 8", title: "もしお店を出すなら、一番わくわくしそうなのは？",
+        options: [
+          { text: "世界に一つの作品やグッズ", primary: "maker", secondary: "spark" },
+          { text: "不思議を楽しむ実験やクイズ", primary: "explorer", secondary: "messenger" },
+          { text: "お客さんが参加するゲーム", primary: "challenger", secondary: "host" },
+          { text: "絵、音、物語などのパフォーマンス", primary: "artist", secondary: "leader" }
+        ]
+      },
+      {
+        category: "likes", kicker: "質問 7 / 8", title: "特にうれしそうなのは、どんなとき？",
+        options: [
+          { text: "作っていたものが完成したとき", primary: "maker", secondary: "grower" },
+          { text: "知らなかった答えを見つけたとき", primary: "explorer", secondary: "spark" },
+          { text: "誰かに「ありがとう」と言われたとき", primary: "host", secondary: "empath" },
+          { text: "みんなで力を合わせられたとき", primary: "connector", secondary: "leader" }
+        ]
+      },
+      {
+        category: "likes", kicker: "質問 8 / 8", title: "もし一つだけ冒険の力を選ぶなら？",
+        options: [
+          { text: "見えないアイデアを形にする力", primary: "spark", secondary: "artist" },
+          { text: "誰かの心と心をつなぐ力", primary: "connector", secondary: "empath" },
+          { text: "ゴールまでの道を見つける力", primary: "planner", secondary: "explorer" },
+          { text: "みんなの勇気に火をつける力", primary: "leader", secondary: "challenger" }
+        ]
+      }
+    ];
+
+    const zodiacOptions = [
+      { key: "aries", label: "♈ おひつじ座" }, { key: "taurus", label: "♉ おうし座" },
+      { key: "gemini", label: "♊ ふたご座" }, { key: "cancer", label: "♋ かに座" },
+      { key: "leo", label: "♌ しし座" }, { key: "virgo", label: "♍ おとめ座" },
+      { key: "libra", label: "♎ てんびん座" }, { key: "scorpio", label: "♏ さそり座" },
+      { key: "sagittarius", label: "♐ いて座" }, { key: "capricorn", label: "♑ やぎ座" },
+      { key: "aquarius", label: "♒ みずがめ座" }, { key: "pisces", label: "♓ うお座" }
+    ];
+
+    const zodiacMap = {
+      aries: ["challenger", "leader"], taurus: ["grower", "maker"], gemini: ["messenger", "connector"],
+      cancer: ["empath", "host"], leo: ["leader", "artist"], virgo: ["planner", "maker"],
+      libra: ["connector", "artist"], scorpio: ["explorer", "empath"], sagittarius: ["explorer", "challenger"],
+      capricorn: ["grower", "planner"], aquarius: ["spark", "messenger"], pisces: ["artist", "empath"]
+    };
+
+    const firstQuestionIndex = SITE_CONFIG.showEmailStep === false ? 1 : 0;
+    const state = { current: firstQuestionIndex, answers: Array(questions.length).fill(null), zodiac: "", email: "", emailConsent: false, resultType: "", isAdvancing: false };
+
+    const els = {
+      startScreen: document.getElementById("startScreen"), quizScreen: document.getElementById("quizScreen"),
+      hatchScreen: document.getElementById("hatchScreen"), resultScreen: document.getElementById("resultScreen"), galleryScreen: document.getElementById("galleryScreen"),
+      startBtn: document.getElementById("startBtn"), galleryBtn: document.getElementById("galleryBtn"), galleryBackBtn: document.getElementById("galleryBackBtn"), galleryStartBtn: document.getElementById("galleryStartBtn"), resultGalleryBtn: document.getElementById("resultGalleryBtn"), backBtn: document.getElementById("backBtn"), nextBtn: document.getElementById("nextBtn"), printBtn: document.getElementById("printBtn"), emailBtn: document.getElementById("emailBtn"), emailStatus: document.getElementById("emailStatus"),
+      questionWrap: document.getElementById("questionWrap"), progressBar: document.getElementById("progressBar"), progressLabel: document.getElementById("progressLabel")
+    };
+
+    function showScreen(screen) {
+      [els.startScreen, els.quizScreen, els.hatchScreen, els.resultScreen, els.galleryScreen].forEach(el => el.classList.remove("active"));
+      screen.classList.add("active");
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+
+    function applyBranding() {
+      const projectLabel = `${SITE_CONFIG.projectName} ${SITE_CONFIG.projectNickname}`.trim();
+      document.title = `${SITE_CONFIG.diagnosisName}｜${projectLabel}`;
+      document.getElementById("headerProjectName").textContent = SITE_CONFIG.projectName;
+      document.getElementById("projectTagline").textContent = SITE_CONFIG.projectTagline;
+      document.getElementById("projectName").childNodes[0].nodeValue = SITE_CONFIG.projectName;
+      document.getElementById("projectNickname").textContent = SITE_CONFIG.projectNickname;
+      document.getElementById("diagnosisName").textContent = SITE_CONFIG.diagnosisName;
+      document.getElementById("challengeHeading").textContent = `🚩 ${SITE_CONFIG.activityName}で試すなら`;
+      document.getElementById("printBrandline").textContent = `${projectLabel}｜${SITE_CONFIG.diagnosisName} 結果シート`;
+      document.getElementById("siteFooter").textContent = `${projectLabel}｜${SITE_CONFIG.projectTagline}`;
+      if (SITE_CONFIG.showEmailStep === false) {
+        document.getElementById("diagnosisLead").textContent = "お子さんの星座と、いつもの姿について8つの質問に答えてください。まだタマゴの中にいる「好きの力」が、冒険モンスターになって現れます。";
+        document.getElementById("startNote").innerHTML = "所要時間 約3分 ／ お名前や生まれ年は入力しません<br>テスト中のため、メールアドレスの入力もありません。";
+      }
+    }
+
+    function spriteMarkup(url, monster, alt, individualUrl = "") {
+      if (individualUrl) return `<div class="sprite-window"><img class="single" src="${individualUrl}" alt="${alt}"></div>`;
+      const col = monster.spriteIndex % 4;
+      const row = Math.floor(monster.spriteIndex / 4);
+      return `<div class="sprite-window"><img src="${url}" alt="${alt}" style="left:${col * -100}%;top:${row * -100}%"></div>`;
+    }
+
+    function renderGallery() {
+      document.getElementById("galleryGrid").innerHTML = TYPE_ORDER.map(typeKey => {
+        const m = monsters[typeKey];
+        return `<article class="monster-card">
+          <div class="monster-card-head"><h3>${m.name}</h3><p>${m.title}</p></div>
+          <div class="evolution-pair">
+            <div class="evolution-stage"><span class="stage-label">孵化前</span>${spriteMarkup(SITE_CONFIG.monsterEggSpriteUrl, m, `${m.name}の孵化前`)}</div>
+            <div class="evolution-stage"><span class="stage-label">孵化後</span>${spriteMarkup(SITE_CONFIG.monsterSpriteUrl, m, `${m.name}の孵化後`, SITE_CONFIG.monsterImageUrls[typeKey])}</div>
+          </div>
+        </article>`;
+      }).join("");
+    }
+
+    function openGallery() { renderGallery(); showScreen(els.galleryScreen); }
+
+    function renderQuestion() {
+      const q = questions[state.current];
+      if (q.type === "email") {
+        els.progressBar.style.width = "4%";
+        els.progressLabel.textContent = "結果送付先";
+      } else if (q.type === "zodiac") {
+        els.progressBar.style.width = `${100 / 9}%`;
+        els.progressLabel.textContent = "星座";
+      } else {
+        const questionNumber = state.current - 1;
+        els.progressBar.style.width = `${((questionNumber + 1) / 9) * 100}%`;
+        els.progressLabel.textContent = `${questionNumber} / 8`;
+      }
+      els.backBtn.style.visibility = state.current === firstQuestionIndex ? "hidden" : "visible";
+      els.nextBtn.style.display = q.type === "email" ? "inline-flex" : "none";
+      els.nextBtn.textContent = "診断へ進む";
+
+      if (q.type === "email") {
+        els.questionWrap.innerHTML = `
+          <p class="question-kicker">${q.kicker}</p>
+          <h2 class="question-title">${q.title}</h2>
+          <p class="question-help">${q.help}</p>
+          <label class="field">メールアドレス
+            <input id="emailInput" type="email" inputmode="email" autocomplete="email" maxlength="254" placeholder="example@email.com" value="${state.email}" aria-describedby="emailPrivacy">
+          </label>
+          <label class="email-consent"><input id="emailConsent" type="checkbox" ${state.emailConsent ? "checked" : ""}><span>診断結果の送付に、このメールアドレスを使用することに同意します。</span></label>
+          <p id="emailPrivacy" class="privacy-note">診断中はこの画面の中だけで保持します。本番のメール送信時に、設定した送信サービスへメールアドレスと診断結果を渡します。</p>`;
+        const emailInput = document.getElementById("emailInput");
+        const emailConsent = document.getElementById("emailConsent");
+        emailInput.addEventListener("input", () => { state.email = emailInput.value.trim(); updateNextState(); });
+        emailConsent.addEventListener("change", () => { state.emailConsent = emailConsent.checked; updateNextState(); });
+      } else if (q.type === "zodiac") {
+        els.questionWrap.innerHTML = `
+          <p class="question-kicker">${q.kicker}</p>
+          <h2 class="question-title">${q.title}</h2>
+          <p class="question-help">${q.help}</p>
+          <div class="options zodiac-options" role="radiogroup" aria-label="${q.title}">
+            ${zodiacOptions.map(option => `<button class="option zodiac-option ${state.zodiac === option.key ? "selected" : ""}" type="button" role="radio" aria-checked="${state.zodiac === option.key}" data-zodiac="${option.key}"><span>${option.label}</span></button>`).join("")}
+          </div>`;
+        els.questionWrap.querySelectorAll(".zodiac-option").forEach(button => {
+          button.addEventListener("click", () => {
+            if (state.isAdvancing) return;
+            state.zodiac = button.dataset.zodiac;
+            els.questionWrap.querySelectorAll(".zodiac-option").forEach(el => { el.classList.remove("selected"); el.setAttribute("aria-checked", "false"); });
+            button.classList.add("selected");
+            button.setAttribute("aria-checked", "true");
+            advanceFromCurrent();
+          });
+        });
+      } else {
+        els.questionWrap.innerHTML = `
+          <p class="question-kicker">${q.kicker}</p>
+          <h2 class="question-title">${q.title}</h2>
+          <p class="question-help">一番よく見る姿に近いものを選んでください。</p>
+          <div class="options" role="radiogroup" aria-label="${q.title}">
+            ${q.options.map((option, i) => `<button class="option ${state.answers[state.current] === i ? "selected" : ""}" type="button" role="radio" aria-checked="${state.answers[state.current] === i}" data-index="${i}"><span class="option-letter">${String.fromCharCode(65+i)}</span><span>${option.text}</span></button>`).join("")}
+          </div>`;
+        els.questionWrap.querySelectorAll(".option").forEach(button => {
+          button.addEventListener("click", () => {
+            if (state.isAdvancing) return;
+            state.answers[state.current] = Number(button.dataset.index);
+            els.questionWrap.querySelectorAll(".option").forEach(el => { el.classList.remove("selected"); el.setAttribute("aria-checked", "false"); });
+            button.classList.add("selected");
+            button.setAttribute("aria-checked", "true");
+            updateNextState();
+            advanceFromCurrent();
+          });
+        });
+      }
+      updateNextState();
+    }
+
+    function updateNextState() {
+      const q = questions[state.current];
+      if (q.type === "email") {
+        const emailInput = document.getElementById("emailInput");
+        els.nextBtn.disabled = !(state.emailConsent && emailInput && emailInput.validity.valid && state.email);
+      } else {
+        els.nextBtn.disabled = true;
+      }
+    }
+
+    function advanceFromCurrent() {
+      if (state.isAdvancing) return;
+      state.isAdvancing = true;
+      window.setTimeout(() => {
+        state.isAdvancing = false;
+        if (state.current < questions.length - 1) {
+          state.current++;
+          renderQuestion();
+          return;
+        }
+        finishDiagnosis();
+      }, 320);
+    }
+
+    function finishDiagnosis() {
+      const result = calculateResult();
+      showScreen(els.hatchScreen);
+      window.setTimeout(() => { renderResult(result); showScreen(els.resultScreen); }, 1750);
+    }
+
+    function calculateResult() {
+      const total = Object.fromEntries(TYPE_ORDER.map(key => [key, 0]));
+      const personality = Object.fromEntries(TYPE_ORDER.map(key => [key, 0]));
+      const likes = Object.fromEntries(TYPE_ORDER.map(key => [key, 0]));
+      const zodiac = Object.fromEntries(TYPE_ORDER.map(key => [key, 0]));
+      const zodiacTypes = zodiacMap[state.zodiac];
+      zodiac[zodiacTypes[0]] += 20;
+      zodiac[zodiacTypes[1]] += 9;
+
+      const personalityCount = questions.filter(question => question.category === "personality").length;
+      const likesCount = questions.filter(question => question.category === "likes").length;
+      for (let i = 0; i < questions.length; i++) {
+        const question = questions[i];
+        if (!question.category) continue;
+        const answer = question.options[state.answers[i]];
+        const isPersonality = question.category === "personality";
+        const mainPoints = isPersonality ? 50 / personalityCount : 30 / likesCount;
+        const secondaryPoints = mainPoints * .42;
+        const bucket = isPersonality ? personality : likes;
+        bucket[answer.primary] += mainPoints;
+        bucket[answer.secondary] += secondaryPoints;
+      }
+
+      TYPE_ORDER.forEach(key => total[key] = zodiac[key] + personality[key] + likes[key]);
+      return [...TYPE_ORDER].sort((a, b) =>
+        total[b] - total[a] || personality[b] - personality[a] || likes[b] - likes[a] || zodiac[b] - zodiac[a] || TYPE_ORDER.indexOf(a) - TYPE_ORDER.indexOf(b)
+      )[0];
+    }
+
+    function applyMonsterImage(img, typeKey, monster) {
+      const individualImage = SITE_CONFIG.monsterImageUrls[typeKey];
+      if (individualImage) {
+        img.src = individualImage;
+        img.style.width = "100%";
+        img.style.height = "100%";
+        img.style.left = "0";
+        img.style.top = "0";
+        img.style.objectFit = "contain";
+        img.classList.add("visible");
+        return true;
+      }
+      if (!SITE_CONFIG.monsterSpriteUrl) return false;
+      const col = monster.spriteIndex % 4;
+      const row = Math.floor(monster.spriteIndex / 4);
+      img.src = SITE_CONFIG.monsterSpriteUrl;
+      img.style.width = "400%";
+      img.style.height = "300%";
+      img.style.left = `${col * -100}%`;
+      img.style.top = `${row * -100}%`;
+      img.style.objectFit = "fill";
+      img.classList.add("visible");
+      return true;
+    }
+
+    function renderResult(typeKey) {
+      const m = monsters[typeKey];
+      state.resultType = typeKey;
+      const panel = document.getElementById("monsterPanel");
+      panel.style.setProperty("--monster-glow", `${m.color}70`);
+      document.getElementById("monsterName").textContent = m.name;
+      document.getElementById("monsterTitle").textContent = m.title;
+      document.getElementById("attributeChip").textContent = m.attribute;
+      document.getElementById("resultHeading").textContent = m.heading;
+      document.getElementById("resultIntro").textContent = m.intro;
+      document.getElementById("strengthList").innerHTML = m.strengths.map(item => `<li>${item}</li>`).join("");
+      document.getElementById("parentTip").textContent = m.parentTip;
+      document.getElementById("challengeText").textContent = m.challenge;
+      document.getElementById("resultDate").textContent = `診断日：${new Intl.DateTimeFormat("ja-JP", { dateStyle: "long" }).format(new Date())}`;
+
+      const sigil = document.getElementById("monsterSigil");
+      const img = document.getElementById("monsterImg");
+      sigil.textContent = m.symbol;
+      sigil.style.setProperty("--monster-color", m.color);
+      sigil.classList.toggle("hidden", applyMonsterImage(img, typeKey, m));
+
+      const comingSoon = SITE_CONFIG.resultActionsComingSoon === true;
+      const comingSoonZone = document.getElementById("comingSoonZone");
+      comingSoonZone.classList.toggle("active", comingSoon);
+      comingSoonZone.setAttribute("aria-disabled", String(comingSoon));
+      els.printBtn.disabled = comingSoon;
+      els.emailBtn.disabled = comingSoon;
+      configureLink(document.getElementById("lineCta"), comingSoon ? "" : SITE_CONFIG.lineUrl);
+      configureLink(document.getElementById("formCta"), comingSoon ? "" : SITE_CONFIG.applicationUrl);
+      document.getElementById("linkNote").hidden = !comingSoon && Boolean(SITE_CONFIG.lineUrl && SITE_CONFIG.applicationUrl);
+      els.emailStatus.textContent = SITE_CONFIG.resultEmailEndpoint
+        ? `${maskEmail(state.email)}へ結果をお届けします。`
+        : "プレビュー中：メール送信先の設定後に自動送信できます。";
+      if (!comingSoon && SITE_CONFIG.resultEmailEndpoint && SITE_CONFIG.autoSendResultEmail) sendResultEmail(true);
+    }
+
+    function maskEmail(email) {
+      const [name, domain] = email.split("@");
+      if (!name || !domain) return "入力したメールアドレス";
+      return `${name.slice(0, 2)}${"*".repeat(Math.max(2, Math.min(5, name.length - 2)))}@${domain}`;
+    }
+
+    function buildResultEmailPayload() {
+      const m = monsters[state.resultType];
+      return {
+        email: state.email,
+        subject: `【${SITE_CONFIG.projectName}】${SITE_CONFIG.diagnosisName}結果：${m.name}`,
+        result: {
+          monsterName: m.name,
+          monsterTitle: m.title,
+          attribute: m.attribute,
+          heading: m.heading,
+          introduction: m.intro,
+          strengths: m.strengths,
+          parentTip: m.parentTip,
+          marcheChallenge: m.challenge
+        }
+      };
+    }
+
+    async function sendResultEmail(automatic = false) {
+      if (!SITE_CONFIG.resultEmailEndpoint) {
+        els.emailStatus.textContent = "メール送信サービスの接続後に使えるようになります。1枚資料は今すぐ保存できます。";
+        return;
+      }
+      els.emailBtn.disabled = true;
+      els.emailStatus.textContent = automatic ? "結果メールを送信しています…" : `${maskEmail(state.email)}へ送信しています…`;
+      try {
+        const response = await fetch(SITE_CONFIG.resultEmailEndpoint, {
+          method: "POST",
+          credentials: "omit",
+          headers: { "Content-Type": "application/json", "Accept": "application/json" },
+          body: JSON.stringify(buildResultEmailPayload())
+        });
+        if (!response.ok) throw new Error(`mail endpoint returned ${response.status}`);
+        els.emailStatus.textContent = `${maskEmail(state.email)}へ診断結果を送信しました。`;
+      } catch (error) {
+        console.error("Result email failed", error);
+        els.emailStatus.textContent = "メールを送れませんでした。時間をおいて、もう一度お試しください。";
+        els.emailBtn.disabled = false;
+      }
+    }
+
+    function configureLink(element, url) {
+      if (url) {
+        element.href = url;
+        element.target = "_blank";
+        element.rel = "noopener noreferrer";
+        element.classList.remove("disabled-link");
+        element.removeAttribute("aria-disabled");
+      } else {
+        element.href = "#";
+        element.classList.add("disabled-link");
+        element.setAttribute("aria-disabled", "true");
+      }
+    }
+
+    els.startBtn.addEventListener("click", () => { showScreen(els.quizScreen); renderQuestion(); });
+    els.galleryBtn.addEventListener("click", openGallery);
+    els.resultGalleryBtn.addEventListener("click", openGallery);
+    els.galleryBackBtn.addEventListener("click", () => showScreen(els.startScreen));
+    els.galleryStartBtn.addEventListener("click", () => { resetDiagnosis(); showScreen(els.quizScreen); renderQuestion(); });
+    els.backBtn.addEventListener("click", () => { if (!state.isAdvancing && state.current > firstQuestionIndex) { state.current--; renderQuestion(); } });
+    els.nextBtn.addEventListener("click", () => {
+      if (questions[state.current].type === "email" && !els.nextBtn.disabled) {
+        state.current++;
+        renderQuestion();
+      }
+    });
+
+    els.printBtn.addEventListener("click", () => window.print());
+    els.emailBtn.addEventListener("click", () => sendResultEmail(false));
+
+    function resetDiagnosis() {
+      state.current = firstQuestionIndex;
+      state.answers = Array(questions.length).fill(null);
+      state.zodiac = "";
+      state.email = "";
+      state.emailConsent = false;
+      state.resultType = "";
+      state.isAdvancing = false;
+      els.emailStatus.textContent = "";
+      els.emailBtn.disabled = SITE_CONFIG.resultActionsComingSoon === true;
+    }
+
+    document.getElementById("retryBtn").addEventListener("click", () => {
+      resetDiagnosis();
+      showScreen(els.quizScreen); renderQuestion();
+    });
+
+    applyBranding();
+
+    const previewType = new URLSearchParams(window.location.search).get("type");
+    if (new URLSearchParams(window.location.search).get("preview") === "result" && TYPE_ORDER.includes(previewType)) {
+      state.email = "preview@example.com";
+      state.emailConsent = true;
+      renderResult(previewType);
+      showScreen(els.resultScreen);
+    }
+  </script>
+</body>
+</html>
