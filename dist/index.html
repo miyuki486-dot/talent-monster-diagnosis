@@ -437,6 +437,9 @@
     .result-tools { display: grid; gap: 10px; margin-top: 26px; padding: 18px; border: 1px solid #cad8f3; border-radius: 18px; background: #f2f6ff; }
     .result-tools h3 { margin-bottom: 1px; font-size: 1rem; }
     .result-tools p { margin-bottom: 4px; color: #647392; font-size: .82rem; line-height: 1.6; }
+    .result-tools .field { margin-top: 4px; }
+    .result-tools .email-consent { margin-top: 4px; }
+    .result-tools .privacy-note { margin: 2px 0 4px; background: white; }
     .email-status { min-height: 1.5em; margin: 1px 0 0 !important; color: #34568e !important; text-align: center; font-weight: 800; }
     .coming-soon-zone.active { position: relative; margin-top: 24px; overflow: hidden; border: 2px dashed #9fb2d8; border-radius: 22px; background: #f5f7fc; isolation: isolate; }
     .coming-soon-zone.active::after { content: ""; position: absolute; z-index: 1; inset: 0; background: repeating-linear-gradient(-45deg, rgba(74,101,158,.08) 0, rgba(74,101,158,.08) 9px, transparent 9px, transparent 19px); pointer-events: none; }
@@ -557,12 +560,12 @@
             <h1 id="projectName" class="project-name">こども起業家研究所<span id="projectNickname" class="project-nickname">～博士ちゃんラボ～</span></h1>
             <p class="diagnosis-label">✦ 12のタマゴが待っている｜DIAGNOSIS TOOL</p>
             <h2 id="diagnosisName" class="diagnosis-name">才能モンスター発見！博士ちゃん診断</h2>
-            <p id="diagnosisLead" class="lead">最初に結果送付先のメールアドレスを入力し、お子さんの星座と、いつもの姿について8つの質問に答えてください。まだタマゴの中にいる「好きの力」が、冒険モンスターになって現れます。</p>
+            <p id="diagnosisLead" class="lead">お子さんの星座と、いつもの姿について<br>8つの質問に答えてください。<br>まだタマゴの中にいる「好きの力」が、<br>冒険モンスターになって現れます。</p>
             <div class="start-actions">
               <button id="startBtn" class="primary-btn" type="button">タマゴを見つけに行く</button>
               <button id="galleryBtn" class="secondary-btn" type="button">12タイプを全部見る</button>
             </div>
-            <p id="startNote" class="start-note">所要時間 約3分 ／ お名前や生まれ年は入力しません<br>メールアドレスは診断結果の送付にだけ使用します。</p>
+            <p id="startNote" class="start-note">所要時間 約3分 ／ お名前や生まれ年は入力しません<br>診断後、希望する方だけメールアドレスを登録できます。</p>
           </div>
           <div class="egg-stage" aria-hidden="true">
             <div class="orbit"></div>
@@ -650,10 +653,15 @@
                 <p class="print-only sheet-note">この診断はお子さんを決めつけるものではなく、親子で「好き」と強みを見つけるきっかけです。<br><span id="resultDate"></span></p>
 
                 <div class="result-tools">
-                  <h3>結果を手元に残す</h3>
-                  <p>この結果をA4・1枚の資料として保存したり、入力したメールアドレスで受け取ったりできます。</p>
-                  <button id="printBtn" class="primary-btn" type="button">1枚の結果シートを保存・印刷</button>
-                  <button id="emailBtn" class="secondary-btn" type="button">この結果をメールで受け取る</button>
+                  <h3>詳しい診断結果をメールで受け取る</h3>
+                  <p>診断結果を保存したい方、もっと詳しい診断結果を知りたい方は、メールアドレスをご登録ください。1枚の詳しい診断結果シートをメールでお届けします。</p>
+                  <label class="field">メールアドレス
+                    <input id="resultEmailInput" type="email" inputmode="email" autocomplete="email" maxlength="254" placeholder="example@email.com" aria-describedby="resultEmailPrivacy">
+                  </label>
+                  <label class="email-consent"><input id="resultEmailConsent" type="checkbox"><span>診断結果の送付に、このメールアドレスを使用することに同意します。</span></label>
+                  <p id="resultEmailPrivacy" class="privacy-note">入力したメールアドレスは、診断結果のお届けにのみ使用します。</p>
+                  <button id="emailBtn" class="primary-btn" type="button">詳しい診断結果をメールで受け取る</button>
+                  <button id="printBtn" class="secondary-btn" type="button">この結果画面を保存・印刷</button>
                   <p id="emailStatus" class="email-status" role="status" aria-live="polite"></p>
                 </div>
 
@@ -778,7 +786,6 @@
     };
 
     const questions = [
-      { type: "email", kicker: "結果のお届け先", title: "メールアドレスを教えてください", help: "診断結果をお届けするために使用します。入力内容はこのブラウザに保存されません。" },
       { type: "zodiac", kicker: "星座", title: "お子さんの星座は？", help: "当てはまる星座を選んでください。選ぶと、そのまま次の質問へ進みます。" },
       {
         category: "personality", kicker: "質問 1 / 8", title: "初めての遊びを見つけたとき、どんな様子が多い？",
@@ -870,13 +877,13 @@
       capricorn: ["grower", "planner"], aquarius: ["spark", "messenger"], pisces: ["artist", "empath"]
     };
 
-    const firstQuestionIndex = SITE_CONFIG.showEmailStep === false ? 1 : 0;
+    const firstQuestionIndex = 0;
     const state = { current: firstQuestionIndex, answers: Array(questions.length).fill(null), zodiac: "", email: "", emailConsent: false, resultType: "", isAdvancing: false };
 
     const els = {
       startScreen: document.getElementById("startScreen"), quizScreen: document.getElementById("quizScreen"),
       hatchScreen: document.getElementById("hatchScreen"), resultScreen: document.getElementById("resultScreen"), galleryScreen: document.getElementById("galleryScreen"),
-      startBtn: document.getElementById("startBtn"), galleryBtn: document.getElementById("galleryBtn"), galleryBackBtn: document.getElementById("galleryBackBtn"), galleryStartBtn: document.getElementById("galleryStartBtn"), resultGalleryBtn: document.getElementById("resultGalleryBtn"), backBtn: document.getElementById("backBtn"), nextBtn: document.getElementById("nextBtn"), printBtn: document.getElementById("printBtn"), emailBtn: document.getElementById("emailBtn"), emailStatus: document.getElementById("emailStatus"),
+      startBtn: document.getElementById("startBtn"), galleryBtn: document.getElementById("galleryBtn"), galleryBackBtn: document.getElementById("galleryBackBtn"), galleryStartBtn: document.getElementById("galleryStartBtn"), resultGalleryBtn: document.getElementById("resultGalleryBtn"), backBtn: document.getElementById("backBtn"), nextBtn: document.getElementById("nextBtn"), printBtn: document.getElementById("printBtn"), emailBtn: document.getElementById("emailBtn"), emailStatus: document.getElementById("emailStatus"), resultEmailInput: document.getElementById("resultEmailInput"), resultEmailConsent: document.getElementById("resultEmailConsent"),
       questionWrap: document.getElementById("questionWrap"), progressBar: document.getElementById("progressBar"), progressLabel: document.getElementById("progressLabel")
     };
 
@@ -897,10 +904,7 @@
       document.getElementById("challengeHeading").textContent = `🚩 ${SITE_CONFIG.activityName}で試すなら`;
       document.getElementById("printBrandline").textContent = `${projectLabel}｜${SITE_CONFIG.diagnosisName} 結果シート`;
       document.getElementById("siteFooter").textContent = `${projectLabel}｜${SITE_CONFIG.projectTagline}`;
-      if (SITE_CONFIG.showEmailStep === false) {
-        document.getElementById("diagnosisLead").textContent = "お子さんの星座と、いつもの姿について8つの質問に答えてください。まだタマゴの中にいる「好きの力」が、冒険モンスターになって現れます。";
-        document.getElementById("startNote").innerHTML = "所要時間 約3分 ／ お名前や生まれ年は入力しません<br>テスト中のため、メールアドレスの入力もありません。";
-      }
+      document.getElementById("diagnosisLead").innerHTML = "お子さんの星座と、いつもの姿について<br>8つの質問に答えてください。<br>まだタマゴの中にいる「好きの力」が、<br>冒険モンスターになって現れます。";
     }
 
     function spriteMarkup(url, monster, alt, individualUrl = "") {
@@ -927,36 +931,18 @@
 
     function renderQuestion() {
       const q = questions[state.current];
-      if (q.type === "email") {
-        els.progressBar.style.width = "4%";
-        els.progressLabel.textContent = "結果送付先";
-      } else if (q.type === "zodiac") {
+      if (q.type === "zodiac") {
         els.progressBar.style.width = `${100 / 9}%`;
         els.progressLabel.textContent = "星座";
       } else {
-        const questionNumber = state.current - 1;
+        const questionNumber = state.current;
         els.progressBar.style.width = `${((questionNumber + 1) / 9) * 100}%`;
         els.progressLabel.textContent = `${questionNumber} / 8`;
       }
       els.backBtn.style.visibility = state.current === firstQuestionIndex ? "hidden" : "visible";
-      els.nextBtn.style.display = q.type === "email" ? "inline-flex" : "none";
-      els.nextBtn.textContent = "診断へ進む";
+      els.nextBtn.style.display = "none";
 
-      if (q.type === "email") {
-        els.questionWrap.innerHTML = `
-          <p class="question-kicker">${q.kicker}</p>
-          <h2 class="question-title">${q.title}</h2>
-          <p class="question-help">${q.help}</p>
-          <label class="field">メールアドレス
-            <input id="emailInput" type="email" inputmode="email" autocomplete="email" maxlength="254" placeholder="example@email.com" value="${state.email}" aria-describedby="emailPrivacy">
-          </label>
-          <label class="email-consent"><input id="emailConsent" type="checkbox" ${state.emailConsent ? "checked" : ""}><span>診断結果の送付に、このメールアドレスを使用することに同意します。</span></label>
-          <p id="emailPrivacy" class="privacy-note">診断中はこの画面の中だけで保持します。本番のメール送信時に、設定した送信サービスへメールアドレスと診断結果を渡します。</p>`;
-        const emailInput = document.getElementById("emailInput");
-        const emailConsent = document.getElementById("emailConsent");
-        emailInput.addEventListener("input", () => { state.email = emailInput.value.trim(); updateNextState(); });
-        emailConsent.addEventListener("change", () => { state.emailConsent = emailConsent.checked; updateNextState(); });
-      } else if (q.type === "zodiac") {
+      if (q.type === "zodiac") {
         els.questionWrap.innerHTML = `
           <p class="question-kicker">${q.kicker}</p>
           <h2 class="question-title">${q.title}</h2>
@@ -998,13 +984,7 @@
     }
 
     function updateNextState() {
-      const q = questions[state.current];
-      if (q.type === "email") {
-        const emailInput = document.getElementById("emailInput");
-        els.nextBtn.disabled = !(state.emailConsent && emailInput && emailInput.validity.valid && state.email);
-      } else {
-        els.nextBtn.disabled = true;
-      }
+      els.nextBtn.disabled = true;
     }
 
     function advanceFromCurrent() {
@@ -1107,14 +1087,25 @@
       comingSoonZone.classList.toggle("active", comingSoon);
       comingSoonZone.setAttribute("aria-disabled", String(comingSoon));
       els.printBtn.disabled = comingSoon;
-      els.emailBtn.disabled = comingSoon;
+      els.resultEmailInput.disabled = comingSoon;
+      els.resultEmailConsent.disabled = comingSoon;
+      els.resultEmailInput.value = state.email;
+      els.resultEmailConsent.checked = state.emailConsent;
+      updateResultEmailState();
       configureLink(document.getElementById("lineCta"), comingSoon ? "" : SITE_CONFIG.lineUrl);
       configureLink(document.getElementById("formCta"), comingSoon ? "" : SITE_CONFIG.applicationUrl);
       document.getElementById("linkNote").hidden = !comingSoon && Boolean(SITE_CONFIG.lineUrl && SITE_CONFIG.applicationUrl);
-      els.emailStatus.textContent = SITE_CONFIG.resultEmailEndpoint
+      els.emailStatus.textContent = comingSoon
+        ? "メールでの詳しい診断結果は、ただいま準備中です。"
+        : SITE_CONFIG.resultEmailEndpoint
         ? `${maskEmail(state.email)}へ結果をお届けします。`
         : "プレビュー中：メール送信先の設定後に自動送信できます。";
-      if (!comingSoon && SITE_CONFIG.resultEmailEndpoint && SITE_CONFIG.autoSendResultEmail) sendResultEmail(true);
+    }
+
+    function updateResultEmailState() {
+      const comingSoon = SITE_CONFIG.resultActionsComingSoon === true;
+      const validEmail = els.resultEmailInput && els.resultEmailInput.validity.valid && state.email;
+      els.emailBtn.disabled = Boolean(comingSoon || !validEmail || !state.emailConsent);
     }
 
     function maskEmail(email) {
@@ -1160,7 +1151,7 @@
       } catch (error) {
         console.error("Result email failed", error);
         els.emailStatus.textContent = "メールを送れませんでした。時間をおいて、もう一度お試しください。";
-        els.emailBtn.disabled = false;
+        updateResultEmailState();
       }
     }
 
@@ -1184,15 +1175,17 @@
     els.galleryBackBtn.addEventListener("click", () => showScreen(els.startScreen));
     els.galleryStartBtn.addEventListener("click", () => { resetDiagnosis(); showScreen(els.quizScreen); renderQuestion(); });
     els.backBtn.addEventListener("click", () => { if (!state.isAdvancing && state.current > firstQuestionIndex) { state.current--; renderQuestion(); } });
-    els.nextBtn.addEventListener("click", () => {
-      if (questions[state.current].type === "email" && !els.nextBtn.disabled) {
-        state.current++;
-        renderQuestion();
-      }
-    });
 
     els.printBtn.addEventListener("click", () => window.print());
     els.emailBtn.addEventListener("click", () => sendResultEmail(false));
+    els.resultEmailInput.addEventListener("input", () => {
+      state.email = els.resultEmailInput.value.trim();
+      updateResultEmailState();
+    });
+    els.resultEmailConsent.addEventListener("change", () => {
+      state.emailConsent = els.resultEmailConsent.checked;
+      updateResultEmailState();
+    });
 
     function resetDiagnosis() {
       state.current = firstQuestionIndex;
@@ -1202,8 +1195,10 @@
       state.emailConsent = false;
       state.resultType = "";
       state.isAdvancing = false;
+      els.resultEmailInput.value = "";
+      els.resultEmailConsent.checked = false;
       els.emailStatus.textContent = "";
-      els.emailBtn.disabled = SITE_CONFIG.resultActionsComingSoon === true;
+      updateResultEmailState();
     }
 
     document.getElementById("retryBtn").addEventListener("click", () => {
@@ -1215,8 +1210,6 @@
 
     const previewType = new URLSearchParams(window.location.search).get("type");
     if (new URLSearchParams(window.location.search).get("preview") === "result" && TYPE_ORDER.includes(previewType)) {
-      state.email = "preview@example.com";
-      state.emailConsent = true;
       renderResult(previewType);
       showScreen(els.resultScreen);
     }

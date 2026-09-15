@@ -7,9 +7,6 @@ const SITE_CONFIG = {
   activityName: "博士ちゃんマルシェ",
   diagnosisName: "才能モンスター発見！博士ちゃん診断",
 
-  // テスト中はメール入力を飛ばします。メール送信を実装したら true に戻してください。
-  showEmailStep: false,
-
   // マルシェ案内・保存・申込み機能を準備中表示にします。完成したら false に変更します。
   resultActionsComingSoon: true,
 
@@ -21,7 +18,7 @@ const SITE_CONFIG = {
   // 診断結果メールを受け取るAPIのURLです。未設定の間は外部送信されません。
   // 本番では、利用するメール送信サービスの受信用URLを入れてください。
   resultEmailEndpoint: "",
-  autoSendResultEmail: true,
+  autoSendResultEmail: false,
 
   // 1体ずつ本番イラストへ差し替える場合は、対応する欄へ画像ファイル名を入れます。
   // 例: spark: "hiramekira.png"
