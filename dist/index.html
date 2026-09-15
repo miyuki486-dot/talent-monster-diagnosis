@@ -438,6 +438,12 @@
     .attribute-chip { display: inline-flex; padding: 7px 11px; border-radius: 999px; background: #eaf2ff; color: #2459bd; font-size: .82rem; font-weight: 900; }
     .result-heading { margin: 15px 0 12px; font-size: clamp(1.65rem, 3vw, 2.45rem); line-height: 1.35; letter-spacing: -.025em; }
     .result-intro { color: var(--muted); line-height: 1.85; font-weight: 600; }
+    .personal-mix-box { display: grid; gap: 9px; margin-top: 20px; padding: 17px 18px; border: 2px solid #b9d8ff; border-radius: 18px; background: linear-gradient(135deg, #edf8ff, #fff7cf 58%, #fff0f7); }
+    .personal-mix-box strong { color: #173d78; font-size: 1.02rem; }
+    .personal-mix-box p { margin: 0; color: #425c83; font-size: .88rem; font-weight: 750; line-height: 1.65; }
+    .personal-trait-list { display: grid; gap: 6px; margin: 0; padding: 0; list-style: none; }
+    .personal-trait-list li { color: #294b74; font-size: .85rem; font-weight: 800; line-height: 1.55; }
+    .personal-trait-list li::before { content: "✦ "; color: #e59c20; }
 
     .result-block { margin-top: 24px; padding-top: 22px; border-top: 1px solid var(--line); }
     .result-block h3 { margin-bottom: 12px; font-size: 1rem; display: flex; align-items: center; gap: 8px; }
@@ -498,6 +504,10 @@
     .detail-monster-title { margin: 0 0 3mm; color: #405e8c; font-size: 9.8pt; font-weight: 850; }
     .detail-summary h3 { margin: 0 0 2mm; color: #173e75; font-size: 13.2pt; line-height: 1.35; }
     .detail-intro { margin: 0; color: #2f4568; font-size: 9pt; font-weight: 600; line-height: 1.7; }
+    .detail-mix-summary { margin: 2.3mm 0 0; color: #1d5b83; font-size: 8.2pt; font-weight: 850; line-height: 1.55; }
+    .detail-mixbar { display: flex; height: 2.2mm; margin-top: 2mm; overflow: hidden; border-radius: 999px; background: #e5ebf5; }
+    .detail-mixbar span { min-width: 2mm; }
+    .detail-mix-legend { display: flex; flex-wrap: wrap; gap: 1mm 3mm; margin-top: 1mm; color: #4f668c; font-size: 6.8pt; font-weight: 800; }
     .detail-strengths { display: flex; flex-wrap: wrap; gap: 1.5mm; margin: 3mm 0 0; padding: 0; list-style: none; }
     .detail-strengths li { padding: 1.5mm 2.5mm; border-radius: 2.5mm; background: #fff; color: #17376a; font-size: 8.4pt; font-weight: 900; box-shadow: 0 1mm 3mm rgba(30,73,139,.1); }
     .detail-guides { display: grid; grid-template-columns: 1fr 1fr; gap: 4mm; margin-top: 5mm; }
@@ -704,6 +714,12 @@
             <h2 id="resultHeading" class="result-heading">まだないものを思いつく、アイデアの冒険者</h2>
             <p id="resultIntro" class="result-intro"></p>
 
+            <div class="personal-mix-box">
+              <strong id="personalMixTitle">この子だけの才能ミックス</strong>
+              <p id="personalMixText"></p>
+              <ul id="personalTraitList" class="personal-trait-list"></ul>
+            </div>
+
             <div class="result-block">
               <h3>✦ この子の強み</h3>
               <ul id="strengthList" class="strength-list"></ul>
@@ -795,6 +811,9 @@
                 <h3 id="pdfHeading"></h3>
                 <p id="pdfIntro" class="detail-intro"></p>
                 <ul id="pdfStrengths" class="detail-strengths"></ul>
+                <p id="pdfMixSummary" class="detail-mix-summary"></p>
+                <div id="pdfMixBar" class="detail-mixbar"></div>
+                <div id="pdfMixLegend" class="detail-mix-legend"></div>
               </div>
             </section>
 
@@ -826,12 +845,8 @@
             </section>
 
             <section class="detail-talk">
-              <h3>💬 親子で話してみよう</h3>
-              <ul>
-                <li>最近「これ、おもしろい！」と思ったのはどんなこと？</li>
-                <li>このモンスターに、新しい力をひとつ足すなら？</li>
-                <li>今日できる最初の一歩を、いつやってみる？</li>
-              </ul>
+              <h3>💎 回答から見えた<br>その子らしさ</h3>
+              <ul id="pdfPersonalTraits"></ul>
             </section>
 
             <section class="detail-insights">
@@ -1085,6 +1100,59 @@
       }
     ];
 
+    // 8問の回答から文章を組み合わせるためのパーツ。
+    // 診断ロジックとは分けてあるため、あとから文章だけ調整できます。
+    const answerInsights = {
+      2: [
+        { trait: "好奇心が動いたら、まず体験して学べる", support: "最初の一歩を認めたあとで『やってみて何が分かった？』と聞くと、経験が自信に変わります。" },
+        { trait: "よく観察し、遊び方や仕組みを確かめてから動ける", support: "急かさずに見る時間を作り、『どこに気づいた？』と尋ねると観察力が育ちます。" },
+        { trait: "決まった遊びにも、自分だけの工夫を足せる", support: "正解を先に伝えず、『あなたならどう変える？』と任せる時間を作ってみて。" },
+        { trait: "仲間を誘い、楽しさを分け合うきっかけを作れる", support: "誰を誘ったかだけでなく、『一緒に楽しむために何をした？』にも注目してみて。" }
+      ],
+      3: [
+        { trait: "うまくいかなくても、できるまで粘り強く試せる", support: "完成だけでなく、前と違うやり方を試した瞬間を具体的にほめてみて。" },
+        { trait: "行き詰まったとき、別の道をひらめける", support: "すぐに答えを渡さず、『ほかにどんな方法がありそう？』と発想を広げてあげて。" },
+        { trait: "困ったことを言葉にして、人の力も借りられる", support: "助けを求められたことを強みとして認め、『どんな助けがあると進めそう？』と聞いてみて。" },
+        { trait: "周りを感じ取り、安心できるタイミングを待てる", support: "無理に前へ押さず、『見ていて分かったことはある？』と本人のペースを守ってみて。" }
+      ],
+      4: [
+        { trait: "みんなが進む方向を言葉にできる", support: "決める力を認めつつ、『みんなの考えも一つずつ聞いてみよう』と仲間の視点を添えて。" },
+        { trait: "一人ひとりが仲間に入れるよう、自然に声をかけられる", support: "やさしい行動を具体的に振り返ると、自分のつなぐ力に気づけます。" },
+        { trait: "自分らしい表現で、その場を楽しくできる", support: "上手さより『どんな気持ちを表したかった？』と聞くと、その子らしい表現が深まります。" },
+        { trait: "自分の役割に集中し、最後まで丁寧に向き合える", support: "結果だけでなく、集中していた時間や細かな工夫にも言葉をかけてみて。" }
+      ],
+      5: [
+        { trait: "始める前に、順番や必要なものを整理できる", support: "大人が予定を決めきらず、『最初は何からする？』を本人に任せると作戦力が育ちます。" },
+        { trait: "絵や見本にして、頭の中のイメージを形にできる", support: "材料をいくつか選べるようにし、途中の工夫を一緒に見つけてみて。" },
+        { trait: "自分のわくわくを言葉にして、人へ届けられる", support: "最後まで聞いたあと、『一番伝えたいのはどこ？』と一緒に整理してみて。" },
+        { trait: "小さく試しながら、自分に合う方法を見つけられる", support: "安全な範囲を一緒に決めたら、まず試すところは本人に任せてみて。" }
+      ],
+      6: [
+        { trait: "不安そうな人のそばで、気持ちを受け止められる", support: "相手へのやさしさと同じくらい、『あなたはどうしたい？』と本人の気持ちも聞いてあげて。" },
+        { trait: "分かったことを、相手に合わせて教えられる", support: "教えられたことを認め、『どんな言い方が伝わりやすかった？』と振り返ってみて。" },
+        { trait: "自分が一歩目を見せて、周りへ勇気を渡せる", support: "行動の速さを認めながら、『安全に試すには何がいる？』も一緒に考えて。" },
+        { trait: "楽しくなる工夫を考え、空気を変えられる", support: "思いつきをすぐ評価せず、『それをしたらどんな気持ちになりそう？』と聞いてみて。" }
+      ],
+      7: [
+        { trait: "世界に一つの作品やグッズを形にすることに心が動く", step: "身近な材料を3つ選び、『こんなのがあったら楽しい』と思う小さな作品を作ってみよう。" },
+        { trait: "不思議の答えを見つけ、クイズや実験で伝えることにわくわくする", step: "気になる『なんで？』を一つ選び、家族に出せる三択クイズを作ってみよう。" },
+        { trait: "お客さんと一緒に遊び、盛り上がる体験を作るのが好き", step: "家族が参加できる1分ゲームを考え、実際に遊んでもらってみよう。" },
+        { trait: "絵や音、物語で、自分だけの世界を表すことにひかれる", step: "好きな色・音・言葉を三つ選び、短い作品やパフォーマンスにしてみよう。" }
+      ],
+      8: [
+        { trait: "自分の手で完成させた瞬間に、大きな喜びを感じる", step: "いま作りたいものを一つ選び、『今日ここまで』の小さな完成を作ってみよう。" },
+        { trait: "知らなかった答えを見つけるほど、もっと知りたくなる", step: "最近見つけた答えを、絵や写真も使った一枚の『発見カード』にしてみよう。" },
+        { trait: "誰かの『ありがとう』が、次の工夫のエネルギーになる", step: "家族一人を思い浮かべ、その人が少しうれしくなるサービスを一つ試してみよう。" },
+        { trait: "仲間と力を合わせ、一人ではできないことを形にするのがうれしい", step: "一緒にやりたい人を二人誘い、みんなでできる小さな企画を考えてみよう。" }
+      ],
+      9: [
+        { trait: "見えないアイデアを、目に見える形へ変えたい", step: "いつもの遊びをもっと便利にする道具を、まず絵に描いてみよう。" },
+        { trait: "人と人の心をつなぎ、仲間の輪を広げたい", step: "二人が一緒に楽しめそうな遊びを一つ考え、自分から声をかけてみよう。" },
+        { trait: "ゴールまでの道を見つけ、進みやすい作戦を作りたい", step: "やってみたいことを一つ決め、最初の三つの手順を紙に書いてみよう。" },
+        { trait: "自分の行動や言葉で、みんなの勇気に火をつけたい", step: "みんなで挑戦したいことを一つ決め、最初の役割を自分から選んでみよう。" }
+      ]
+    };
+
     const zodiacOptions = [
       { key: "aries", label: "♈ おひつじ座" }, { key: "taurus", label: "♉ おうし座" },
       { key: "gemini", label: "♊ ふたご座" }, { key: "cancer", label: "♋ かに座" },
@@ -1136,7 +1204,7 @@
     }
 
     const firstQuestionIndex = 0;
-    const state = { current: firstQuestionIndex, answers: Array(questions.length).fill(null), freeAnswers: Array(questions.length).fill(""), respondent: "", zodiac: "", email: "", emailConsent: false, resultType: "", isAdvancing: false };
+    const state = { current: firstQuestionIndex, answers: Array(questions.length).fill(null), freeAnswers: Array(questions.length).fill(""), respondent: "", zodiac: "", email: "", emailConsent: false, resultType: "", resultProfile: null, isAdvancing: false };
 
     const els = {
       startScreen: document.getElementById("startScreen"), quizScreen: document.getElementById("quizScreen"),
@@ -1343,9 +1411,90 @@
       }
 
       TYPE_ORDER.forEach(key => total[key] = zodiac[key] + personality[key] + likes[key]);
-      return [...TYPE_ORDER].sort((a, b) =>
+      const ranking = [...TYPE_ORDER].sort((a, b) =>
         total[b] - total[a] || personality[b] - personality[a] || likes[b] - likes[a] || zodiac[b] - zodiac[a] || TYPE_ORDER.indexOf(a) - TYPE_ORDER.indexOf(b)
-      )[0];
+      );
+      return { typeKey: ranking[0], ranking, scores: total };
+    }
+
+    function escapeHtml(value) {
+      return String(value).replace(/[&<>"']/g, character => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#039;" })[character]);
+    }
+
+    function firstSentence(text) {
+      const value = String(text);
+      let quoteDepth = 0;
+      for (let index = 0; index < value.length; index++) {
+        if (value[index] === "「") quoteDepth++;
+        if (value[index] === "」") quoteDepth = Math.max(0, quoteDepth - 1);
+        if (value[index] === "。" && quoteDepth === 0) return value.slice(0, index + 1);
+      }
+      return value;
+    }
+
+    function answeredRecords() {
+      return questions.map((question, index) => {
+        if (!question.category) return null;
+        const selectedIndex = state.answers[index];
+        if (!Number.isInteger(selectedIndex)) return null;
+        return { index, question, answer: question.options[selectedIndex], insight: answerInsights[index]?.[selectedIndex] || null };
+      }).filter(Boolean);
+    }
+
+    function buildPersonalizedProfile(resultInput) {
+      const fallbackCompanion = {
+        spark: "maker", maker: "grower", explorer: "planner", challenger: "leader",
+        grower: "maker", messenger: "connector", empath: "host", connector: "empath",
+        artist: "spark", planner: "explorer", host: "empath", leader: "connector"
+      };
+      const result = typeof resultInput === "string" ? { typeKey: resultInput, ranking: [resultInput], scores: {} } : resultInput;
+      const typeKey = result.typeKey;
+      const ranking = (result.ranking || []).filter(key => key !== typeKey);
+      const secondaryKey = ranking[0] || fallbackCompanion[typeKey];
+      const thirdKey = ranking[1] || TYPE_ORDER.find(key => key !== typeKey && key !== secondaryKey);
+      const main = monsters[typeKey];
+      const secondary = monsters[secondaryKey];
+      const third = monsters[thirdKey];
+      const records = answeredRecords();
+      const matched = records.filter(record => [typeKey, secondaryKey].includes(record.answer.primary) || [typeKey, secondaryKey].includes(record.answer.secondary));
+      const personalityRecords = matched.filter(record => record.question.category === "personality");
+      const likeRecords = matched.filter(record => record.question.category === "likes");
+      const allPersonality = records.filter(record => record.question.category === "personality");
+      const allLikes = records.filter(record => record.question.category === "likes");
+      const selectedRecords = [];
+      [personalityRecords[0], personalityRecords[1] || allPersonality[1], likeRecords[0] || allLikes[0]].forEach(record => {
+        if (record && !selectedRecords.includes(record)) selectedRecords.push(record);
+      });
+      records.forEach(record => { if (selectedRecords.length < 3 && !selectedRecords.includes(record)) selectedRecords.push(record); });
+
+      const freeNotes = state.freeAnswers.map(value => value.trim()).filter(Boolean);
+      const traits = selectedRecords.map(record => record.insight?.trait || `「${record.answer.text}」という姿が見えました`);
+      if (freeNotes.length) {
+        const note = freeNotes[0].length > 54 ? `${freeNotes[0].slice(0, 54)}…` : freeNotes[0];
+        traits[Math.min(2, traits.length)] = `「${note}」という、自分らしい姿も教えてくれました`;
+      }
+      while (traits.length < 3) traits.push(main.strengths[traits.length] || secondary.strengths[0]);
+
+      const supportRecord = personalityRecords.find(record => record.insight?.support) || allPersonality.find(record => record.insight?.support);
+      const stepRecord = [...likeRecords, ...allLikes].find(record => record.insight?.step);
+      const strengths = [...new Set([main.strengths[0], main.strengths[1], secondary.strengths[0]])];
+      const rawTopScores = [typeKey, secondaryKey, thirdKey].map(key => Math.max(0, Number(result.scores?.[key]) || 0));
+      const rawTotal = rawTopScores.reduce((sum, score) => sum + score, 0);
+      const mixPercentages = rawTotal > 0
+        ? rawTopScores.map(score => Math.round(score / rawTotal * 100))
+        : [60, 25, 15];
+      mixPercentages[0] += 100 - mixPercentages.reduce((sum, value) => sum + value, 0);
+
+      return {
+        typeKey, secondaryKey, thirdKey, main, secondary, third, traits, strengths, mixPercentages,
+        mixTitle: `${main.name} × ${secondary.name}の才能ミックス`,
+        mixSummary: `中心にあるのは${main.name}の「${main.strengths[0]}」。そこへ${secondary.name}の「${secondary.strengths[0]}」が重なった、その子だけの組み合わせです。`,
+        parentTip: supportRecord ? `${firstSentence(main.parentTip)} ${supportRecord.insight.support}` : main.parentTip,
+        firstStep: stepRecord?.insight?.step || main.firstStep,
+        future: `${firstSentence(main.future)} ${secondary.name}の${secondary.strengths[0]}も育つと、できることの幅がさらに広がります。`,
+        supportTip: main.supportTip,
+        freeNotes
+      };
     }
 
     function applyMonsterImage(img, typeKey, monster) {
@@ -1363,8 +1512,9 @@
       return true;
     }
 
-    function renderDetailSheet(typeKey) {
-      const m = monsters[typeKey];
+    function renderDetailSheet(resultInput) {
+      const profile = resultInput?.main ? resultInput : buildPersonalizedProfile(resultInput);
+      const { typeKey, main: m, secondary, third } = profile;
       const typeNumber = TYPE_ORDER.indexOf(typeKey) + 1;
       const respondentLabel = state.respondent === "child" ? "こども回答" : state.respondent === "adult" ? "おとな回答" : "プレビュー";
       const diagnosisDate = new Intl.DateTimeFormat("ja-JP", { dateStyle: "long" }).format(new Date());
@@ -1377,13 +1527,20 @@
       document.getElementById("pdfMonsterTitle").textContent = m.title;
       document.getElementById("pdfHeading").textContent = m.heading;
       document.getElementById("pdfIntro").textContent = m.intro;
-      document.getElementById("pdfStrengths").innerHTML = m.strengths.map(item => `<li>✦ ${item}</li>`).join("");
-      document.getElementById("pdfParentTip").textContent = m.parentTip;
-      document.getElementById("pdfFirstStep").textContent = m.firstStep;
-      document.getElementById("pdfFuture").textContent = m.future;
-      document.getElementById("pdfSupportTip").textContent = m.supportTip;
+      document.getElementById("pdfStrengths").innerHTML = profile.strengths.map(item => `<li>✦ ${escapeHtml(item)}</li>`).join("");
+      document.getElementById("pdfMixSummary").textContent = profile.mixSummary;
+      const mixTypes = [m, secondary, third];
+      const mixBar = document.getElementById("pdfMixBar");
+      mixBar.setAttribute("aria-label", mixTypes.map((monster, index) => `${monster.name} ${profile.mixPercentages[index]}%`).join("、"));
+      mixBar.innerHTML = mixTypes.map((monster, index) => `<span style="width:${profile.mixPercentages[index]}%;background:${monster.color}"></span>`).join("");
+      document.getElementById("pdfMixLegend").innerHTML = mixTypes.map((monster, index) => `<span>${escapeHtml(monster.name)} ${profile.mixPercentages[index]}%</span>`).join("");
+      document.getElementById("pdfParentTip").textContent = profile.parentTip;
+      document.getElementById("pdfFirstStep").textContent = profile.firstStep;
+      document.getElementById("pdfFuture").textContent = profile.future;
+      document.getElementById("pdfSupportTip").textContent = profile.supportTip;
       document.getElementById("pdfChallengeType").textContent = m.challengeType;
       document.getElementById("pdfChallengeText").textContent = m.challenge;
+      document.getElementById("pdfPersonalTraits").innerHTML = profile.traits.map(item => `<li>${escapeHtml(item)}</li>`).join("");
       document.getElementById("pdfResultMeta").textContent = `診断日：${diagnosisDate}｜${respondentLabel}`;
 
       const stages = [
@@ -1399,9 +1556,11 @@
       `).join("");
     }
 
-    function renderResult(typeKey) {
-      const m = monsters[typeKey];
+    function renderResult(resultInput) {
+      const profile = buildPersonalizedProfile(resultInput);
+      const { typeKey, main: m } = profile;
       state.resultType = typeKey;
+      state.resultProfile = profile;
       const panel = document.getElementById("monsterPanel");
       panel.style.setProperty("--monster-glow", `${m.color}70`);
       document.getElementById("monsterName").textContent = m.name;
@@ -1409,8 +1568,11 @@
       document.getElementById("attributeChip").textContent = m.attribute;
       document.getElementById("resultHeading").textContent = m.heading;
       document.getElementById("resultIntro").textContent = m.intro;
-      document.getElementById("strengthList").innerHTML = m.strengths.map(item => `<li>${item}</li>`).join("");
-      document.getElementById("parentTip").textContent = m.parentTip;
+      document.getElementById("personalMixTitle").textContent = profile.mixTitle;
+      document.getElementById("personalMixText").textContent = profile.mixSummary;
+      document.getElementById("personalTraitList").innerHTML = profile.traits.map(item => `<li>${escapeHtml(item)}</li>`).join("");
+      document.getElementById("strengthList").innerHTML = profile.strengths.map(item => `<li>${escapeHtml(item)}</li>`).join("");
+      document.getElementById("parentTip").textContent = profile.parentTip;
       document.getElementById("challengeType").textContent = m.challengeType;
       document.getElementById("challengeText").textContent = m.challenge;
       document.getElementById("resultDate").textContent = `診断日：${new Intl.DateTimeFormat("ja-JP", { dateStyle: "long" }).format(new Date())}`;
@@ -1420,7 +1582,7 @@
       sigil.textContent = m.symbol;
       sigil.style.setProperty("--monster-color", m.color);
       sigil.classList.toggle("hidden", applyMonsterImage(img, typeKey, m));
-      renderDetailSheet(typeKey);
+      renderDetailSheet(profile);
 
       const comingSoon = SITE_CONFIG.resultActionsComingSoon === true;
       const comingSoonZone = document.getElementById("comingSoonZone");
@@ -1455,6 +1617,7 @@
 
     function buildResultEmailPayload() {
       const m = monsters[state.resultType];
+      const profile = state.resultProfile || buildPersonalizedProfile(state.resultType);
       return {
         email: state.email,
         respondentType: state.respondent,
@@ -1469,14 +1632,17 @@
         result: {
           monsterName: m.name,
           monsterTitle: m.title,
+          secondaryMonster: profile.secondary.name,
+          talentMix: [profile.main, profile.secondary, profile.third].map((monster, index) => ({ name: monster.name, percentage: profile.mixPercentages[index] })),
           attribute: m.attribute,
           heading: m.heading,
           introduction: m.intro,
-           strengths: m.strengths,
-           parentTip: m.parentTip,
-           firstStep: m.firstStep,
-           future: m.future,
-           supportTip: m.supportTip,
+           personalTraits: profile.traits,
+           strengths: profile.strengths,
+           parentTip: profile.parentTip,
+           firstStep: profile.firstStep,
+           future: profile.future,
+           supportTip: profile.supportTip,
            marcheChallenge: `${m.challengeType} ${m.challenge}`
         }
       };
@@ -1526,7 +1692,7 @@
     els.galleryStartBtn.addEventListener("click", () => { resetDiagnosis(); showScreen(els.quizScreen); renderQuestion(); });
     els.backBtn.addEventListener("click", () => { if (!state.isAdvancing && state.current > firstQuestionIndex) { state.current--; renderQuestion(); } });
 
-    els.pdfViewBtn.addEventListener("click", () => { renderDetailSheet(state.resultType); showScreen(els.pdfPreviewScreen); });
+    els.pdfViewBtn.addEventListener("click", () => { renderDetailSheet(state.resultProfile || state.resultType); showScreen(els.pdfPreviewScreen); });
     els.pdfBackBtn.addEventListener("click", () => showScreen(els.resultScreen));
     els.printBtn.addEventListener("click", () => window.print());
     els.emailBtn.addEventListener("click", () => sendResultEmail(false));
@@ -1548,6 +1714,7 @@
       state.email = "";
       state.emailConsent = false;
       state.resultType = "";
+      state.resultProfile = null;
       state.isAdvancing = false;
       els.resultEmailInput.value = "";
       els.resultEmailConsent.checked = false;
