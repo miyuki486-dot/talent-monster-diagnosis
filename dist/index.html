@@ -358,6 +358,16 @@
     .option.selected { border-color: var(--blue); background: #edf4ff; box-shadow: 0 0 0 3px rgba(43,112,228,.1); }
     .option-letter { flex: 0 0 auto; display: grid; place-items: center; width: 32px; height: 32px; border-radius: 10px; background: #eaf0ff; color: #2457bb; font-size: .85rem; }
     .option.selected .option-letter { background: var(--blue); color: white; }
+    .other-option { grid-column: 1 / -1; min-height: 64px; }
+
+    .free-answer-panel { margin-top: 16px; padding: 18px; border: 2px solid #b9cdf8; border-radius: 17px; background: #f4f8ff; }
+    .free-answer-panel[hidden] { display: none; }
+    .free-answer-label { display: block; margin-bottom: 9px; color: #30456e; font-weight: 900; }
+    .free-answer-input { width: 100%; min-height: 108px; resize: vertical; border: 2px solid var(--line); border-radius: 14px; background: white; color: var(--ink); padding: 13px 14px; font: inherit; font-weight: 700; line-height: 1.65; }
+    .free-answer-input:focus { border-color: #5d8eea; outline: 3px solid rgba(76, 129, 230, .14); }
+    .free-answer-actions { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-top: 12px; }
+    .free-answer-note { margin: 0; color: var(--muted); font-size: .78rem; font-weight: 700; }
+    .free-answer-actions .primary-btn { min-height: 48px; padding: 11px 20px; }
 
     .quiz-actions { display: flex; align-items: center; justify-content: space-between; gap: 16px; }
     .text-btn { min-height: 48px; padding: 10px 14px; color: #52617f; background: transparent; }
@@ -941,7 +951,7 @@
     }
 
     const firstQuestionIndex = 0;
-    const state = { current: firstQuestionIndex, answers: Array(questions.length).fill(null), respondent: "", zodiac: "", email: "", emailConsent: false, resultType: "", isAdvancing: false };
+    const state = { current: firstQuestionIndex, answers: Array(questions.length).fill(null), freeAnswers: Array(questions.length).fill(""), respondent: "", zodiac: "", email: "", emailConsent: false, resultType: "", isAdvancing: false };
 
     const els = {
       startScreen: document.getElementById("startScreen"), quizScreen: document.getElementById("quizScreen"),
@@ -1050,20 +1060,47 @@
         });
       } else {
         const help = state.respondent === "child" ? "あなたに一番近いものを選んでね。" : "一番よく見る姿に近いものを選んでください。";
+        const otherSelected = state.answers[state.current] === "other";
+        const freeAnswerLabel = state.respondent === "child" ? "じゆうにかいてね（かかなくてもOK）" : "自由に書いてください（任意）";
+        const freeAnswerPlaceholder = state.respondent === "child" ? "どんなことをするか、じゆうにかいてね" : "どんな様子か、自由に書いてください";
+        const freeAnswerSubmit = state.respondent === "child" ? "これでつぎへ" : "この回答で次へ";
+        const freeAnswerLimit = state.respondent === "child" ? "300もじまで" : "300文字まで";
         els.questionWrap.innerHTML = `
           <p class="question-kicker">${questionText(q.kicker)}</p>
           <h2 class="question-title">${questionText(q.title)}</h2>
           <p class="question-help">${questionText(help)}</p>
           <div class="options" role="radiogroup" aria-label="${q.title}">
             ${q.options.map((option, i) => `<button class="option ${state.answers[state.current] === i ? "selected" : ""}" type="button" role="radio" aria-checked="${state.answers[state.current] === i}" data-index="${i}"><span class="option-letter">${String.fromCharCode(65+i)}</span><span>${questionText(option.text)}</span></button>`).join("")}
+            <button class="option other-option ${otherSelected ? "selected" : ""}" type="button" role="radio" aria-checked="${otherSelected}" data-other="true"><span class="option-letter">＋</span><span>どれにもあてはまらない／ほかにある</span></button>
+          </div>
+          <div id="freeAnswerPanel" class="free-answer-panel" ${otherSelected ? "" : "hidden"}>
+            <label class="free-answer-label" for="freeAnswerInput">${freeAnswerLabel}</label>
+            <textarea id="freeAnswerInput" class="free-answer-input" maxlength="300" placeholder="${freeAnswerPlaceholder}"></textarea>
+            <div class="free-answer-actions"><p class="free-answer-note">${freeAnswerLimit}</p><button id="freeAnswerSubmit" class="primary-btn" type="button">${freeAnswerSubmit}</button></div>
           </div>`;
+        const freeAnswerPanel = document.getElementById("freeAnswerPanel");
+        const freeAnswerInput = document.getElementById("freeAnswerInput");
+        const freeAnswerSubmitButton = document.getElementById("freeAnswerSubmit");
+        freeAnswerInput.value = state.freeAnswers[state.current];
+        freeAnswerInput.addEventListener("input", () => { state.freeAnswers[state.current] = freeAnswerInput.value; });
+        freeAnswerSubmitButton.addEventListener("click", () => {
+          state.freeAnswers[state.current] = freeAnswerInput.value.trim();
+          advanceFromCurrent();
+        });
         els.questionWrap.querySelectorAll(".option").forEach(button => {
           button.addEventListener("click", () => {
             if (state.isAdvancing) return;
-            state.answers[state.current] = Number(button.dataset.index);
+            const isOther = button.dataset.other === "true";
+            state.answers[state.current] = isOther ? "other" : Number(button.dataset.index);
             els.questionWrap.querySelectorAll(".option").forEach(el => { el.classList.remove("selected"); el.setAttribute("aria-checked", "false"); });
             button.classList.add("selected");
             button.setAttribute("aria-checked", "true");
+            if (isOther) {
+              freeAnswerPanel.hidden = false;
+              freeAnswerInput.focus();
+              return;
+            }
+            freeAnswerPanel.hidden = true;
             updateNextState();
             advanceFromCurrent();
           });
@@ -1105,12 +1142,13 @@
       zodiac[zodiacTypes[0]] += 20;
       zodiac[zodiacTypes[1]] += 9;
 
-      const personalityCount = questions.filter(question => question.category === "personality").length;
-      const likesCount = questions.filter(question => question.category === "likes").length;
+      const personalityCount = questions.filter((question, index) => question.category === "personality" && Number.isInteger(state.answers[index])).length;
+      const likesCount = questions.filter((question, index) => question.category === "likes" && Number.isInteger(state.answers[index])).length;
       for (let i = 0; i < questions.length; i++) {
         const question = questions[i];
         if (!question.category) continue;
         const answer = question.options[state.answers[i]];
+        if (!answer) continue;
         const isPersonality = question.category === "personality";
         const mainPoints = isPersonality ? 50 / personalityCount : 30 / likesCount;
         const secondaryPoints = mainPoints * .42;
@@ -1202,8 +1240,9 @@
         zodiac: state.zodiac,
         answers: questions.map((question, index) => {
           if (!question.category) return null;
+          const isFreeAnswer = state.answers[index] === "other";
           const selected = question.options[state.answers[index]];
-          return { question: question.title, answer: selected?.text || "", primaryType: selected?.primary || "", secondaryType: selected?.secondary || "" };
+          return { question: question.title, answerType: isFreeAnswer ? "free" : "choice", answer: isFreeAnswer ? state.freeAnswers[index] : selected?.text || "", primaryType: selected?.primary || "", secondaryType: selected?.secondary || "" };
         }).filter(Boolean),
         subject: `【${SITE_CONFIG.projectName}】${SITE_CONFIG.diagnosisName}結果：${m.name}`,
         result: {
@@ -1277,6 +1316,7 @@
     function resetDiagnosis() {
       state.current = firstQuestionIndex;
       state.answers = Array(questions.length).fill(null);
+      state.freeAnswers = Array(questions.length).fill("");
       state.respondent = "";
       state.zodiac = "";
       state.email = "";
