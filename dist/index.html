@@ -425,7 +425,9 @@
     .strength-list { display: flex; flex-wrap: wrap; gap: 8px; padding: 0; margin: 0; list-style: none; }
     .strength-list li { padding: 9px 12px; border-radius: 12px; background: #eef3ff; color: #29446f; font-size: .92rem; font-weight: 800; }
     .tip-box { padding: 17px 18px; border-radius: 16px; background: #fff7d9; border-left: 5px solid var(--gold); line-height: 1.75; font-weight: 700; }
-    .challenge-box { padding: 17px 18px; border-radius: 16px; background: #ebfbff; border-left: 5px solid var(--cyan); line-height: 1.75; font-weight: 700; }
+    .challenge-box { display: grid; gap: 7px; padding: 17px 18px; border-radius: 16px; background: #ebfbff; border-left: 5px solid var(--cyan); line-height: 1.75; font-weight: 700; }
+    .challenge-type { color: #174f79; font-size: 1.12rem; font-weight: 1000; }
+    .challenge-note { color: #60738a; font-size: .78rem; line-height: 1.65; font-weight: 700; }
 
     .cta-stack { display: grid; gap: 10px; margin-top: 26px; }
     .cta-stack a { text-decoration: none; text-align: center; display: grid; place-items: center; }
@@ -646,8 +648,13 @@
               </div>
               <div class="coming-soon-content">
                 <div class="result-block">
-                  <h3 id="challengeHeading">🚩 博士ちゃんマルシェで試すなら</h3>
-                  <div id="challengeText" class="challenge-box"></div>
+                  <h3 id="challengeHeading">🔮 博士ちゃんマルシェ お店タイプ予報</h3>
+                  <div class="challenge-box">
+                    <strong id="challengeType" class="challenge-type"></strong>
+                    <span id="challengeText"></span>
+                    <small class="challenge-note">当日は、そのときの「やってみたい！」で選んでOK。診断結果と違うお店を選ぶのも、もちろん大歓迎です。
+                    </small>
+                  </div>
                 </div>
 
                 <p class="print-only sheet-note">この診断はお子さんを決めつけるものではなく、親子で「好き」と強みを見つけるきっかけです。<br><span id="resultDate"></span></p>
@@ -693,7 +700,8 @@
         intro: "決まったやり方にとらわれず、「こんなのはどう？」と新しい景色を描ける子。ふとした思いつきの中に、誰かを驚かせる小さな発明が眠っています。",
         strengths: ["発想する力", "工夫する力", "新しい見方"],
         parentTip: "「おもしろいね。もう少し聞かせて」と、まずアイデアを最後まで聞いてみて。実現できるかを急いで決めず、絵やメモにすると才能が育ちます。",
-        challenge: "身近な困りごとを楽しく変える、オリジナル商品や新しい遊びのお店。"
+        challengeType: "「作る系」のお店かも！",
+        challenge: "ひらめいたアイデアを、自分らしい形にしてみるスタイル。"
       },
       maker: {
         name: "ツクリオン", title: "ものづくり職人タイプ", attribute: "創作の大地", symbol: "◆", color: "#ffbd4a", spriteIndex: 1,
@@ -701,7 +709,8 @@
         intro: "作りながら考え、細かなところにも自分らしいこだわりを込められる子。完成した瞬間だけでなく、試して直す時間そのものを楽しめます。",
         strengths: ["形にする力", "手先の工夫", "完成まで向き合う力"],
         parentTip: "完成品だけでなく、「ここを工夫したんやね」と途中の試行錯誤にも注目してみて。材料を自分で選べると、もっと力を発揮します。",
-        challenge: "工作、アクセサリー、小物、お菓子など、手作りのこだわりが伝わるお店。"
+        challengeType: "「作る系」のお店かも！",
+        challenge: "手を動かして、好きなものを自分の手で形にするスタイル。"
       },
       explorer: {
         name: "ミッケル", title: "なぜなぜ探検家タイプ", attribute: "発見の水", symbol: "◎", color: "#51d1c2", spriteIndex: 2,
@@ -709,7 +718,8 @@
         intro: "気になったことを深く調べ、小さな違いにも気づける子。みんなが通り過ぎる場所にも、おもしろい発見を見つけます。",
         strengths: ["観察する力", "調べる力", "深く考える力"],
         parentTip: "すぐに答えを教えるより、「どうしたら確かめられそう？」と一緒に方法を考えてみて。図鑑や実験道具が良い相棒になります。",
-        challenge: "実験、クイズ、コレクションなど、見つけた秘密をお客さんにも体験してもらうお店。"
+        challengeType: "「知識や得意を披露する系」のお店かも！",
+        challenge: "知っていることや見つけた発見を、みんなに見せるスタイル。"
       },
       challenger: {
         name: "トビコン", title: "まずやってみる勇者タイプ", attribute: "挑戦の炎", symbol: "▲", color: "#ff7868", spriteIndex: 3,
@@ -717,7 +727,8 @@
         intro: "新しいことを見つけると、考えるより先に体が動く子。うまくいかない経験さえ、次の冒険のエネルギーに変えられます。",
         strengths: ["一歩目の速さ", "挑戦する勇気", "切り替える力"],
         parentTip: "結果だけでなく、「最初にやってみたのがすごい」と一歩目を認めてあげて。安全な範囲を一緒に決めると、思い切り挑戦できます。",
-        challenge: "ゲーム、体験、実演など、お客さんも一緒にチャレンジできる元気なお店。"
+        challengeType: "「お客さんが楽しむ系」のお店かも！",
+        challenge: "ゲームや体験で、来てくれた人と一緒に盛り上がるスタイル。"
       },
       grower: {
         name: "コツミン", title: "じっくり育てる名人タイプ", attribute: "継続の岩", symbol: "⬢", color: "#8197e8", spriteIndex: 4,
@@ -725,7 +736,8 @@
         intro: "自分のペースで丁寧に続け、昨日より少し上手になることを喜べる子。すぐには見えない成長を、しっかり積み上げます。",
         strengths: ["続ける力", "丁寧さ", "少しずつ伸ばす力"],
         parentTip: "「前よりここができたね」と小さな変化を言葉にしてみて。急かさず集中できる時間を守ると、驚くほど力を伸ばします。",
-        challenge: "育てたもの、集めたもの、練習してきた技など、積み重ねが伝わるお店。"
+        challengeType: "「作る系」のお店かも！",
+        challenge: "育てたものや集めたものを、じっくりお店の形にするスタイル。"
       },
       messenger: {
         name: "コトハネ", title: "ことばを届ける案内役タイプ", attribute: "伝達の風", symbol: "♬", color: "#55b9f2", spriteIndex: 5,
@@ -733,7 +745,8 @@
         intro: "見つけたことや感じたことを、自分のことばで伝えられる子。話し方や表情で、周りの人を楽しい世界へ案内します。",
         strengths: ["伝える力", "説明する力", "場を明るくする力"],
         parentTip: "「一番おもしろかったのはどこ？」と、話したくなる入口を作ってみて。最後まで聞いてもらえる経験が、自信につながります。",
-        challenge: "おすすめ紹介、クイズ、呼び込みなど、ことばで商品の魅力を届ける役。"
+        challengeType: "「知識や得意を披露する系」のお店かも！",
+        challenge: "好きなことやおすすめを、話やクイズでみんなに伝えるスタイル。"
       },
       empath: {
         name: "ヨリソ", title: "気持ちを感じる癒やし手タイプ", attribute: "共感の泉", symbol: "♡", color: "#ff91ae", spriteIndex: 6,
@@ -741,7 +754,8 @@
         intro: "相手の表情や声から気持ちを感じ取り、そっと寄り添える子。そのやさしさは、人が安心して集まれる場所を作る力です。",
         strengths: ["気づかう力", "話を聴く力", "安心を作る力"],
         parentTip: "やさしくできた場面を具体的に伝えてあげて。同時に「あなたはどうしたい？」と本人の気持ちも聞くと、無理なく力を使えます。",
-        challenge: "お客さんの好みを聞いて選んだり、ほっとできる時間を届けたりするお店。"
+        challengeType: "「お客さんが楽しむ系」のお店かも！",
+        challenge: "相手に合わせたやさしい工夫で、ほっと楽しめる時間を作るスタイル。"
       },
       connector: {
         name: "ムスビット", title: "仲間をつなぐ応援団タイプ", attribute: "仲間の森", symbol: "∞", color: "#54cf87", spriteIndex: 7,
@@ -749,7 +763,8 @@
         intro: "一人ひとりの良さを見つけ、自然に仲間の輪を作れる子。誰かと誰かが力を合わせるきっかけを生み出します。",
         strengths: ["協力する力", "つなぐ力", "応援する力"],
         parentTip: "「みんなが楽しめたのは、どんな工夫があったから？」と聞いてみて。仲間のためにした行動を言葉にすると、強みを自覚できます。",
-        challenge: "友達と一緒に運営したり、お客さん同士も楽しめる仕掛けを作ったりするお店。"
+        challengeType: "「お客さんが楽しむ系」のお店かも！",
+        challenge: "友達やお客さん同士がつながる、みんな参加型のスタイル。"
       },
       artist: {
         name: "イロドラ", title: "世界を彩る表現者タイプ", attribute: "表現の虹", symbol: "●", color: "#dc73e8", spriteIndex: 8,
@@ -757,7 +772,8 @@
         intro: "色、音、動き、物語などを使い、感じたことを自由に表現できる子。その子だけの見え方が、誰かの心を動かします。",
         strengths: ["表現する力", "感性", "自分らしさ"],
         parentTip: "上手かどうかより、「どんな気持ちを表したの？」と聞いてみて。選んだ色や形の理由を話せると、表現がさらに深まります。",
-        challenge: "絵、音楽、ダンス、物語、デザインなど、世界観を丸ごと楽しんでもらうお店。"
+        challengeType: "「作る系」のお店かも！",
+        challenge: "絵や音、物語など、自分の好きな世界を形にするスタイル。"
       },
       planner: {
         name: "ミチシル", title: "道すじを描く作戦家タイプ", attribute: "作戦の星図", symbol: "⌖", color: "#9b7cf2", spriteIndex: 9,
@@ -765,7 +781,8 @@
         intro: "何から始めるかを考え、必要なものを順番に整理できる子。みんなが迷ったとき、進みやすい道をそっと示します。",
         strengths: ["計画する力", "整理する力", "先を考える力"],
         parentTip: "予定を全部決めて渡すより、「最初に何をしたらよさそう？」と任せてみて。自分で組んだ作戦がうまくいくと、大きな自信になります。",
-        challenge: "商品の並べ方、値段、準備の順番など、お店全体の作戦を考える役。"
+        challengeType: "「知識や得意を披露する系」のお店かも！",
+        challenge: "考えた作戦や上手な進め方を、わかりやすくみんなに教えるスタイル。"
       },
       host: {
         name: "ヨロコビィ", title: "笑顔を集めるおもてなしタイプ", attribute: "喜びの光", symbol: "☀", color: "#ffd45a", spriteIndex: 10,
@@ -773,7 +790,8 @@
         intro: "どうしたら喜んでもらえるかを考え、あたたかな工夫ができる子。人の笑顔が、自分の次のアイデアを生む力になります。",
         strengths: ["喜ばせる力", "気配り", "相手目線で考える力"],
         parentTip: "「あの人、どんなところが嬉しそうだった？」と一緒に振り返ってみて。喜びの理由に気づくほど、工夫の引き出しが増えます。",
-        challenge: "選ぶ楽しさや小さなサプライズなど、お客さんが笑顔になる工夫のあるお店。"
+        challengeType: "「お客さんが楽しむ系」のお店かも！",
+        challenge: "選ぶ楽しさやサプライズで、お客さんの笑顔を作るスタイル。"
       },
       leader: {
         name: "センディア", title: "みんなを導くリーダータイプ", attribute: "先導の空", symbol: "★", color: "#f1bd45", spriteIndex: 11,
@@ -781,7 +799,8 @@
         intro: "やりたいことをはっきり描き、周りに声をかけて動き出せる子。自分だけで進むのではなく、仲間の力も見つけられる可能性を持っています。",
         strengths: ["決める力", "声をかける力", "前へ進める力"],
         parentTip: "「みんなはどう思っているかな？」と仲間の視点も添えてみて。自分の勢いと周りの良さが合わさると、頼れるリーダーに育ちます。",
-        challenge: "お店のテーマを決め、仲間へ役割を伝えながら全体を動かす店長役。"
+        challengeType: "「知識や得意を披露する系」のお店かも！",
+        challenge: "自分の得意なことをみんなの前で見せたり、教えたりするスタイル。"
       }
     };
 
@@ -901,7 +920,7 @@
       document.getElementById("projectName").childNodes[0].nodeValue = SITE_CONFIG.projectName;
       document.getElementById("projectNickname").textContent = SITE_CONFIG.projectNickname;
       document.getElementById("diagnosisName").textContent = SITE_CONFIG.diagnosisName;
-      document.getElementById("challengeHeading").textContent = `🚩 ${SITE_CONFIG.activityName}で試すなら`;
+      document.getElementById("challengeHeading").textContent = `🔮 ${SITE_CONFIG.activityName} お店タイプ予報`;
       document.getElementById("printBrandline").textContent = `${projectLabel}｜${SITE_CONFIG.diagnosisName} 結果シート`;
       document.getElementById("siteFooter").textContent = `${projectLabel}｜${SITE_CONFIG.projectTagline}`;
       document.getElementById("diagnosisLead").innerHTML = "お子さんの星座と、いつもの姿について<br>8つの質問に答えてください。<br>まだタマゴの中にいる「好きの力」が、<br>冒険モンスターになって現れます。";
@@ -1073,6 +1092,7 @@
       document.getElementById("resultIntro").textContent = m.intro;
       document.getElementById("strengthList").innerHTML = m.strengths.map(item => `<li>${item}</li>`).join("");
       document.getElementById("parentTip").textContent = m.parentTip;
+      document.getElementById("challengeType").textContent = m.challengeType;
       document.getElementById("challengeText").textContent = m.challenge;
       document.getElementById("resultDate").textContent = `診断日：${new Intl.DateTimeFormat("ja-JP", { dateStyle: "long" }).format(new Date())}`;
 
@@ -1127,7 +1147,7 @@
           introduction: m.intro,
           strengths: m.strengths,
           parentTip: m.parentTip,
-          marcheChallenge: m.challenge
+          marcheChallenge: `${m.challengeType} ${m.challenge}`
         }
       };
     }
