@@ -327,8 +327,15 @@
     .privacy-note { margin: 14px 0 0; padding: 13px 15px; border-radius: 13px; background: #eef4ff; color: #536487; font-size: .8rem; line-height: 1.65; }
 
     .options { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    .respondent-options { grid-template-columns: 1fr 1fr; }
+    .respondent-option { align-items: flex-start; }
+    .respondent-option strong { display: block; margin-bottom: 4px; font-size: 1.05rem; }
+    .respondent-option small { display: block; color: var(--muted); font-size: .82rem; font-weight: 700; line-height: 1.55; }
     .zodiac-options { grid-template-columns: repeat(3, minmax(0, 1fr)); }
     .zodiac-option { min-height: 64px; justify-content: center; text-align: center; }
+    ruby { ruby-align: center; }
+    rt { color: #45618f; font-size: .52em; font-weight: 800; }
+    .child-mode .question-title, .child-mode .option { line-height: 1.85; }
     .option {
       min-height: 78px;
       display: flex;
@@ -807,6 +814,7 @@
     };
 
     const questions = [
+      { type: "respondent", kicker: "はじめに", title: "だれがこたえますか？", help: "こたえるひとをえらんでね。えらぶと、そのまませいざのしつもんへすすみます。" },
       { type: "zodiac", kicker: "星座", title: "お子さんの星座は？", help: "当てはまる星座を選んでください。選ぶと、そのまま次の質問へ進みます。" },
       {
         category: "personality", kicker: "質問 1 / 8", title: "初めての遊びを見つけたとき、どんな様子が多い？",
@@ -898,8 +906,42 @@
       capricorn: ["grower", "planner"], aquarius: ["spark", "messenger"], pisces: ["artist", "empath"]
     };
 
+    const furiganaReadings = {
+      "当てはまる": "あてはまる", "思いどおり": "おもいどおり", "分かりやすく": "わかりやすく",
+      "合わせられた": "あわせられた", "盛り上げる": "もりあげる", "知らなかった": "しらなかった",
+      "見つけた": "みつけた", "見つける": "みつける", "見られる": "みられる", "取り組む": "とりくむ",
+      "遊び方": "あそびかた", "やり方": "やりかた", "初めて": "はじめて", "確かめる": "たしかめる", "思いつく": "おもいつく",
+      "聞いたり": "きいたり", "進みます": "すすみます", "作って": "つくって", "見せる": "みせる",
+      "お客さん": "おきゃくさん", "一番": "いちばん", "一緒": "いっしょ", "何度": "なんど",
+      "自分": "じぶん", "誰か": "だれか", "状況": "じょうきょう", "説明": "せつめい",
+      "周り": "まわり", "方向": "ほうこう", "表現": "ひょうげん", "役割": "やくわり",
+      "集中": "しゅうちゅう", "順番": "じゅんばん", "必要": "ひつよう", "楽しさ": "たのしさ",
+      "小さく": "ちいさく", "近く": "ちかく", "近い": "ちかい", "不安": "ふあん", "気持ち": "きもち",
+      "楽しく": "たのしく", "方法": "ほうほう", "お店": "おみせ", "世界": "せかい",
+      "一つ": "ひとつ", "作品": "さくひん", "不思議": "ふしぎ", "実験": "じっけん",
+      "参加": "さんか", "物語": "ものがたり", "特に": "とくに", "完成": "かんせい",
+      "答える": "こたえる", "答え": "こたえ", "言われた": "いわれた", "冒険": "ぼうけん",
+      "見えない": "みえない", "勇気": "ゆうき", "星座": "せいざ", "質問": "しつもん",
+      "選んで": "えらんで", "選ぶ": "えらぶ", "遊び": "あそび", "遊ぶ": "あそぶ", "様子": "ようす",
+      "多い": "おおい", "見て": "みて", "誘って": "さそって", "始める": "はじめる",
+      "思い": "おもい", "試して": "ためして", "試す": "ためす", "聞く": "きく", "助け": "たすけ", "待つ": "まつ", "別": "べつ",
+      "姿": "すがた", "決める": "きめる", "入れる": "はいれる", "声": "こえ", "場": "ば",
+      "何か": "なにか", "前": "まえ", "考える": "かんがえる", "見本": "みほん", "話す": "はなす", "楽しむ": "たのしむ",
+      "先": "さき", "教える": "おしえる", "出す": "だす", "音": "おと", "力": "ちから",
+      "形": "かたち", "心": "こころ", "道": "みち", "火": "ひ", "絵": "え", "子": "こ", "座": "ざ", "次": "つぎ"
+    };
+    const furiganaPattern = new RegExp(Object.keys(furiganaReadings).sort((a, b) => b.length - a.length).join("|"), "g");
+
+    function withFurigana(text) {
+      return text.replace(furiganaPattern, word => `<ruby>${word}<rt>${furiganaReadings[word]}</rt></ruby>`);
+    }
+
+    function questionText(text) {
+      return state.respondent === "child" ? withFurigana(text) : text;
+    }
+
     const firstQuestionIndex = 0;
-    const state = { current: firstQuestionIndex, answers: Array(questions.length).fill(null), zodiac: "", email: "", emailConsent: false, resultType: "", isAdvancing: false };
+    const state = { current: firstQuestionIndex, answers: Array(questions.length).fill(null), respondent: "", zodiac: "", email: "", emailConsent: false, resultType: "", isAdvancing: false };
 
     const els = {
       startScreen: document.getElementById("startScreen"), quizScreen: document.getElementById("quizScreen"),
@@ -953,24 +995,48 @@
 
     function renderQuestion() {
       const q = questions[state.current];
-      if (q.type === "zodiac") {
-        els.progressBar.style.width = `${100 / 9}%`;
+      els.quizScreen.classList.toggle("child-mode", state.respondent === "child");
+      if (q.type === "respondent") {
+        els.progressBar.style.width = `${100 / questions.length}%`;
+        els.progressLabel.textContent = "はじめに";
+      } else if (q.type === "zodiac") {
+        els.progressBar.style.width = `${(2 / questions.length) * 100}%`;
         els.progressLabel.textContent = "星座";
       } else {
-        const questionNumber = state.current;
-        els.progressBar.style.width = `${((questionNumber + 1) / 9) * 100}%`;
+        const questionNumber = questions.slice(0, state.current + 1).filter(question => question.category).length;
+        els.progressBar.style.width = `${((state.current + 1) / questions.length) * 100}%`;
         els.progressLabel.textContent = `${questionNumber} / 8`;
       }
       els.backBtn.style.visibility = state.current === firstQuestionIndex ? "hidden" : "visible";
       els.nextBtn.style.display = "none";
 
-      if (q.type === "zodiac") {
+      if (q.type === "respondent") {
         els.questionWrap.innerHTML = `
           <p class="question-kicker">${q.kicker}</p>
           <h2 class="question-title">${q.title}</h2>
           <p class="question-help">${q.help}</p>
-          <div class="options zodiac-options" role="radiogroup" aria-label="${q.title}">
-            ${zodiacOptions.map(option => `<button class="option zodiac-option ${state.zodiac === option.key ? "selected" : ""}" type="button" role="radio" aria-checked="${state.zodiac === option.key}" data-zodiac="${option.key}"><span>${option.label}</span></button>`).join("")}
+          <div class="options respondent-options" role="radiogroup" aria-label="${q.title}">
+            <button class="option respondent-option ${state.respondent === "adult" ? "selected" : ""}" type="button" role="radio" aria-checked="${state.respondent === "adult"}" data-respondent="adult"><span class="option-letter">A</span><span><strong>おとながこたえる</strong><small>こどものいつものようすを思いうかべてこたえる</small></span></button>
+            <button class="option respondent-option ${state.respondent === "child" ? "selected" : ""}" type="button" role="radio" aria-checked="${state.respondent === "child"}" data-respondent="child"><span class="option-letter">B</span><span><strong>こどもがこたえる</strong><small>じぶんのことをこたえる・ふりがなつき</small></span></button>
+          </div>`;
+        els.questionWrap.querySelectorAll(".respondent-option").forEach(button => {
+          button.addEventListener("click", () => {
+            if (state.isAdvancing) return;
+            state.respondent = button.dataset.respondent;
+            els.questionWrap.querySelectorAll(".respondent-option").forEach(el => { el.classList.remove("selected"); el.setAttribute("aria-checked", "false"); });
+            button.classList.add("selected");
+            button.setAttribute("aria-checked", "true");
+            advanceFromCurrent();
+          });
+        });
+      } else if (q.type === "zodiac") {
+        const title = state.respondent === "child" ? "あなたの星座は？" : q.title;
+        els.questionWrap.innerHTML = `
+          <p class="question-kicker">${questionText(q.kicker)}</p>
+          <h2 class="question-title">${questionText(title)}</h2>
+          <p class="question-help">${questionText(q.help)}</p>
+          <div class="options zodiac-options" role="radiogroup" aria-label="${title}">
+            ${zodiacOptions.map(option => `<button class="option zodiac-option ${state.zodiac === option.key ? "selected" : ""}" type="button" role="radio" aria-checked="${state.zodiac === option.key}" data-zodiac="${option.key}"><span>${questionText(option.label)}</span></button>`).join("")}
           </div>`;
         els.questionWrap.querySelectorAll(".zodiac-option").forEach(button => {
           button.addEventListener("click", () => {
@@ -983,12 +1049,13 @@
           });
         });
       } else {
+        const help = state.respondent === "child" ? "あなたに一番近いものを選んでね。" : "一番よく見る姿に近いものを選んでください。";
         els.questionWrap.innerHTML = `
-          <p class="question-kicker">${q.kicker}</p>
-          <h2 class="question-title">${q.title}</h2>
-          <p class="question-help">一番よく見る姿に近いものを選んでください。</p>
+          <p class="question-kicker">${questionText(q.kicker)}</p>
+          <h2 class="question-title">${questionText(q.title)}</h2>
+          <p class="question-help">${questionText(help)}</p>
           <div class="options" role="radiogroup" aria-label="${q.title}">
-            ${q.options.map((option, i) => `<button class="option ${state.answers[state.current] === i ? "selected" : ""}" type="button" role="radio" aria-checked="${state.answers[state.current] === i}" data-index="${i}"><span class="option-letter">${String.fromCharCode(65+i)}</span><span>${option.text}</span></button>`).join("")}
+            ${q.options.map((option, i) => `<button class="option ${state.answers[state.current] === i ? "selected" : ""}" type="button" role="radio" aria-checked="${state.answers[state.current] === i}" data-index="${i}"><span class="option-letter">${String.fromCharCode(65+i)}</span><span>${questionText(option.text)}</span></button>`).join("")}
           </div>`;
         els.questionWrap.querySelectorAll(".option").forEach(button => {
           button.addEventListener("click", () => {
@@ -1131,6 +1198,13 @@
       const m = monsters[state.resultType];
       return {
         email: state.email,
+        respondentType: state.respondent,
+        zodiac: state.zodiac,
+        answers: questions.map((question, index) => {
+          if (!question.category) return null;
+          const selected = question.options[state.answers[index]];
+          return { question: question.title, answer: selected?.text || "", primaryType: selected?.primary || "", secondaryType: selected?.secondary || "" };
+        }).filter(Boolean),
         subject: `【${SITE_CONFIG.projectName}】${SITE_CONFIG.diagnosisName}結果：${m.name}`,
         result: {
           monsterName: m.name,
@@ -1203,6 +1277,7 @@
     function resetDiagnosis() {
       state.current = firstQuestionIndex;
       state.answers = Array(questions.length).fill(null);
+      state.respondent = "";
       state.zodiac = "";
       state.email = "";
       state.emailConsent = false;
@@ -1221,8 +1296,11 @@
 
     applyBranding();
 
-    const previewType = new URLSearchParams(window.location.search).get("type");
-    if (new URLSearchParams(window.location.search).get("preview") === "result" && TYPE_ORDER.includes(previewType)) {
+    const previewParams = new URLSearchParams(window.location.search);
+    const previewType = previewParams.get("type");
+    const previewRespondent = previewParams.get("respondent");
+    if (["adult", "child"].includes(previewRespondent)) state.respondent = previewRespondent;
+    if (previewParams.get("preview") === "result" && TYPE_ORDER.includes(previewType)) {
       renderResult(previewType);
       showScreen(els.resultScreen);
     }
