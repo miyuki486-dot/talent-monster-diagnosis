@@ -471,6 +471,63 @@
     .coming-soon-ribbon span { font-size: .78rem; font-weight: 800; }
     .print-only { display: none; }
 
+    .pdf-ready-card { display: grid; grid-template-columns: 1fr auto; align-items: center; gap: 16px; margin-top: 24px; padding: 18px; border: 2px solid #ffd65c; border-radius: 20px; background: linear-gradient(135deg, #fff8c9, #edfbff 58%, #fff0f6); box-shadow: 0 12px 28px rgba(53,91,164,.11); }
+    .pdf-ready-card strong { display: block; margin-bottom: 4px; color: #18386f; font-size: 1rem; }
+    .pdf-ready-card p { margin: 0; color: #586887; font-size: .82rem; line-height: 1.6; }
+    .pdf-preview-screen { display: none; padding: clamp(20px, 4vw, 44px); background: #edf7ff; }
+    .pdf-preview-toolbar { display: flex; align-items: center; justify-content: space-between; gap: 16px; width: min(210mm, 100%); margin: 0 auto 18px; }
+    .pdf-preview-toolbar div { text-align: center; }
+    .pdf-preview-toolbar strong { display: block; color: #17366c; }
+    .pdf-preview-toolbar span { color: var(--muted); font-size: .78rem; }
+    .detail-sheet { --sheet-accent: #53d8f3; position: relative; width: min(210mm, 100%); min-height: 297mm; margin: auto; overflow: hidden; border-radius: 18px; background: radial-gradient(circle at 92% 6%, #fff0a8 0 10%, transparent 30%), radial-gradient(circle at 5% 62%, #dff8ff 0 13%, transparent 34%), linear-gradient(145deg, #ffffff, #f7fbff 48%, #fff8fc); color: #152746; padding: 12mm 13mm 10mm; box-shadow: 0 24px 60px rgba(24,57,116,.18); }
+    .detail-sheet::before, .detail-sheet::after { content: ""; position: absolute; z-index: 0; border-radius: 50%; pointer-events: none; }
+    .detail-sheet::before { width: 42mm; height: 42mm; right: -15mm; top: 82mm; border: 7mm solid color-mix(in srgb, var(--sheet-accent) 22%, transparent); }
+    .detail-sheet::after { width: 26mm; height: 26mm; left: -10mm; bottom: 31mm; background: color-mix(in srgb, var(--sheet-accent) 13%, transparent); }
+    .detail-sheet > * { position: relative; z-index: 1; }
+    .detail-header { display: flex; align-items: flex-end; justify-content: space-between; gap: 8mm; padding-bottom: 5mm; border-bottom: 1.2mm solid var(--sheet-accent); }
+    .detail-eyebrow { display: block; margin-bottom: 1.5mm; color: #2f6bbf; font-size: 8pt; font-weight: 900; letter-spacing: .15em; }
+    .detail-header h1 { margin: 0; color: #132e60; font-size: 20pt; line-height: 1.2; }
+    .detail-type-number { padding: 2.2mm 4mm; border-radius: 999px; background: #173b79; color: white; font-size: 8pt; font-weight: 900; white-space: nowrap; }
+    .detail-hero { display: grid; grid-template-columns: 56mm 1fr; gap: 7mm; margin-top: 6mm; }
+    .detail-monster-card { display: grid; align-content: start; gap: 3mm; padding: 4mm; border: .7mm solid color-mix(in srgb, var(--sheet-accent) 65%, white); border-radius: 6mm; background: linear-gradient(155deg, #eafcff, #fff7cb 60%, #ffeafa); text-align: center; }
+    .detail-monster-card .sprite-window { border-radius: 4mm; background: white; box-shadow: 0 3mm 7mm rgba(32,81,145,.12); }
+    .detail-monster-card p { margin: 0; color: #3e5e8c; font-size: 7.5pt; font-weight: 850; line-height: 1.55; }
+    .detail-summary { padding-top: 1mm; }
+    .detail-attribute { display: inline-flex; padding: 1.5mm 3mm; border-radius: 999px; background: color-mix(in srgb, var(--sheet-accent) 22%, white); color: #195190; font-size: 8pt; font-weight: 900; }
+    .detail-summary h2 { margin: 2mm 0 .5mm; color: #112b5a; font-size: 25pt; line-height: 1.1; }
+    .detail-monster-title { margin: 0 0 3mm; color: #53709e; font-size: 9pt; font-weight: 850; }
+    .detail-summary h3 { margin: 0 0 2mm; color: #1f477f; font-size: 12.5pt; line-height: 1.35; }
+    .detail-intro { margin: 0; color: #3d5276; font-size: 8.2pt; line-height: 1.75; }
+    .detail-strengths { display: flex; flex-wrap: wrap; gap: 1.5mm; margin: 3mm 0 0; padding: 0; list-style: none; }
+    .detail-strengths li { padding: 1.5mm 2.5mm; border-radius: 2.5mm; background: #fff; color: #193a72; font-size: 7.7pt; font-weight: 900; box-shadow: 0 1mm 3mm rgba(30,73,139,.1); }
+    .detail-guides { display: grid; grid-template-columns: 1fr 1fr; gap: 4mm; margin-top: 5mm; }
+    .detail-guide { min-height: 34mm; padding: 4mm; border-radius: 5mm; }
+    .detail-guide.grow { background: #fff3c9; border: .6mm solid #ffdb68; }
+    .detail-guide.first { background: #e7f9f4; border: .6mm solid #7ddfc3; }
+    .detail-guide h3 { margin: 0 0 2mm; color: #17386f; font-size: 10pt; }
+    .detail-guide p { margin: 0; color: #425879; font-size: 8pt; line-height: 1.7; }
+    .detail-evolution { margin-top: 5mm; }
+    .detail-section-heading { display: flex; align-items: center; gap: 3mm; margin-bottom: 2.5mm; }
+    .detail-section-heading h3 { margin: 0; color: #15366d; font-size: 11pt; }
+    .detail-section-heading span { color: #6980a6; font-size: 7.3pt; }
+    .detail-evolution-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 3mm; }
+    .detail-evolution-stage { display: grid; grid-template-columns: 24mm 1fr; align-items: center; gap: 3mm; min-height: 29mm; padding: 2.5mm; border: .55mm solid #c8d9f7; border-radius: 4mm; background: rgba(255,255,255,.9); }
+    .detail-evolution-stage .sprite-window { border-radius: 3mm; background: linear-gradient(145deg, #eaf8ff, #fff4cd); }
+    .detail-stage-copy strong { display: block; color: #17396f; font-size: 8.2pt; }
+    .detail-stage-copy span { color: #64799c; font-size: 6.7pt; line-height: 1.45; }
+    .detail-shop { display: grid; grid-template-columns: 42mm 1fr; align-items: center; gap: 4mm; margin-top: 5mm; padding: 4mm 5mm; border-radius: 5mm; background: linear-gradient(110deg, #ffe9f3, #f0eaff 48%, #e5f8ff); border: .6mm solid #e3b9e7; }
+    .detail-shop-label { color: #84458e; font-size: 9pt; font-weight: 900; }
+    .detail-shop-copy strong { display: block; margin-bottom: 1mm; color: #4f317e; font-size: 9pt; }
+    .detail-shop-copy p { margin: 0; color: #604f79; font-size: 7.5pt; line-height: 1.55; }
+    .detail-talk { display: grid; grid-template-columns: 44mm 1fr; gap: 4mm; margin-top: 5mm; padding: 4mm 5mm; border-radius: 5mm; background: linear-gradient(110deg, #fff5bd, #e6fbff 55%, #e8f9ef); border: .6mm solid #8ddfd4; }
+    .detail-talk h3 { margin: 0; color: #17617a; font-size: 9pt; }
+    .detail-talk ul { display: grid; gap: 1.5mm; margin: 0; padding: 0; list-style: none; }
+    .detail-talk li { color: #3b6172; font-size: 7.3pt; font-weight: 750; line-height: 1.45; }
+    .detail-talk li::before { content: "✦ "; color: #ec9b29; }
+    .detail-footer { position: absolute; right: 13mm; bottom: 10mm; left: 13mm; display: flex; align-items: flex-end; justify-content: space-between; gap: 7mm; padding-top: 3mm; border-top: .4mm solid #d9e4f7; }
+    .detail-footer p { margin: 0; color: #6e7f9e; font-size: 6.5pt; line-height: 1.5; }
+    .detail-footer-brand { color: #28599e !important; font-weight: 900; text-align: right; white-space: nowrap; }
+
     .gallery-screen {
       display: none;
       padding: clamp(24px, 5vw, 52px);
@@ -525,6 +582,15 @@
       .monster-card-head { padding: 13px 12px 10px; }
       .monster-card-head h3 { font-size: 1rem; }
       .evolution-stage { padding: 6px; }
+      .pdf-ready-card { grid-template-columns: 1fr; }
+      .pdf-preview-toolbar { align-items: stretch; flex-direction: column; }
+      .detail-sheet { min-height: 0; padding: 26px 20px; border-radius: 14px; }
+      .detail-hero, .detail-guides, .detail-shop, .detail-talk { grid-template-columns: 1fr; }
+      .detail-monster-card { width: min(310px, 100%); margin: auto; }
+      .detail-evolution-stage { grid-template-columns: 1fr; text-align: center; }
+      .detail-evolution-stage .sprite-window { width: min(120px, 100%); margin: auto; }
+      .detail-footer { position: static; align-items: flex-start; flex-direction: column; margin-top: 20px; }
+      .detail-footer-brand { text-align: left; }
     }
 
     @media (max-width: 430px) {
@@ -541,28 +607,10 @@
     @media print {
       html, body { width: 210mm; height: 297mm; min-height: 0; background: white !important; }
       body { print-color-adjust: exact; -webkit-print-color-adjust: exact; }
-      .page-shell { width: 210mm; height: 297mm; min-height: 0; padding: 0; display: block; overflow: hidden; }
-      .topbar, .footer, .screen, .result-tools, .cta-stack, #resultGalleryBtn, #retryBtn { display: none !important; }
-      main, .app-card { display: block; width: 210mm; height: 297mm; min-height: 0; margin: 0; padding: 0; overflow: hidden; border: 0; border-radius: 0; box-shadow: none; background: white; }
-      .result-screen.active { display: grid !important; grid-template-columns: 78mm 132mm; width: 210mm; height: 297mm; min-height: 0; animation: none; }
-      .monster-panel { min-height: 0; height: 297mm; padding: 12mm 7mm; grid-template-rows: auto 1fr auto; }
-      .monster-panel::before { inset: 7mm; border-radius: 5mm; }
-      .result-small { font-size: 7.5pt; }
-      .monster-visual { width: 64mm; }
-      .monster-id h2 { font-size: 27pt; }
-      .monster-id p { font-size: 9pt; }
-      .result-copy { height: 297mm; padding: 10mm 10mm 8mm; overflow: hidden; }
-      .print-only { display: block; }
-      .print-brandline { margin-bottom: 5mm; padding-bottom: 3mm; border-bottom: 1px solid #dfe7fa; color: #315fae; font-size: 8pt; font-weight: 900; letter-spacing: .08em; }
-      .attribute-chip { padding: 1.5mm 2.5mm; font-size: 7.5pt; }
-      .result-heading { margin: 4mm 0 2.5mm; font-size: 19pt; line-height: 1.25; }
-      .result-intro { margin-bottom: 0; font-size: 9pt; line-height: 1.65; }
-      .result-block { margin-top: 4.5mm; padding-top: 4mm; }
-      .result-block h3 { margin-bottom: 2.5mm; font-size: 9pt; }
-      .strength-list { gap: 1.5mm; }
-      .strength-list li { padding: 2mm 2.5mm; font-size: 8pt; }
-      .tip-box, .challenge-box { padding: 3mm 3.5mm; border-radius: 3mm; font-size: 8.3pt; line-height: 1.6; }
-      .sheet-note { margin: 4.5mm 0 0; padding-top: 3mm; border-top: 1px solid #dfe7fa; color: #75819d; font-size: 7pt; line-height: 1.5; }
+      .topbar, .footer, .screen:not(.pdf-preview-screen), .pdf-preview-toolbar { display: none !important; }
+      .page-shell, main, .app-card { display: block; width: 210mm; height: 297mm; min-height: 0; margin: 0; padding: 0; overflow: hidden; border: 0; border-radius: 0; box-shadow: none; background: white; }
+      .pdf-preview-screen { display: block !important; width: 210mm; height: 297mm; min-height: 0; padding: 0; overflow: hidden; animation: none; }
+      .detail-sheet { display: block; width: 210mm; height: 297mm; min-height: 0; margin: 0; padding: 12mm 13mm 10mm; border-radius: 0; box-shadow: none; }
     }
   </style>
 </head>
@@ -660,6 +708,14 @@
               <div id="parentTip" class="tip-box"></div>
             </div>
 
+            <div class="pdf-ready-card">
+              <div>
+                <strong>✨ 1枚の詳しい診断シートができました</strong>
+                <p>強みの育て方や進化のヒントを、明るいA4・1枚にまとめました。</p>
+              </div>
+              <button id="pdfViewBtn" class="primary-btn" type="button">詳しい診断を見る</button>
+            </div>
+
             <div id="comingSoonZone" class="coming-soon-zone">
               <div class="coming-soon-ribbon">
                 <strong>COMING SOON…</strong>
@@ -687,7 +743,6 @@
                   <label class="email-consent"><input id="resultEmailConsent" type="checkbox"><span>診断結果の送付に、このメールアドレスを使用することに同意します。</span></label>
                   <p id="resultEmailPrivacy" class="privacy-note">入力したメールアドレスは、診断結果のお届けにのみ使用します。</p>
                   <button id="emailBtn" class="primary-btn" type="button">詳しい診断結果をメールで受け取る</button>
-                  <button id="printBtn" class="secondary-btn" type="button">この結果画面を保存・印刷</button>
                   <p id="emailStatus" class="email-status" role="status" aria-live="polite"></p>
                 </div>
 
@@ -701,6 +756,83 @@
             <button id="resultGalleryBtn" class="secondary-btn retry-btn" type="button">12タイプを全部見る</button>
             <button id="retryBtn" class="text-btn retry-btn" type="button">もう一度診断する</button>
           </div>
+        </div>
+
+        <div id="pdfPreviewScreen" class="screen pdf-preview-screen">
+          <div class="pdf-preview-toolbar">
+            <button id="pdfBackBtn" class="text-btn" type="button">← 診断結果に戻る</button>
+            <div>
+              <strong>A4・1枚の詳細診断シート</strong>
+              <span>内容とデザインはあとから変更できます</span>
+            </div>
+            <button id="printBtn" class="primary-btn" type="button">PDFで保存・印刷</button>
+          </div>
+
+          <article id="detailSheet" class="detail-sheet">
+            <header class="detail-header">
+              <div>
+                <span class="detail-eyebrow">✦ TALENT MONSTER REPORT</span>
+                <h1>才能モンスター 詳細診断シート</h1>
+              </div>
+              <span id="pdfTypeNumber" class="detail-type-number">TYPE 01 / 12</span>
+            </header>
+
+            <section class="detail-hero">
+              <div class="detail-monster-card">
+                <div id="pdfEggSprite"></div>
+                <p>あなたの中に眠る、可能性いっぱいのタマゴ</p>
+              </div>
+              <div class="detail-summary">
+                <span id="pdfAttribute" class="detail-attribute"></span>
+                <h2 id="pdfMonsterName"></h2>
+                <p id="pdfMonsterTitle" class="detail-monster-title"></p>
+                <h3 id="pdfHeading"></h3>
+                <p id="pdfIntro" class="detail-intro"></p>
+                <ul id="pdfStrengths" class="detail-strengths"></ul>
+              </div>
+            </section>
+
+            <section class="detail-guides">
+              <article class="detail-guide grow">
+                <h3>☀ 才能を育てるヒント</h3>
+                <p id="pdfParentTip"></p>
+              </article>
+              <article class="detail-guide first">
+                <h3>🚀 今日からできる最初の一歩</h3>
+                <p id="pdfFirstStep"></p>
+              </article>
+            </section>
+
+            <section class="detail-evolution">
+              <div class="detail-section-heading">
+                <h3>🌱 モンスターの進化ストーリー</h3>
+                <span>得意なところを育てるほど、姿も力も進化していく！</span>
+              </div>
+              <div id="pdfEvolutionGrid" class="detail-evolution-grid"></div>
+            </section>
+
+            <section class="detail-shop">
+              <div class="detail-shop-label">🔮 お店タイプ予報</div>
+              <div class="detail-shop-copy">
+                <strong id="pdfChallengeType"></strong>
+                <p id="pdfChallengeText"></p>
+              </div>
+            </section>
+
+            <section class="detail-talk">
+              <h3>💬 親子で話してみよう</h3>
+              <ul>
+                <li>最近「これ、おもしろい！」と思ったのはどんなこと？</li>
+                <li>このモンスターに、新しい力をひとつ足すなら？</li>
+                <li>今日できる最初の一歩を、いつやってみる？</li>
+              </ul>
+            </section>
+
+            <footer class="detail-footer">
+              <p>この診断は、お子さんを決めつけるものではなく、親子で「好き」と強みを見つけるきっかけです。<br><span id="pdfResultMeta"></span></p>
+              <p class="detail-footer-brand">その子らしさで稼ぐチカラを<br>こども起業家研究所 ～博士ちゃんラボ～</p>
+            </footer>
+          </article>
         </div>
       </section>
     </main>
@@ -720,7 +852,8 @@
         strengths: ["発想する力", "工夫する力", "新しい見方"],
         parentTip: "「おもしろいね。もう少し聞かせて」と、まずアイデアを最後まで聞いてみて。実現できるかを急いで決めず、絵やメモにすると才能が育ちます。",
         challengeType: "「作る系」のお店が向いてるかも！？",
-        challenge: "ひらめいたアイデアを、自分らしい形にしてみるスタイル。"
+        challenge: "ひらめいたアイデアを、自分らしい形にしてみるスタイル。",
+        firstStep: "思いついたアイデアを絵にして、1枚の「発明メモ」を作ってみよう。"
       },
       maker: {
         name: "ツクリオン", title: "ものづくり職人タイプ", attribute: "創作の大地", symbol: "◆", color: "#ffbd4a", spriteIndex: 1,
@@ -729,7 +862,8 @@
         strengths: ["形にする力", "手先の工夫", "完成まで向き合う力"],
         parentTip: "完成品だけでなく、「ここを工夫したんやね」と途中の試行錯誤にも注目してみて。材料を自分で選べると、もっと力を発揮します。",
         challengeType: "「作る系」のお店が向いてるかも！？",
-        challenge: "手を動かして、好きなものを自分の手で形にするスタイル。"
+        challenge: "手を動かして、好きなものを自分の手で形にするスタイル。",
+        firstStep: "家にある材料を3つ選び、小さな作品をひとつ完成させてみよう。"
       },
       explorer: {
         name: "ミッケル", title: "なぜなぜ探検家タイプ", attribute: "発見の水", symbol: "◎", color: "#51d1c2", spriteIndex: 2,
@@ -738,7 +872,8 @@
         strengths: ["観察する力", "調べる力", "深く考える力"],
         parentTip: "すぐに答えを教えるより、「どうしたら確かめられそう？」と一緒に方法を考えてみて。図鑑や実験道具が良い相棒になります。",
         challengeType: "「知識や得意を披露する系」のお店が向いてるかも！？",
-        challenge: "知っていることや見つけた発見を、みんなに見せるスタイル。"
+        challenge: "知っていることや見つけた発見を、みんなに見せるスタイル。",
+        firstStep: "気になる「なんで？」をひとつ選び、図鑑や実験で確かめてみよう。"
       },
       challenger: {
         name: "トビコン", title: "まずやってみる勇者タイプ", attribute: "挑戦の炎", symbol: "▲", color: "#ff7868", spriteIndex: 3,
@@ -747,7 +882,8 @@
         strengths: ["一歩目の速さ", "挑戦する勇気", "切り替える力"],
         parentTip: "結果だけでなく、「最初にやってみたのがすごい」と一歩目を認めてあげて。安全な範囲を一緒に決めると、思い切り挑戦できます。",
         challengeType: "「お客さんが楽しむ系」のお店が向いてるかも！？",
-        challenge: "ゲームや体験で、来てくれた人と一緒に盛り上がるスタイル。"
+        challenge: "ゲームや体験で、来てくれた人と一緒に盛り上がるスタイル。",
+        firstStep: "やってみたいことを小さく決めて、まず5分だけ挑戦してみよう。"
       },
       grower: {
         name: "コツミン", title: "じっくり育てる名人タイプ", attribute: "継続の岩", symbol: "⬢", color: "#8197e8", spriteIndex: 4,
@@ -756,7 +892,8 @@
         strengths: ["続ける力", "丁寧さ", "少しずつ伸ばす力"],
         parentTip: "「前よりここができたね」と小さな変化を言葉にしてみて。急かさず集中できる時間を守ると、驚くほど力を伸ばします。",
         challengeType: "「作る系」のお店が向いてるかも！？",
-        challenge: "育てたものや集めたものを、じっくりお店の形にするスタイル。"
+        challenge: "育てたものや集めたものを、じっくりお店の形にするスタイル。",
+        firstStep: "育てたいことをひとつ決めて、できた日に印をつける成長表を始めよう。"
       },
       messenger: {
         name: "コトハネ", title: "ことばを届ける案内役タイプ", attribute: "伝達の風", symbol: "♬", color: "#55b9f2", spriteIndex: 5,
@@ -765,7 +902,8 @@
         strengths: ["伝える力", "説明する力", "場を明るくする力"],
         parentTip: "「一番おもしろかったのはどこ？」と、話したくなる入口を作ってみて。最後まで聞いてもらえる経験が、自信につながります。",
         challengeType: "「知識や得意を披露する系」のお店が向いてるかも！？",
-        challenge: "好きなことやおすすめを、話やクイズでみんなに伝えるスタイル。"
+        challenge: "好きなことやおすすめを、話やクイズでみんなに伝えるスタイル。",
+        firstStep: "好きなものをひとつ選び、家族に1分でおすすめしてみよう。"
       },
       empath: {
         name: "ヨリソ", title: "気持ちを感じる癒やし手タイプ", attribute: "共感の泉", symbol: "♡", color: "#ff91ae", spriteIndex: 6,
@@ -774,7 +912,8 @@
         strengths: ["気づかう力", "話を聴く力", "安心を作る力"],
         parentTip: "やさしくできた場面を具体的に伝えてあげて。同時に「あなたはどうしたい？」と本人の気持ちも聞くと、無理なく力を使えます。",
         challengeType: "「お客さんが楽しむ系」のお店が向いてるかも！？",
-        challenge: "相手に合わせたやさしい工夫で、ほっと楽しめる時間を作るスタイル。"
+        challenge: "相手に合わせたやさしい工夫で、ほっと楽しめる時間を作るスタイル。",
+        firstStep: "今日、だれかがうれしそうだった瞬間を見つけて、理由を話してみよう。"
       },
       connector: {
         name: "ムスビット", title: "仲間をつなぐ応援団タイプ", attribute: "仲間の森", symbol: "∞", color: "#54cf87", spriteIndex: 7,
@@ -783,7 +922,8 @@
         strengths: ["協力する力", "つなぐ力", "応援する力"],
         parentTip: "「みんなが楽しめたのは、どんな工夫があったから？」と聞いてみて。仲間のためにした行動を言葉にすると、強みを自覚できます。",
         challengeType: "「お客さんが楽しむ系」のお店が向いてるかも！？",
-        challenge: "友達やお客さん同士がつながる、みんな参加型のスタイル。"
+        challenge: "友達やお客さん同士がつながる、みんな参加型のスタイル。",
+        firstStep: "一緒にやりたい人を2人誘い、みんなでできる小さな遊びを考えよう。"
       },
       artist: {
         name: "イロドラ", title: "世界を彩る表現者タイプ", attribute: "表現の虹", symbol: "●", color: "#dc73e8", spriteIndex: 8,
@@ -792,7 +932,8 @@
         strengths: ["表現する力", "感性", "自分らしさ"],
         parentTip: "上手かどうかより、「どんな気持ちを表したの？」と聞いてみて。選んだ色や形の理由を話せると、表現がさらに深まります。",
         challengeType: "「作る系」のお店が向いてるかも！？",
-        challenge: "絵や音、物語など、自分の好きな世界を形にするスタイル。"
+        challenge: "絵や音、物語など、自分の好きな世界を形にするスタイル。",
+        firstStep: "好きな色や音を3つ選び、自分だけの作品で表してみよう。"
       },
       planner: {
         name: "ミチシル", title: "道すじを描く作戦家タイプ", attribute: "作戦の星図", symbol: "⌖", color: "#9b7cf2", spriteIndex: 9,
@@ -801,7 +942,8 @@
         strengths: ["計画する力", "整理する力", "先を考える力"],
         parentTip: "予定を全部決めて渡すより、「最初に何をしたらよさそう？」と任せてみて。自分で組んだ作戦がうまくいくと、大きな自信になります。",
         challengeType: "「知識や得意を披露する系」のお店が向いてるかも！？",
-        challenge: "考えた作戦や上手な進め方を、わかりやすくみんなに教えるスタイル。"
+        challenge: "考えた作戦や上手な進め方を、わかりやすくみんなに教えるスタイル。",
+        firstStep: "やりたいことをゴールにして、最初の3ステップを紙に書いてみよう。"
       },
       host: {
         name: "ヨロコビィ", title: "笑顔を集めるおもてなしタイプ", attribute: "喜びの光", symbol: "☀", color: "#ffd45a", spriteIndex: 10,
@@ -810,7 +952,8 @@
         strengths: ["喜ばせる力", "気配り", "相手目線で考える力"],
         parentTip: "「あの人、どんなところが嬉しそうだった？」と一緒に振り返ってみて。喜びの理由に気づくほど、工夫の引き出しが増えます。",
         challengeType: "「お客さんが楽しむ系」のお店が向いてるかも！？",
-        challenge: "選ぶ楽しさやサプライズで、お客さんの笑顔を作るスタイル。"
+        challenge: "選ぶ楽しさやサプライズで、お客さんの笑顔を作るスタイル。",
+        firstStep: "家族が笑顔になる小さなゲームやサプライズを、ひとつ考えてみよう。"
       },
       leader: {
         name: "センディア", title: "みんなを導くリーダータイプ", attribute: "先導の空", symbol: "★", color: "#f1bd45", spriteIndex: 11,
@@ -819,7 +962,8 @@
         strengths: ["決める力", "声をかける力", "前へ進める力"],
         parentTip: "「みんなはどう思っているかな？」と仲間の視点も添えてみて。自分の勢いと周りの良さが合わさると、頼れるリーダーに育ちます。",
         challengeType: "「知識や得意を披露する系」のお店が向いてるかも！？",
-        challenge: "自分の得意なことをみんなの前で見せたり、教えたりするスタイル。"
+        challenge: "自分の得意なことをみんなの前で見せたり、教えたりするスタイル。",
+        firstStep: "みんなでやりたいことをひとつ決めて、最初の役割を自分から選んでみよう。"
       }
     };
 
@@ -955,13 +1099,13 @@
 
     const els = {
       startScreen: document.getElementById("startScreen"), quizScreen: document.getElementById("quizScreen"),
-      hatchScreen: document.getElementById("hatchScreen"), resultScreen: document.getElementById("resultScreen"), galleryScreen: document.getElementById("galleryScreen"),
-      startBtn: document.getElementById("startBtn"), galleryBtn: document.getElementById("galleryBtn"), galleryBackBtn: document.getElementById("galleryBackBtn"), galleryStartBtn: document.getElementById("galleryStartBtn"), resultGalleryBtn: document.getElementById("resultGalleryBtn"), backBtn: document.getElementById("backBtn"), nextBtn: document.getElementById("nextBtn"), printBtn: document.getElementById("printBtn"), emailBtn: document.getElementById("emailBtn"), emailStatus: document.getElementById("emailStatus"), resultEmailInput: document.getElementById("resultEmailInput"), resultEmailConsent: document.getElementById("resultEmailConsent"),
+      hatchScreen: document.getElementById("hatchScreen"), resultScreen: document.getElementById("resultScreen"), galleryScreen: document.getElementById("galleryScreen"), pdfPreviewScreen: document.getElementById("pdfPreviewScreen"),
+      startBtn: document.getElementById("startBtn"), galleryBtn: document.getElementById("galleryBtn"), galleryBackBtn: document.getElementById("galleryBackBtn"), galleryStartBtn: document.getElementById("galleryStartBtn"), resultGalleryBtn: document.getElementById("resultGalleryBtn"), backBtn: document.getElementById("backBtn"), nextBtn: document.getElementById("nextBtn"), pdfViewBtn: document.getElementById("pdfViewBtn"), pdfBackBtn: document.getElementById("pdfBackBtn"), printBtn: document.getElementById("printBtn"), emailBtn: document.getElementById("emailBtn"), emailStatus: document.getElementById("emailStatus"), resultEmailInput: document.getElementById("resultEmailInput"), resultEmailConsent: document.getElementById("resultEmailConsent"),
       questionWrap: document.getElementById("questionWrap"), progressBar: document.getElementById("progressBar"), progressLabel: document.getElementById("progressLabel")
     };
 
     function showScreen(screen) {
-      [els.startScreen, els.quizScreen, els.hatchScreen, els.resultScreen, els.galleryScreen].forEach(el => el.classList.remove("active"));
+      [els.startScreen, els.quizScreen, els.hatchScreen, els.resultScreen, els.galleryScreen, els.pdfPreviewScreen].forEach(el => el.classList.remove("active"));
       screen.classList.add("active");
       window.scrollTo({ top: 0, behavior: "smooth" });
     }
@@ -1178,6 +1322,40 @@
       return true;
     }
 
+    function renderDetailSheet(typeKey) {
+      const m = monsters[typeKey];
+      const typeNumber = TYPE_ORDER.indexOf(typeKey) + 1;
+      const respondentLabel = state.respondent === "child" ? "こども回答" : state.respondent === "adult" ? "おとな回答" : "プレビュー";
+      const diagnosisDate = new Intl.DateTimeFormat("ja-JP", { dateStyle: "long" }).format(new Date());
+      const sheet = document.getElementById("detailSheet");
+      sheet.style.setProperty("--sheet-accent", m.color);
+      document.getElementById("pdfTypeNumber").textContent = `TYPE ${String(typeNumber).padStart(2, "0")} / 12`;
+      document.getElementById("pdfEggSprite").innerHTML = spriteMarkup(SITE_CONFIG.monsterEggSpriteUrl, m, `${m.name}の卵`);
+      document.getElementById("pdfAttribute").textContent = m.attribute;
+      document.getElementById("pdfMonsterName").textContent = m.name;
+      document.getElementById("pdfMonsterTitle").textContent = m.title;
+      document.getElementById("pdfHeading").textContent = m.heading;
+      document.getElementById("pdfIntro").textContent = m.intro;
+      document.getElementById("pdfStrengths").innerHTML = m.strengths.map(item => `<li>✦ ${item}</li>`).join("");
+      document.getElementById("pdfParentTip").textContent = m.parentTip;
+      document.getElementById("pdfFirstStep").textContent = m.firstStep;
+      document.getElementById("pdfChallengeType").textContent = m.challengeType;
+      document.getElementById("pdfChallengeText").textContent = m.challenge;
+      document.getElementById("pdfResultMeta").textContent = `診断日：${diagnosisDate}｜${respondentLabel}`;
+
+      const stages = [
+        { label: "卵", note: "まだ見ぬ可能性", markup: spriteMarkup(SITE_CONFIG.monsterEggSpriteUrl, m, `${m.name}の卵`) },
+        { label: "進化①", note: "好きを試して育つ", markup: spriteMarkup(SITE_CONFIG.monsterSpriteUrl, m, `${m.name}の進化①`, SITE_CONFIG.monsterImageUrls[typeKey]) },
+        { label: "進化②", note: "得意を力に変える", markup: spriteMarkup(SITE_CONFIG.monsterEvolvedSpriteUrl, m, `${m.name}の進化②`) }
+      ];
+      document.getElementById("pdfEvolutionGrid").innerHTML = stages.map(stage => `
+        <article class="detail-evolution-stage">
+          ${stage.markup}
+          <div class="detail-stage-copy"><strong>${stage.label}</strong><span>${stage.note}</span></div>
+        </article>
+      `).join("");
+    }
+
     function renderResult(typeKey) {
       const m = monsters[typeKey];
       state.resultType = typeKey;
@@ -1199,12 +1377,12 @@
       sigil.textContent = m.symbol;
       sigil.style.setProperty("--monster-color", m.color);
       sigil.classList.toggle("hidden", applyMonsterImage(img, typeKey, m));
+      renderDetailSheet(typeKey);
 
       const comingSoon = SITE_CONFIG.resultActionsComingSoon === true;
       const comingSoonZone = document.getElementById("comingSoonZone");
       comingSoonZone.classList.toggle("active", comingSoon);
       comingSoonZone.setAttribute("aria-disabled", String(comingSoon));
-      els.printBtn.disabled = comingSoon;
       els.resultEmailInput.disabled = comingSoon;
       els.resultEmailConsent.disabled = comingSoon;
       els.resultEmailInput.value = state.email;
@@ -1251,9 +1429,10 @@
           attribute: m.attribute,
           heading: m.heading,
           introduction: m.intro,
-          strengths: m.strengths,
-          parentTip: m.parentTip,
-          marcheChallenge: `${m.challengeType} ${m.challenge}`
+           strengths: m.strengths,
+           parentTip: m.parentTip,
+           firstStep: m.firstStep,
+           marcheChallenge: `${m.challengeType} ${m.challenge}`
         }
       };
     }
@@ -1302,6 +1481,8 @@
     els.galleryStartBtn.addEventListener("click", () => { resetDiagnosis(); showScreen(els.quizScreen); renderQuestion(); });
     els.backBtn.addEventListener("click", () => { if (!state.isAdvancing && state.current > firstQuestionIndex) { state.current--; renderQuestion(); } });
 
+    els.pdfViewBtn.addEventListener("click", () => { renderDetailSheet(state.resultType); showScreen(els.pdfPreviewScreen); });
+    els.pdfBackBtn.addEventListener("click", () => showScreen(els.resultScreen));
     els.printBtn.addEventListener("click", () => window.print());
     els.emailBtn.addEventListener("click", () => sendResultEmail(false));
     els.resultEmailInput.addEventListener("input", () => {
