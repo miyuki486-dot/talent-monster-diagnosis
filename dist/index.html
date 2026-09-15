@@ -480,26 +480,29 @@
     .pdf-ready-card { display: grid; grid-template-columns: 1fr auto; align-items: center; gap: 16px; margin-top: 24px; padding: 18px; border: 2px solid #ffd65c; border-radius: 20px; background: linear-gradient(135deg, #fff8c9, #edfbff 58%, #fff0f6); box-shadow: 0 12px 28px rgba(53,91,164,.11); }
     .pdf-ready-card strong { display: block; margin-bottom: 4px; color: #18386f; font-size: 1rem; }
     .pdf-ready-card p { margin: 0; color: #586887; font-size: .82rem; line-height: 1.6; }
-    .pdf-preview-screen { display: none; padding: clamp(20px, 4vw, 44px); background: #edf7ff; }
+    .pdf-preview-screen { display: none; padding: clamp(20px, 4vw, 44px); background: linear-gradient(145deg, #e8fbff, #fff6cc 48%, #ffe9f4); }
     .pdf-preview-toolbar { display: flex; align-items: center; justify-content: space-between; gap: 16px; width: min(210mm, 100%); margin: 0 auto 18px; }
     .pdf-preview-toolbar div { text-align: center; }
     .pdf-preview-toolbar strong { display: block; color: #17366c; }
     .pdf-preview-toolbar span { color: var(--muted); font-size: .78rem; }
-    .detail-sheet { --sheet-accent: #53d8f3; position: relative; width: min(210mm, 100%); min-height: 297mm; margin: auto; overflow: hidden; border-radius: 18px; background: radial-gradient(circle at 92% 6%, #fff0a8 0 10%, transparent 30%), radial-gradient(circle at 5% 62%, #dff8ff 0 13%, transparent 34%), linear-gradient(145deg, #ffffff, #f7fbff 48%, #fff8fc); color: #152746; padding: 12mm 13mm 10mm; box-shadow: 0 24px 60px rgba(24,57,116,.18); }
+    .pdf-preview-actions { display: flex; justify-content: flex-end; gap: 9px; text-align: right !important; }
+    .pdf-preview-actions .primary-btn, .pdf-preview-actions .secondary-btn { min-height: 48px; padding: 11px 17px; white-space: nowrap; }
+    .pdf-save-status { min-height: 1.4em; width: min(210mm, 100%); margin: -8px auto 14px; color: #34568e; font-size: .8rem; font-weight: 800; text-align: right; }
+    .detail-sheet { --sheet-accent: #53d8f3; position: relative; width: min(210mm, 100%); min-height: 297mm; margin: auto; overflow: hidden; border: 1.2mm solid #82dfea; border-radius: 18px; background: radial-gradient(circle at 91% 5%, #ffe76e 0 8%, transparent 25%), radial-gradient(circle at 3% 63%, #bff5ff 0 11%, transparent 31%), radial-gradient(circle at 93% 86%, #ffd4e7 0 10%, transparent 29%), linear-gradient(145deg, #fffef7, #f2fbff 44%, #fff2fa); color: #152746; padding: 12mm 13mm 10mm; box-shadow: 0 24px 60px rgba(24,57,116,.18); }
     .detail-sheet::before, .detail-sheet::after { content: ""; position: absolute; z-index: 0; border-radius: 50%; pointer-events: none; }
-    .detail-sheet::before { width: 42mm; height: 42mm; right: -15mm; top: 82mm; border: 7mm solid color-mix(in srgb, var(--sheet-accent) 22%, transparent); }
-    .detail-sheet::after { width: 26mm; height: 26mm; left: -10mm; bottom: 31mm; background: color-mix(in srgb, var(--sheet-accent) 13%, transparent); }
+    .detail-sheet::before { width: 42mm; height: 42mm; right: -15mm; top: 82mm; border: 7mm solid rgba(83,216,243,.22); }
+    .detail-sheet::after { width: 26mm; height: 26mm; left: -10mm; bottom: 31mm; background: rgba(83,216,243,.13); }
     .detail-sheet > * { position: relative; z-index: 1; }
-    .detail-header { display: flex; align-items: flex-end; justify-content: space-between; gap: 8mm; padding-bottom: 5mm; border-bottom: 1.2mm solid var(--sheet-accent); }
-    .detail-eyebrow { display: block; margin-bottom: 1.5mm; color: #245da9; font-size: 8.5pt; font-weight: 900; letter-spacing: .15em; }
-    .detail-header h1 { margin: 0; color: #102c5d; font-size: 22pt; line-height: 1.2; }
-    .detail-type-number { padding: 2.2mm 4mm; border-radius: 999px; background: #173b79; color: white; font-size: 8.5pt; font-weight: 900; white-space: nowrap; }
+    .detail-header { display: flex; align-items: flex-end; justify-content: space-between; gap: 8mm; padding-bottom: 5mm; border-bottom: 1.2mm solid #58cfe5; }
+    .detail-eyebrow { display: block; margin-bottom: 1.5mm; color: #f05f72; font-size: 8.5pt; font-weight: 900; letter-spacing: .15em; }
+    .detail-header h1 { margin: 0; color: #493078; font-size: 22pt; line-height: 1.2; }
+    .detail-type-number { padding: 2.2mm 4mm; border-radius: 999px; background: linear-gradient(135deg, #ff727d, #7b5de8); color: white; font-size: 8.5pt; font-weight: 900; white-space: nowrap; box-shadow: 0 1.5mm 4mm rgba(105,67,178,.2); }
     .detail-hero { display: grid; grid-template-columns: 56mm 1fr; gap: 7mm; margin-top: 6mm; }
-    .detail-monster-card { display: grid; align-content: start; gap: 3mm; padding: 4mm; border: .7mm solid color-mix(in srgb, var(--sheet-accent) 65%, white); border-radius: 6mm; background: linear-gradient(155deg, #eafcff, #fff7cb 60%, #ffeafa); text-align: center; }
+    .detail-monster-card { display: grid; align-content: start; gap: 3mm; padding: 4mm; border: .7mm solid #65d4e7; border-radius: 6mm; background: linear-gradient(155deg, #dffaff, #fff0a9 55%, #ffddec); text-align: center; }
     .detail-monster-card .sprite-window { border-radius: 4mm; background: white; box-shadow: 0 3mm 7mm rgba(32,81,145,.12); }
     .detail-monster-card p { margin: 0; color: #304e7b; font-size: 8.2pt; font-weight: 850; line-height: 1.55; }
     .detail-summary { padding-top: 1mm; }
-    .detail-attribute { display: inline-flex; padding: 1.5mm 3mm; border-radius: 999px; background: color-mix(in srgb, var(--sheet-accent) 22%, white); color: #124c83; font-size: 8.7pt; font-weight: 900; }
+    .detail-attribute { display: inline-flex; padding: 1.5mm 3mm; border-radius: 999px; background: #dff8ff; color: #124c83; font-size: 8.7pt; font-weight: 900; }
     .detail-summary h2 { margin: 2mm 0 .5mm; color: #102957; font-size: 27pt; line-height: 1.1; }
     .detail-monster-title { margin: 0 0 3mm; color: #405e8c; font-size: 9.8pt; font-weight: 850; }
     .detail-summary h3 { margin: 0 0 2mm; color: #173e75; font-size: 13.2pt; line-height: 1.35; }
@@ -512,8 +515,8 @@
     .detail-strengths li { padding: 1.5mm 2.5mm; border-radius: 2.5mm; background: #fff; color: #17376a; font-size: 8.4pt; font-weight: 900; box-shadow: 0 1mm 3mm rgba(30,73,139,.1); }
     .detail-guides { display: grid; grid-template-columns: 1fr 1fr; gap: 4mm; margin-top: 5mm; }
     .detail-guide { min-height: 36mm; padding: 4mm; border-radius: 5mm; }
-    .detail-guide.grow { background: #fff3c9; border: .6mm solid #ffdb68; }
-    .detail-guide.first { background: #e7f9f4; border: .6mm solid #7ddfc3; }
+    .detail-guide.grow { background: linear-gradient(135deg, #fff0a9, #fff8d7); border: .6mm solid #ffc846; }
+    .detail-guide.first { background: linear-gradient(135deg, #cffff1, #e8fff8); border: .6mm solid #48d7b5; }
     .detail-guide h3 { margin: 0 0 2mm; color: #123268; font-size: 10.7pt; }
     .detail-guide p { margin: 0; color: #304766; font-size: 8.8pt; font-weight: 600; line-height: 1.65; }
     .detail-evolution { margin-top: 5mm; }
@@ -521,25 +524,30 @@
     .detail-section-heading h3 { margin: 0; color: #123267; font-size: 11.5pt; }
     .detail-section-heading span { color: #4f668c; font-size: 8pt; font-weight: 650; }
     .detail-evolution-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 3mm; }
-    .detail-evolution-stage { display: grid; grid-template-columns: 24mm 1fr; align-items: center; gap: 3mm; min-height: 29mm; padding: 2.5mm; border: .55mm solid #c8d9f7; border-radius: 4mm; background: rgba(255,255,255,.9); }
+    .detail-evolution-stage { display: grid; grid-template-columns: 24mm 1fr; align-items: center; gap: 3mm; min-height: 29mm; padding: 2.5mm; border: .55mm solid #b5d9f9; border-radius: 4mm; background: linear-gradient(145deg, rgba(255,255,255,.98), rgba(236,249,255,.96)); box-shadow: 0 1mm 3mm rgba(59,105,176,.08); }
     .detail-evolution-stage .sprite-window { border-radius: 3mm; background: linear-gradient(145deg, #eaf8ff, #fff4cd); }
     .detail-stage-copy strong { display: block; color: #15366a; font-size: 8.8pt; }
     .detail-stage-copy span { color: #4c6389; font-size: 7.4pt; font-weight: 650; line-height: 1.45; }
-    .detail-shop { display: grid; grid-template-columns: 42mm 1fr; align-items: center; gap: 4mm; margin-top: 5mm; padding: 4mm 5mm; border-radius: 5mm; background: linear-gradient(110deg, #ffe9f3, #f0eaff 48%, #e5f8ff); border: .6mm solid #e3b9e7; }
+    .detail-shop { display: grid; grid-template-columns: 42mm 1fr; align-items: center; gap: 4mm; margin-top: 5mm; padding: 4mm 5mm; border-radius: 5mm; background: linear-gradient(110deg, #ffd8e8, #eee2ff 48%, #d9f5ff); border: .6mm solid #d899df; }
     .detail-shop-label { color: #74337f; font-size: 9.7pt; font-weight: 900; }
     .detail-shop-copy strong { display: block; margin-bottom: 1mm; color: #43246f; font-size: 9.7pt; }
     .detail-shop-copy p { margin: 0; color: #524268; font-size: 8.3pt; font-weight: 600; line-height: 1.55; }
-    .detail-talk { display: grid; grid-template-columns: 44mm 1fr; gap: 4mm; margin-top: 5mm; padding: 4mm 5mm; border-radius: 5mm; background: linear-gradient(110deg, #fff5bd, #e6fbff 55%, #e8f9ef); border: .6mm solid #8ddfd4; }
+    .detail-talk { display: grid; grid-template-columns: 44mm 1fr; gap: 4mm; margin-top: 5mm; padding: 4mm 5mm; border-radius: 5mm; background: linear-gradient(110deg, #ffe98c, #d9f8ff 55%, #d9f7e8); border: .6mm solid #62d7c9; }
     .detail-talk h3 { margin: 0; color: #0f566d; font-size: 9.7pt; }
     .detail-talk ul { display: grid; gap: 1.5mm; margin: 0; padding: 0; list-style: none; }
     .detail-talk li { color: #284f60; font-size: 8pt; font-weight: 750; line-height: 1.45; }
     .detail-talk li::before { content: "✦ "; color: #ec9b29; }
     .detail-insights { display: grid; grid-template-columns: 1fr 1fr; gap: 4mm; margin-top: 5mm; }
     .detail-insight { min-height: 31mm; padding: 3.5mm 4mm; border-radius: 5mm; }
-    .detail-insight.future { border: .6mm solid #8ec9ff; background: #eaf5ff; }
-    .detail-insight.support { border: .6mm solid #ffb5a9; background: #fff0e9; }
+    .detail-insight.future { border: .6mm solid #71b8ff; background: linear-gradient(135deg, #dff1ff, #eef7ff); }
+    .detail-insight.support { border: .6mm solid #ff9f92; background: linear-gradient(135deg, #ffe6dc, #fff3ed); }
     .detail-insight h3 { margin: 0 0 1.5mm; color: #16366d; font-size: 9.5pt; }
     .detail-insight p { margin: 0; color: #304766; font-size: 8pt; font-weight: 600; line-height: 1.55; }
+    .detail-conversation { display: grid; grid-template-columns: 43mm 1fr; align-items: center; gap: 4mm; margin-top: 4mm; padding: 4mm 5mm; border: .6mm solid #ffbd54; border-radius: 5mm; background: linear-gradient(110deg, #fff0a1, #ffe4ef 48%, #dcf8ff); }
+    .detail-conversation h3 { margin: 0; color: #6e3b77; font-size: 9.7pt; }
+    .detail-conversation ul { display: grid; grid-template-columns: repeat(3, 1fr); gap: 3mm; margin: 0; padding: 0; list-style: none; }
+    .detail-conversation li { color: #394c72; font-size: 7.4pt; font-weight: 750; line-height: 1.45; }
+    .detail-conversation li::before { content: "✦ "; color: #f08058; }
     .detail-footer { position: absolute; right: 13mm; bottom: 10mm; left: 13mm; display: flex; align-items: flex-end; justify-content: space-between; gap: 7mm; padding-top: 3mm; border-top: .4mm solid #d9e4f7; }
     .detail-footer p { margin: 0; color: #526889; font-size: 7pt; font-weight: 600; line-height: 1.5; }
     .detail-footer-brand { color: #28599e !important; font-weight: 900; text-align: right; white-space: nowrap; }
@@ -600,8 +608,11 @@
       .evolution-stage { padding: 6px; }
       .pdf-ready-card { grid-template-columns: 1fr; }
       .pdf-preview-toolbar { align-items: stretch; flex-direction: column; }
+      .pdf-preview-actions { display: grid; grid-template-columns: 1fr 1fr; }
+      .pdf-save-status { text-align: center; }
       .detail-sheet { min-height: 0; padding: 26px 20px; border-radius: 14px; }
-      .detail-hero, .detail-guides, .detail-shop, .detail-talk, .detail-insights { grid-template-columns: 1fr; }
+      .detail-hero, .detail-guides, .detail-shop, .detail-talk, .detail-insights, .detail-conversation { grid-template-columns: 1fr; }
+      .detail-conversation ul { grid-template-columns: 1fr; }
       .detail-monster-card { width: min(310px, 100%); margin: auto; }
       .detail-evolution-stage { grid-template-columns: 1fr; text-align: center; }
       .detail-evolution-stage .sprite-window { width: min(120px, 100%); margin: auto; }
@@ -619,14 +630,60 @@
       *, *::before, *::after { scroll-behavior: auto !important; animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
     }
 
+    body.pdf-exporting { background: white !important; }
+    body.pdf-exporting .detail-sheet { width: 209mm !important; height: 295mm !important; min-height: 0 !important; padding: 9mm 11mm 7mm !important; border-radius: 0 !important; box-shadow: none !important; }
+    body.pdf-exporting .detail-header { padding-bottom: 3mm !important; }
+    body.pdf-exporting .detail-eyebrow { margin-bottom: 1mm !important; font-size: 7.2pt !important; }
+    body.pdf-exporting .detail-header h1 { font-size: 18pt !important; }
+    body.pdf-exporting .detail-hero { grid-template-columns: 48mm 1fr !important; align-items: start !important; gap: 5mm !important; margin-top: 4mm !important; }
+    body.pdf-exporting .detail-monster-card { align-self: start !important; width: auto !important; margin: 0 !important; padding: 3mm !important; gap: 2mm !important; }
+    body.pdf-exporting .detail-monster-card .sprite-window { height: 40mm !important; aspect-ratio: auto !important; }
+    body.pdf-exporting .detail-monster-card p { font-size: 7.3pt !important; line-height: 1.35 !important; }
+    body.pdf-exporting .detail-summary h2 { font-size: 23pt !important; }
+    body.pdf-exporting .detail-summary h3 { font-size: 11.5pt !important; }
+    body.pdf-exporting .detail-intro { font-size: 8.2pt !important; line-height: 1.55 !important; }
+    body.pdf-exporting .detail-strengths { margin-top: 2mm !important; }
+    body.pdf-exporting .detail-mix-summary { margin-top: 1.7mm !important; font-size: 7.6pt !important; line-height: 1.4 !important; }
+    body.pdf-exporting .detail-guides, body.pdf-exporting .detail-insights { grid-template-columns: 1fr 1fr !important; }
+    body.pdf-exporting .detail-guides { gap: 3mm !important; margin-top: 3mm !important; }
+    body.pdf-exporting .detail-guide { min-height: 29mm !important; padding: 3mm !important; }
+    body.pdf-exporting .detail-guide p { font-size: 8pt !important; line-height: 1.48 !important; }
+    body.pdf-exporting .detail-shop { grid-template-columns: 40mm 1fr !important; }
+    body.pdf-exporting .detail-talk { grid-template-columns: 42mm 1fr !important; }
+    body.pdf-exporting .detail-evolution { margin-top: 3mm !important; }
+    body.pdf-exporting .detail-section-heading { margin-bottom: 1.5mm !important; }
+    body.pdf-exporting .detail-evolution-stage { grid-template-columns: 20mm 1fr !important; text-align: left !important; min-height: 23mm !important; padding: 2mm !important; }
+    body.pdf-exporting .detail-evolution-stage .sprite-window { width: 19mm !important; height: 19mm !important; margin: 0 !important; aspect-ratio: auto !important; }
+    body.pdf-exporting .detail-shop, body.pdf-exporting .detail-talk { margin-top: 3mm !important; padding: 3mm 4mm !important; }
+    body.pdf-exporting .detail-insights { gap: 3mm !important; margin-top: 3mm !important; }
+    body.pdf-exporting .detail-insight { min-height: 25mm !important; padding: 3mm !important; }
+    body.pdf-exporting .detail-insight p { font-size: 7.4pt !important; line-height: 1.4 !important; }
+    body.pdf-exporting .detail-conversation { grid-template-columns: 39mm 1fr !important; gap: 3mm !important; margin-top: 3mm !important; padding: 3mm 4mm !important; }
+    body.pdf-exporting .detail-conversation ul { grid-template-columns: repeat(3, 1fr) !important; }
+    body.pdf-exporting .detail-footer { position: absolute !important; right: 11mm !important; bottom: 5mm !important; left: 11mm !important; align-items: flex-end !important; flex-direction: row !important; margin-top: 0 !important; }
+    body.pdf-exporting .detail-footer-brand { text-align: right !important; }
+
     @page { size: A4 portrait; margin: 0; }
     @media print {
-      html, body { width: 210mm; height: 297mm; min-height: 0; background: white !important; }
+      html, body { width: 210mm; height: auto; min-height: 0; overflow: hidden !important; background: white !important; }
       body { print-color-adjust: exact; -webkit-print-color-adjust: exact; }
+      .page-shell::before, .page-shell::after { display: none !important; }
       .topbar, .footer, .screen:not(.pdf-preview-screen), .pdf-preview-toolbar { display: none !important; }
-      .page-shell, main, .app-card { display: block; width: 210mm; height: 297mm; min-height: 0; margin: 0; padding: 0; overflow: hidden; border: 0; border-radius: 0; box-shadow: none; background: white; }
-      .pdf-preview-screen { display: block !important; width: 210mm; height: 297mm; min-height: 0; padding: 0; overflow: hidden; animation: none; }
-      .detail-sheet { display: block; width: 210mm; height: 297mm; min-height: 0; margin: 0; padding: 12mm 13mm 10mm; border-radius: 0; box-shadow: none; }
+      .pdf-save-status { display: none !important; }
+      .page-shell, main, .app-card { display: block; width: 210mm; height: auto; min-height: 0; margin: 0; padding: 0; overflow: visible; border: 0; border-radius: 0; box-shadow: none; background: white; }
+      .pdf-preview-screen { display: block !important; width: 210mm; height: auto; min-height: 0; padding: 0; overflow: visible; animation: none; }
+      .detail-sheet { display: block; width: 209mm; height: 295mm; min-height: 0; margin: 0; padding: 9mm 11mm 7mm; border-radius: 0; box-shadow: none; break-inside: avoid; }
+      .detail-hero { grid-template-columns: 54mm 1fr; gap: 6mm; margin-top: 5mm; }
+      .detail-guides, .detail-insights { grid-template-columns: 1fr 1fr; }
+      .detail-monster-card { width: auto; margin: 0; }
+      .detail-shop { grid-template-columns: 40mm 1fr; }
+      .detail-talk { grid-template-columns: 42mm 1fr; }
+      .detail-conversation { grid-template-columns: 39mm 1fr; gap: 3mm; margin-top: 3mm; padding: 3mm 4mm; }
+      .detail-conversation ul { grid-template-columns: repeat(3, 1fr); }
+      .detail-evolution-stage { grid-template-columns: 23mm 1fr; min-height: 27mm; text-align: left; }
+      .detail-evolution-stage .sprite-window { width: auto; margin: 0; }
+      .detail-footer { position: absolute; right: 12mm; bottom: 8mm; left: 12mm; align-items: flex-end; flex-direction: row; margin-top: 0; }
+      .detail-footer-brand { text-align: right; }
     }
   </style>
 </head>
@@ -787,8 +844,12 @@
               <strong>A4・1枚の詳細診断シート</strong>
               <span>内容とデザインはあとから変更できます</span>
             </div>
-            <button id="printBtn" class="primary-btn" type="button">PDFで保存・印刷</button>
+            <div class="pdf-preview-actions">
+              <button id="downloadPdfBtn" class="primary-btn" type="button">PDFを保存</button>
+              <button id="printBtn" class="secondary-btn" type="button">印刷する</button>
+            </div>
           </div>
+          <p id="pdfSaveStatus" class="pdf-save-status" role="status" aria-live="polite">スマホは「PDFを保存」からファイルに保存できます。</p>
 
           <article id="detailSheet" class="detail-sheet">
             <header class="detail-header">
@@ -860,6 +921,15 @@
               </article>
             </section>
 
+            <section class="detail-conversation">
+              <h3>🎈 親子で話してみよう</h3>
+              <ul>
+                <li>最近「おもしろい！」と思ったのは？</li>
+                <li>この力で、何をやってみたい？</li>
+                <li>今日できる小さな一歩は？</li>
+              </ul>
+            </section>
+
             <footer class="detail-footer">
               <p>この診断は、お子さんを決めつけるものではなく、親子で「好き」と強みを見つけるきっかけです。<br><span id="pdfResultMeta"></span></p>
               <p class="detail-footer-brand">その子らしさで稼ぐチカラを<br>こども起業家研究所 ～博士ちゃんラボ～</p>
@@ -872,6 +942,7 @@
     <footer id="siteFooter" class="footer">こども起業家研究所 ～博士ちゃんラボ～｜その子らしさで稼ぐチカラを</footer>
   </div>
 
+  <script src="vendor/html2pdf.bundle.min.js"></script>
   <script src="settings.js"></script>
   <script>
     const TYPE_ORDER = ["spark", "maker", "explorer", "challenger", "grower", "messenger", "empath", "connector", "artist", "planner", "host", "leader"];
@@ -1209,7 +1280,7 @@
     const els = {
       startScreen: document.getElementById("startScreen"), quizScreen: document.getElementById("quizScreen"),
       hatchScreen: document.getElementById("hatchScreen"), resultScreen: document.getElementById("resultScreen"), galleryScreen: document.getElementById("galleryScreen"), pdfPreviewScreen: document.getElementById("pdfPreviewScreen"),
-      startBtn: document.getElementById("startBtn"), galleryBtn: document.getElementById("galleryBtn"), galleryBackBtn: document.getElementById("galleryBackBtn"), galleryStartBtn: document.getElementById("galleryStartBtn"), resultGalleryBtn: document.getElementById("resultGalleryBtn"), backBtn: document.getElementById("backBtn"), nextBtn: document.getElementById("nextBtn"), pdfViewBtn: document.getElementById("pdfViewBtn"), pdfBackBtn: document.getElementById("pdfBackBtn"), printBtn: document.getElementById("printBtn"), emailBtn: document.getElementById("emailBtn"), emailStatus: document.getElementById("emailStatus"), resultEmailInput: document.getElementById("resultEmailInput"), resultEmailConsent: document.getElementById("resultEmailConsent"),
+      startBtn: document.getElementById("startBtn"), galleryBtn: document.getElementById("galleryBtn"), galleryBackBtn: document.getElementById("galleryBackBtn"), galleryStartBtn: document.getElementById("galleryStartBtn"), resultGalleryBtn: document.getElementById("resultGalleryBtn"), backBtn: document.getElementById("backBtn"), nextBtn: document.getElementById("nextBtn"), pdfViewBtn: document.getElementById("pdfViewBtn"), pdfBackBtn: document.getElementById("pdfBackBtn"), downloadPdfBtn: document.getElementById("downloadPdfBtn"), printBtn: document.getElementById("printBtn"), pdfSaveStatus: document.getElementById("pdfSaveStatus"), emailBtn: document.getElementById("emailBtn"), emailStatus: document.getElementById("emailStatus"), resultEmailInput: document.getElementById("resultEmailInput"), resultEmailConsent: document.getElementById("resultEmailConsent"),
       questionWrap: document.getElementById("questionWrap"), progressBar: document.getElementById("progressBar"), progressLabel: document.getElementById("progressLabel")
     };
 
@@ -1556,6 +1627,95 @@
       `).join("");
     }
 
+    function waitForSheetImages(sheet) {
+      return Promise.all(Array.from(sheet.querySelectorAll("img")).map(img => {
+        if (img.complete && img.naturalWidth) return img.decode ? img.decode().catch(() => {}) : Promise.resolve();
+        return new Promise(resolve => {
+          img.addEventListener("load", resolve, { once: true });
+          img.addEventListener("error", resolve, { once: true });
+        });
+      }));
+    }
+
+    function nextPaint() {
+      return new Promise(resolve => requestAnimationFrame(() => requestAnimationFrame(resolve)));
+    }
+
+    async function downloadDetailPdf() {
+      const sheet = document.getElementById("detailSheet");
+      const monsterName = state.resultProfile?.main?.name || monsters[state.resultType]?.name || "才能モンスター";
+      const filename = `才能モンスター診断_${monsterName}.pdf`;
+
+      if (typeof window.html2pdf !== "function") {
+        els.pdfSaveStatus.textContent = "PDF保存機能を読み込めませんでした。印刷画面から保存してください。";
+        window.print();
+        return;
+      }
+
+      els.downloadPdfBtn.disabled = true;
+      els.printBtn.disabled = true;
+      els.downloadPdfBtn.textContent = "PDFを作成中…";
+      els.pdfSaveStatus.textContent = "A4・1枚のPDFを作っています。少しお待ちください。";
+      document.body.classList.add("pdf-exporting");
+
+      try {
+        if (document.fonts?.ready) await document.fonts.ready;
+        await waitForSheetImages(sheet);
+        await nextPaint();
+
+        const worker = window.html2pdf().set({
+          margin: 0,
+          filename,
+          image: { type: "jpeg", quality: 0.98 },
+          html2canvas: {
+            scale: 1.7,
+            useCORS: true,
+            logging: false,
+            backgroundColor: "#fffdf7",
+            scrollX: 0,
+            scrollY: 0,
+            windowWidth: 1123
+          },
+          jsPDF: { unit: "mm", format: "a4", orientation: "portrait", compress: true },
+          pagebreak: { mode: ["css"] }
+        }).from(sheet).toPdf();
+
+        const pdf = await worker.get("pdf");
+        while (pdf.internal.getNumberOfPages() > 1) pdf.deletePage(pdf.internal.getNumberOfPages());
+        const blob = pdf.output("blob");
+        const file = new File([blob], filename, { type: "application/pdf" });
+        const shareData = { files: [file], title: `${monsterName}の才能モンスター診断` };
+
+        const isAppleMobile = /iPad|iPhone|iPod/.test(navigator.userAgent) || (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
+        if (isAppleMobile && navigator.canShare?.(shareData) && navigator.share) {
+          await navigator.share(shareData);
+          els.pdfSaveStatus.textContent = "共有メニューから「ファイルに保存」を選べます。";
+        } else {
+          const url = URL.createObjectURL(blob);
+          const link = document.createElement("a");
+          link.href = url;
+          link.download = filename;
+          document.body.appendChild(link);
+          link.click();
+          link.remove();
+          setTimeout(() => URL.revokeObjectURL(url), 30000);
+          els.pdfSaveStatus.textContent = "A4・1枚のPDFを保存しました。";
+        }
+      } catch (error) {
+        if (error?.name === "AbortError") {
+          els.pdfSaveStatus.textContent = "保存はキャンセルされました。もう一度いつでも試せます。";
+        } else {
+          console.error("PDF save failed", error);
+          els.pdfSaveStatus.textContent = "保存できませんでした。「印刷する」からPDF保存をお試しください。";
+        }
+      } finally {
+        document.body.classList.remove("pdf-exporting");
+        els.downloadPdfBtn.disabled = false;
+        els.printBtn.disabled = false;
+        els.downloadPdfBtn.textContent = "PDFを保存";
+      }
+    }
+
     function renderResult(resultInput) {
       const profile = buildPersonalizedProfile(resultInput);
       const { typeKey, main: m } = profile;
@@ -1694,7 +1854,10 @@
 
     els.pdfViewBtn.addEventListener("click", () => { renderDetailSheet(state.resultProfile || state.resultType); showScreen(els.pdfPreviewScreen); });
     els.pdfBackBtn.addEventListener("click", () => showScreen(els.resultScreen));
+    els.downloadPdfBtn.addEventListener("click", downloadDetailPdf);
     els.printBtn.addEventListener("click", () => window.print());
+    window.addEventListener("beforeprint", () => document.body.classList.add("pdf-exporting"));
+    window.addEventListener("afterprint", () => document.body.classList.remove("pdf-exporting"));
     els.emailBtn.addEventListener("click", () => sendResultEmail(false));
     els.resultEmailInput.addEventListener("input", () => {
       state.email = els.resultEmailInput.value.trim();
@@ -1736,6 +1899,10 @@
     if (previewParams.get("preview") === "result" && TYPE_ORDER.includes(previewType)) {
       renderResult(previewType);
       showScreen(els.resultScreen);
+    } else if (previewParams.get("preview") === "pdf" && TYPE_ORDER.includes(previewType)) {
+      renderResult(previewType);
+      renderDetailSheet(state.resultProfile || previewType);
+      showScreen(els.pdfPreviewScreen);
     }
   </script>
 </body>
