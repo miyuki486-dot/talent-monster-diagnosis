@@ -12,9 +12,10 @@ const SITE_CONFIG = {
 
   lineUrl: "",
   applicationUrl: "",
-  // 診断結果には「孵化したて」を表示します。
-  monsterSpriteUrl: "monster-hatchlings-roster.png",
+  // 診断結果には、可能性を秘めた「卵」を表示します。
+  monsterResultSpriteUrl: "monster-eggs-roster.png",
   monsterEggSpriteUrl: "monster-eggs-roster.png",
+  monsterSpriteUrl: "monster-roster.png",
   monsterEvolvedSpriteUrl: "monster-evolved-roster.png",
 
   // 診断結果メールを受け取るAPIのURLです。未設定の間は外部送信されません。

@@ -584,7 +584,7 @@
             <div>
               <p class="eyebrow">✦ TALENT MONSTER BOOK</p>
               <h2>12タイプのモンスター図鑑</h2>
-              <p>卵から顔を出した「孵化前」、診断結果に登場する「孵化したて」、中高生くらいをイメージした「進化後」を見比べられます。どの姿も、これから育っていく才能の可能性です。</p>
+              <p>子どもは、まだ可能性をたっぷり秘めたモンスターの「卵」。得意なところや「好きの力」を育てていくと、「進化①」「進化②」へと成長していきます。</p>
             </div>
             <button id="galleryBackBtn" class="text-btn" type="button">← 診断トップへ</button>
           </div>
@@ -941,9 +941,9 @@
         return `<article class="monster-card">
           <div class="monster-card-head"><h3>${m.name}</h3><p>${m.title}</p></div>
           <div class="evolution-pair">
-            <div class="evolution-stage"><span class="stage-label">孵化前</span>${spriteMarkup(SITE_CONFIG.monsterEggSpriteUrl, m, `${m.name}の孵化前`)}</div>
-            <div class="evolution-stage"><span class="stage-label">孵化したて</span>${spriteMarkup(SITE_CONFIG.monsterSpriteUrl, m, `${m.name}の孵化したて`, SITE_CONFIG.monsterImageUrls[typeKey])}</div>
-            <div class="evolution-stage"><span class="stage-label">進化後</span>${spriteMarkup(SITE_CONFIG.monsterEvolvedSpriteUrl, m, `${m.name}の進化後`)}</div>
+            <div class="evolution-stage"><span class="stage-label">卵</span>${spriteMarkup(SITE_CONFIG.monsterEggSpriteUrl, m, `${m.name}の卵`)}</div>
+            <div class="evolution-stage"><span class="stage-label">進化①</span>${spriteMarkup(SITE_CONFIG.monsterSpriteUrl, m, `${m.name}の進化①`, SITE_CONFIG.monsterImageUrls[typeKey])}</div>
+            <div class="evolution-stage"><span class="stage-label">進化②</span>${spriteMarkup(SITE_CONFIG.monsterEvolvedSpriteUrl, m, `${m.name}の進化②`)}</div>
           </div>
         </article>`;
       }).join("");
@@ -1059,21 +1059,11 @@
     }
 
     function applyMonsterImage(img, typeKey, monster) {
-      const individualImage = SITE_CONFIG.monsterImageUrls[typeKey];
-      if (individualImage) {
-        img.src = individualImage;
-        img.style.width = "100%";
-        img.style.height = "100%";
-        img.style.left = "0";
-        img.style.top = "0";
-        img.style.objectFit = "contain";
-        img.classList.add("visible");
-        return true;
-      }
-      if (!SITE_CONFIG.monsterSpriteUrl) return false;
+      const resultSpriteUrl = SITE_CONFIG.monsterResultSpriteUrl || SITE_CONFIG.monsterEggSpriteUrl;
+      if (!resultSpriteUrl) return false;
       const col = monster.spriteIndex % 4;
       const row = Math.floor(monster.spriteIndex / 4);
-      img.src = SITE_CONFIG.monsterSpriteUrl;
+      img.src = resultSpriteUrl;
       img.style.width = "400%";
       img.style.height = "300%";
       img.style.left = `${col * -100}%`;
