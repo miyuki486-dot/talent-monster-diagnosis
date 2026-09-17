@@ -1,0 +1,24 @@
+name = "talent-monster-line-api"
+main = "src/index.js"
+compatibility_date = "2026-09-16"
+workers_dev = true
+
+[vars]
+PUBLIC_SITE_URL = "https://miyuki486-dot.github.io/talent-monster-diagnosis/"
+ALLOWED_ORIGINS = "https://miyuki486-dot.github.io,http://127.0.0.1:4173,http://localhost:4173"
+
+[[d1_databases]]
+binding = "DB"
+database_name = "talent-monster-diagnosis"
+database_id = "f181ee8d-631f-49ae-aa46-c6cc5b063891"
+preview_database_id = "f181ee8d-631f-49ae-aa46-c6cc5b063891"
+
+[triggers]
+crons = ["15 18 * * *"]
+
+# 認証情報はファイルへ書かず、CloudflareのSecretとして登録します。
+# LINE_CHANNEL_SECRET
+# LINE_CHANNEL_ACCESS_TOKEN
+# RECEIPT_CODE_PEPPER
+# LINE_USER_HASH_PEPPER
+# IP_HASH_PEPPER

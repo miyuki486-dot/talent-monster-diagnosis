@@ -7,36 +7,17 @@ const SITE_CONFIG = {
   activityName: "博士ちゃんマルシェ",
   diagnosisName: "才能モンスター発見！博士ちゃん診断",
 
-  // マルシェ案内・保存・申込み機能を準備中表示にします。完成したら false に変更します。
-  resultActionsComingSoon: true,
+  // 運営者名はプライバシーポリシーにも反映されます。法人化・名称変更時はここを書き換えてください。
+  privacyOperatorName: "こども起業家研究所",
+  privacyContactLabel: "公式LINE（@536lguxf）",
+  privacyContactUrl: "https://line.me/R/ti/p/%40536lguxf",
 
-  lineUrl: "",
+  // LINE受取機能。apiBaseUrlはCloudflare Worker公開後に、そのURLへ変更します。
+  // 空欄の場合は、現在のサイトと同じドメインの /api を利用します。
+  apiBaseUrl: "https://talent-monster-line-api.miyuki48-6.workers.dev",
+  lineOfficialId: "@536lguxf",
+  lineUrl: "https://line.me/R/ti/p/%40536lguxf",
   applicationUrl: "",
-  // 診断結果には、可能性を秘めた「卵」を表示します。
-  monsterResultSpriteUrl: "monster-eggs-roster.png",
-  monsterEggSpriteUrl: "monster-eggs-roster.png",
-  monsterSpriteUrl: "monster-roster.png",
-  monsterEvolvedSpriteUrl: "monster-evolved-roster.png",
-
-  // 診断結果メールを受け取るAPIのURLです。未設定の間は外部送信されません。
-  // 本番では、利用するメール送信サービスの受信用URLを入れてください。
-  resultEmailEndpoint: "",
-  autoSendResultEmail: false,
-
-  // 1体ずつ本番イラストへ差し替える場合は、対応する欄へ画像ファイル名を入れます。
-  // 例: spark: "hiramekira.png"
-  monsterImageUrls: {
-    spark: "",
-    maker: "",
-    explorer: "",
-    challenger: "",
-    grower: "",
-    messenger: "",
-    empath: "",
-    connector: "",
-    artist: "",
-    planner: "",
-    host: "",
-    leader: ""
-  }
+  // 添付PDFから抽出した96体（男女×12タイプ×4段階）の保存場所です。
+  monsterAssetBaseUrl: "assets/monsters"
 };

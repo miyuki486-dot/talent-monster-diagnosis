@@ -26,6 +26,7 @@
     }
 
     * { box-sizing: border-box; }
+    [hidden] { display: none !important; }
 
     html { min-height: 100%; background: var(--navy); }
 
@@ -331,6 +332,10 @@
     .respondent-option { align-items: flex-start; }
     .respondent-option strong { display: block; margin-bottom: 4px; font-size: 1.05rem; }
     .respondent-option small { display: block; color: var(--muted); font-size: .82rem; font-weight: 700; line-height: 1.55; }
+    .guardian-confirm { display: grid; gap: 12px; margin-top: 18px; padding: 18px; border: 2px solid #ffd45a; border-radius: 18px; background: linear-gradient(135deg, #fff8cf, #eefaff); }
+    .guardian-confirm strong { color: #173d78; }
+    .guardian-confirm p { margin: 0; color: #526384; font-size: .86rem; font-weight: 700; line-height: 1.7; }
+    .guardian-confirm .primary-btn { width: 100%; }
     .zodiac-options { grid-template-columns: repeat(3, minmax(0, 1fr)); }
     .zodiac-option { min-height: 64px; justify-content: center; text-align: center; }
     ruby { ruby-align: center; }
@@ -388,6 +393,16 @@
     .hatch-screen p { color: #d9e8ff; font-weight: 700; }
     @keyframes wobble { 0% { transform: rotate(-5deg) scale(.98); } 100% { transform: rotate(5deg) scale(1.04); } }
 
+    .companion-screen { place-items: center; padding: clamp(28px, 6vw, 58px); background: linear-gradient(145deg, #effcff, #fff5c6 52%, #ffe5f3); text-align: center; }
+    .companion-card { width: min(760px, 100%); padding: clamp(24px, 5vw, 42px); border: 2px solid #75d6e8; border-radius: 28px; background: rgba(255,255,255,.94); box-shadow: 0 22px 55px rgba(31,72,141,.16); }
+    .companion-card h2 { margin: 7px 0 8px; color: #173c78; font-size: clamp(1.7rem, 5vw, 2.6rem); }
+    .companion-card > p { color: #526b8e; font-weight: 750; line-height: 1.7; }
+    .companion-options { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; margin-top: 24px; }
+    .companion-option { padding: 14px; border: 3px solid transparent; border-radius: 22px; background: linear-gradient(145deg, #eafaff, #fff4ca); color: #173b70; }
+    .companion-option:hover, .companion-option:focus-visible { border-color: #4d91e8; transform: translateY(-2px); }
+    .companion-option .sprite-window { width: min(230px, 100%); margin: auto; background: white; }
+    .companion-option strong { display: block; margin-top: 9px; font-size: 1rem; }
+
     .result-screen { grid-template-columns: .92fr 1.08fr; }
 
     .monster-panel {
@@ -433,6 +448,12 @@
     .monster-id { position: relative; z-index: 1; text-align: center; }
     .monster-id h2 { margin-bottom: 5px; font-size: clamp(2rem, 4.8vw, 3.8rem); letter-spacing: -.04em; }
     .monster-id p { margin-bottom: 0; color: #dbe9ff; font-weight: 800; }
+    .result-evolution { position: relative; z-index: 1; display: grid; grid-template-columns: repeat(4, 1fr); gap: 7px; }
+    .result-evolution-item { min-width: 0; padding: 6px; border: 1px solid rgba(255,255,255,.2); border-radius: 12px; background: rgba(4,18,55,.38); text-align: center; }
+    .result-evolution-item .sprite-window { border-radius: 9px; }
+    .result-evolution-item strong { display: block; margin-top: 4px; color: #dceaff; font-size: .63rem; }
+    .evolution-teaser { position: relative; z-index: 1; margin: -4px 2px 0; color: #fff2a4; text-align: center; font-size: .78rem; font-weight: 900; line-height: 1.55; }
+    .silhouette { filter: brightness(0) saturate(100%) drop-shadow(0 8px 9px rgba(54,220,255,.22)) !important; opacity: .82; }
 
     .result-copy { padding: clamp(30px, 5vw, 54px); overflow-y: auto; }
     .attribute-chip { display: inline-flex; padding: 7px 11px; border-radius: 999px; background: #eaf2ff; color: #2459bd; font-size: .82rem; font-weight: 900; }
@@ -468,13 +489,24 @@
     .result-tools .email-consent { margin-top: 4px; }
     .result-tools .privacy-note { margin: 2px 0 4px; background: white; }
     .email-status { min-height: 1.5em; margin: 1px 0 0 !important; color: #34568e !important; text-align: center; font-weight: 800; }
-    .coming-soon-zone.active { position: relative; margin-top: 24px; overflow: hidden; border: 2px dashed #9fb2d8; border-radius: 22px; background: #f5f7fc; isolation: isolate; }
-    .coming-soon-zone.active::after { content: ""; position: absolute; z-index: 1; inset: 0; background: repeating-linear-gradient(-45deg, rgba(74,101,158,.08) 0, rgba(74,101,158,.08) 9px, transparent 9px, transparent 19px); pointer-events: none; }
-    .coming-soon-zone.active .coming-soon-content { padding: 0 18px 18px; opacity: .38; filter: grayscale(.45); pointer-events: none; user-select: none; }
-    .coming-soon-ribbon { display: none; }
-    .coming-soon-zone.active .coming-soon-ribbon { position: relative; z-index: 2; display: grid; gap: 4px; justify-items: center; margin: 18px 18px 0; padding: 14px 18px; border: 1px solid #a9b9d8; border-radius: 15px; background: rgba(255,255,255,.94); color: #52617f; text-align: center; box-shadow: 0 8px 22px rgba(24,48,98,.1); }
-    .coming-soon-ribbon strong { color: #29446f; font-size: 1.08rem; letter-spacing: .12em; }
-    .coming-soon-ribbon span { font-size: .78rem; font-weight: 800; }
+    .receipt-card { display: grid; gap: 13px; margin-top: 26px; padding: 22px; border: 2px solid #71ddb2; border-radius: 22px; background: linear-gradient(135deg, #ecfff5, #f1fbff 48%, #fff5c9); box-shadow: 0 14px 34px rgba(28,127,94,.12); }
+    .receipt-card h3 { margin: 0; color: #143f67; font-size: 1.12rem; line-height: 1.5; }
+    .receipt-card > p { margin: 0; color: #4c6380; font-size: .88rem; font-weight: 700; line-height: 1.7; }
+    .receipt-code-wrap { display: grid; grid-template-columns: 1fr auto; gap: 9px; }
+    .receipt-code { display: grid; place-items: center; min-height: 58px; padding: 10px 14px; border: 2px dashed #37b987; border-radius: 15px; background: white; color: #123864; font-size: clamp(1.35rem, 5vw, 1.8rem); font-weight: 1000; letter-spacing: .12em; font-variant-numeric: tabular-nums; }
+    .copy-code-btn { min-width: 112px; }
+    .receipt-status { min-height: 1.5em; margin: 0 !important; color: #236a58 !important; text-align: center; font-size: .82rem !important; font-weight: 850 !important; }
+    .receipt-card .line-btn { display: grid; place-items: center; text-decoration: none; }
+    .receipt-card .line-btn[aria-disabled="true"] { opacity: .45; pointer-events: none; }
+    .receipt-retry { justify-self: center; min-height: 44px; }
+    .receipt-privacy { padding-top: 2px; color: #61718c !important; font-size: .76rem !important; text-align: center; }
+    .receipt-privacy a, .start-note a, .footer a { color: inherit; font-weight: 900; }
+    .result-loading-screen { place-items: center; padding: 36px; background: linear-gradient(145deg, #effcff, #fff7cc 54%, #ffeaf4); text-align: center; }
+    .result-loading-card { width: min(520px, 100%); padding: 32px 24px; border: 2px solid #8adcea; border-radius: 24px; background: rgba(255,255,255,.92); box-shadow: 0 18px 45px rgba(36,79,145,.15); }
+    .result-loading-icon { font-size: 3rem; animation: wobble .65s ease-in-out infinite alternate; }
+    .result-loading-card h2 { margin: 14px 0 8px; color: #183c73; }
+    .result-loading-card p { margin: 0; color: #5b6e8e; font-weight: 700; line-height: 1.7; }
+    .result-loading-card .primary-btn { margin-top: 18px; }
     .print-only { display: none; }
 
     .pdf-ready-card { display: grid; grid-template-columns: 1fr auto; align-items: center; gap: 16px; margin-top: 24px; padding: 18px; border: 2px solid #ffd65c; border-radius: 20px; background: linear-gradient(135deg, #fff8c9, #edfbff 58%, #fff0f6); box-shadow: 0 12px 28px rgba(53,91,164,.11); }
@@ -486,6 +518,7 @@
     .pdf-preview-toolbar strong { display: block; color: #17366c; }
     .pdf-preview-toolbar span { color: var(--muted); font-size: .78rem; }
     .pdf-preview-actions { display: flex; justify-content: flex-end; gap: 9px; text-align: right !important; }
+    .pdf-preview-actions[hidden] { display: none !important; }
     .pdf-preview-actions .primary-btn, .pdf-preview-actions .secondary-btn { min-height: 48px; padding: 11px 17px; white-space: nowrap; }
     .pdf-save-status { min-height: 1.4em; width: min(210mm, 100%); margin: -8px auto 14px; color: #34568e; font-size: .8rem; font-weight: 800; text-align: right; }
     .detail-sheet { --sheet-accent: #53d8f3; position: relative; width: min(210mm, 100%); min-height: 297mm; margin: auto; overflow: hidden; border: 1.2mm solid #82dfea; border-radius: 18px; background: radial-gradient(circle at 91% 5%, #ffe76e 0 8%, transparent 25%), radial-gradient(circle at 3% 63%, #bff5ff 0 11%, transparent 31%), radial-gradient(circle at 93% 86%, #ffd4e7 0 10%, transparent 29%), linear-gradient(145deg, #fffef7, #f2fbff 44%, #fff2fa); color: #152746; padding: 12mm 13mm 10mm; box-shadow: 0 24px 60px rgba(24,57,116,.18); }
@@ -523,7 +556,7 @@
     .detail-section-heading { display: flex; align-items: center; gap: 3mm; margin-bottom: 2.5mm; }
     .detail-section-heading h3 { margin: 0; color: #123267; font-size: 11.5pt; }
     .detail-section-heading span { color: #4f668c; font-size: 8pt; font-weight: 650; }
-    .detail-evolution-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 3mm; }
+    .detail-evolution-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 2mm; }
     .detail-evolution-stage { display: grid; grid-template-columns: 24mm 1fr; align-items: center; gap: 3mm; min-height: 29mm; padding: 2.5mm; border: .55mm solid #b5d9f9; border-radius: 4mm; background: linear-gradient(145deg, rgba(255,255,255,.98), rgba(236,249,255,.96)); box-shadow: 0 1mm 3mm rgba(59,105,176,.08); }
     .detail-evolution-stage .sprite-window { border-radius: 3mm; background: linear-gradient(145deg, #eaf8ff, #fff4cd); }
     .detail-stage-copy strong { display: block; color: #15366a; font-size: 8.8pt; }
@@ -548,7 +581,7 @@
     .detail-conversation ul { display: grid; grid-template-columns: repeat(3, 1fr); gap: 3mm; margin: 0; padding: 0; list-style: none; }
     .detail-conversation li { color: #394c72; font-size: 7.4pt; font-weight: 750; line-height: 1.45; }
     .detail-conversation li::before { content: "✦ "; color: #f08058; }
-    .detail-footer { position: absolute; right: 13mm; bottom: 10mm; left: 13mm; display: flex; align-items: flex-end; justify-content: space-between; gap: 7mm; padding-top: 3mm; border-top: .4mm solid #d9e4f7; }
+    .detail-footer { position: static; display: flex; align-items: flex-end; justify-content: space-between; gap: 7mm; margin-top: 7mm; padding-top: 3mm; border-top: .4mm solid #d9e4f7; }
     .detail-footer p { margin: 0; color: #526889; font-size: 7pt; font-weight: 600; line-height: 1.5; }
     .detail-footer-brand { color: #28599e !important; font-weight: 900; text-align: right; white-space: nowrap; }
 
@@ -564,12 +597,15 @@
     .gallery-header { display: flex; justify-content: space-between; align-items: flex-start; gap: 24px; margin-bottom: 28px; }
     .gallery-header h2 { margin-bottom: 10px; font-size: clamp(2rem, 4vw, 3.4rem); letter-spacing: -.04em; }
     .gallery-header p { max-width: 42rem; margin-bottom: 0; color: var(--muted); line-height: 1.75; font-weight: 650; }
+    .gallery-variant-switch { display: flex; flex-wrap: wrap; gap: 9px; margin-top: 16px; }
+    .gallery-variant-switch button { min-height: 44px; padding: 9px 16px; border: 2px solid #a9bee8; border-radius: 999px; background: white; color: #284b86; font-weight: 900; }
+    .gallery-variant-switch button.active { border-color: #3f7edb; background: #eaf3ff; box-shadow: 0 7px 16px rgba(44,93,171,.14); }
     .gallery-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
     .monster-card { min-width: 0; overflow: hidden; border: 1px solid var(--line); border-radius: 20px; background: white; box-shadow: 0 10px 24px rgba(29,57,115,.08); }
     .monster-card-head { padding: 16px 16px 12px; }
     .monster-card-head h3 { margin-bottom: 3px; font-size: 1.12rem; }
     .monster-card-head p { margin-bottom: 0; color: var(--muted); font-size: .8rem; font-weight: 750; line-height: 1.5; }
-    .evolution-pair { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1px; background: var(--line); border-top: 1px solid var(--line); }
+    .evolution-pair { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 1px; background: var(--line); border-top: 1px solid var(--line); }
     .evolution-stage { min-width: 0; padding: 9px; background: linear-gradient(145deg, #0c1c4c, #173c87); }
     .stage-label { display: block; margin-bottom: 5px; color: #d9e8ff; text-align: center; font-size: .68rem; font-weight: 900; letter-spacing: .05em; }
     .sprite-window { position: relative; width: 100%; aspect-ratio: 1; overflow: hidden; border-radius: 12px; background: radial-gradient(circle, rgba(70,215,244,.18), transparent 66%); }
@@ -603,10 +639,13 @@
       .gallery-header { display: block; }
       .gallery-header .text-btn { margin: -8px 0 12px -10px; }
       .gallery-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 11px; }
+      .companion-options { grid-template-columns: 1fr; }
       .monster-card-head { padding: 13px 12px 10px; }
       .monster-card-head h3 { font-size: 1rem; }
       .evolution-stage { padding: 6px; }
       .pdf-ready-card { grid-template-columns: 1fr; }
+      .receipt-code-wrap { grid-template-columns: 1fr; }
+      .copy-code-btn { width: 100%; }
       .pdf-preview-toolbar { align-items: stretch; flex-direction: column; }
       .pdf-preview-actions { display: grid; grid-template-columns: 1fr 1fr; }
       .pdf-save-status { text-align: center; }
@@ -630,7 +669,11 @@
       *, *::before, *::after { scroll-behavior: auto !important; animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
     }
 
-    body.pdf-exporting { background: white !important; }
+    body.pdf-exporting { width: 210mm !important; min-width: 210mm !important; margin: 0 !important; overflow: visible !important; background: white !important; }
+    body.pdf-exporting .page-shell::before, body.pdf-exporting .page-shell::after { display: none !important; }
+    body.pdf-exporting .topbar, body.pdf-exporting .footer, body.pdf-exporting .screen:not(.pdf-preview-screen), body.pdf-exporting .pdf-preview-toolbar, body.pdf-exporting .pdf-save-status { display: none !important; }
+    body.pdf-exporting .page-shell, body.pdf-exporting main, body.pdf-exporting .app-card { display: block !important; width: 210mm !important; min-width: 210mm !important; height: auto !important; min-height: 0 !important; margin: 0 !important; padding: 0 !important; overflow: visible !important; border: 0 !important; border-radius: 0 !important; box-shadow: none !important; background: white !important; }
+    body.pdf-exporting .pdf-preview-screen { display: block !important; width: 210mm !important; min-width: 210mm !important; height: auto !important; min-height: 0 !important; padding: 0 !important; overflow: visible !important; animation: none !important; }
     body.pdf-exporting .detail-sheet { width: 209mm !important; height: 295mm !important; min-height: 0 !important; padding: 9mm 11mm 7mm !important; border-radius: 0 !important; box-shadow: none !important; }
     body.pdf-exporting .detail-header { padding-bottom: 3mm !important; }
     body.pdf-exporting .detail-eyebrow { margin-bottom: 1mm !important; font-size: 7.2pt !important; }
@@ -702,12 +745,12 @@
             <h1 id="projectName" class="project-name">こども起業家研究所<span id="projectNickname" class="project-nickname">～博士ちゃんラボ～</span></h1>
             <p class="diagnosis-label">✦ 12のタマゴが待っている｜DIAGNOSIS TOOL</p>
             <h2 id="diagnosisName" class="diagnosis-name">才能モンスター発見！博士ちゃん診断</h2>
-            <p id="diagnosisLead" class="lead">お子さんの星座と、いつもの姿について<br>8つの質問に答えてください。<br>まだタマゴの中にいる「好きの力」が、<br>冒険モンスターになって現れます。</p>
+            <p id="diagnosisLead" class="lead">お子さんの星座と、いつもの姿について<br>7つの質問に答えてください。<br>まだタマゴの中にいる「好きの力」が、<br>冒険モンスターになって現れます。</p>
             <div class="start-actions">
               <button id="startBtn" class="primary-btn" type="button">タマゴを見つけに行く</button>
               <button id="galleryBtn" class="secondary-btn" type="button">12タイプを全部見る</button>
             </div>
-            <p id="startNote" class="start-note">所要時間 約3分 ／ お名前や生まれ年は入力しません<br>診断後、希望する方だけメールアドレスを登録できます。</p>
+            <p id="startNote" class="start-note">所要時間 約3分 ／ お名前や生まれ年は入力しません<br>診断開始により、回答データの保存と<a href="privacy.html" target="_blank" rel="noopener">プライバシーポリシー</a>に同意したものとします。</p>
           </div>
           <div class="egg-stage" aria-hidden="true">
             <div class="orbit"></div>
@@ -722,7 +765,11 @@
             <div>
               <p class="eyebrow">✦ TALENT MONSTER BOOK</p>
               <h2>12タイプのモンスター図鑑</h2>
-              <p>子どもは、まだ可能性をたっぷり秘めたモンスターの「卵」。得意なところや「好きの力」を育てていくと、「進化①」「進化②」へと成長していきます。</p>
+              <p>子どもは、まだ可能性をたっぷり秘めたモンスターの「卵」。得意なところや「好きの力」を育てていくと、孵化後、ジュニア、大人へと成長していきます。</p>
+              <div class="gallery-variant-switch" aria-label="モンスターの種類">
+                <button id="galleryFemaleBtn" class="active" type="button">女の子版</button>
+                <button id="galleryMaleBtn" type="button">男の子版</button>
+              </div>
             </div>
             <button id="galleryBackBtn" class="text-btn" type="button">← 診断トップへ</button>
           </div>
@@ -733,7 +780,7 @@
         <div id="quizScreen" class="screen quiz-screen">
           <div class="progress-wrap" aria-label="診断の進み具合">
             <div class="progress-track"><div id="progressBar" class="progress-bar"></div></div>
-            <span id="progressLabel" class="progress-label">1 / 12</span>
+            <span id="progressLabel" class="progress-label">はじめに</span>
           </div>
 
           <div id="questionWrap" class="question-wrap"></div>
@@ -746,9 +793,27 @@
 
         <div id="hatchScreen" class="screen hatch-screen">
           <div>
-            <div class="hatch-egg" aria-hidden="true">🥚</div>
+            <div id="hatchEgg" class="hatch-egg" aria-hidden="true">🥚</div>
             <h2>タマゴが動きはじめた！</h2>
             <p>お子さんの「好きの力」を読み解いています…</p>
+          </div>
+        </div>
+
+        <div id="companionScreen" class="screen companion-screen">
+          <div class="companion-card">
+            <p class="eyebrow">✦ PARTNER SELECT</p>
+            <h2>好きな相棒を選んでね！</h2>
+            <p>診断タイプは同じだよ。いっしょに育てたいタマゴを選ぼう。</p>
+            <div id="companionOptions" class="companion-options"></div>
+          </div>
+        </div>
+
+        <div id="resultLoadingScreen" class="screen result-loading-screen">
+          <div class="result-loading-card">
+            <div class="result-loading-icon" aria-hidden="true">🥚</div>
+            <h2 id="resultLoadingTitle">詳しい診断結果を開いています</h2>
+            <p id="resultLoadingMessage" role="status" aria-live="polite">あなた専用の結果を準備しています。少しお待ちください…</p>
+            <button id="resultLoadingRetry" class="primary-btn" type="button" hidden>もう一度試す</button>
           </div>
         </div>
 
@@ -763,6 +828,8 @@
               <h2 id="monsterName">ヒラメキラ</h2>
               <p id="monsterTitle">ひらめき発明家タイプ</p>
             </div>
+            <div id="resultEvolution" class="result-evolution"></div>
+            <p class="evolution-teaser">この先どんな姿に進化するかは、博士ちゃんマルシェでのお楽しみ！</p>
           </div>
 
           <div class="result-copy">
@@ -787,7 +854,7 @@
               <div id="parentTip" class="tip-box"></div>
             </div>
 
-            <div class="pdf-ready-card">
+            <div class="pdf-ready-card" hidden>
               <div>
                 <strong>✨ 1枚の詳しい診断シートができました</strong>
                 <p>強みの育て方や進化のヒントを、明るいA4・1枚にまとめました。</p>
@@ -795,43 +862,19 @@
               <button id="pdfViewBtn" class="primary-btn" type="button">詳しい診断を見る</button>
             </div>
 
-            <div id="comingSoonZone" class="coming-soon-zone">
-              <div class="coming-soon-ribbon">
-                <strong>COMING SOON…</strong>
-                <span>ここから先は、ただいま準備中です</span>
+            <section id="receiptCard" class="receipt-card" aria-busy="true">
+              <h3>さらに詳しい診断結果を知りたい方へ✨</h3>
+              <p>公式LINEに登録して、下の受取コードを送ってね！ あなた専用のA4・1ページ診断シートが届きます。</p>
+              <div class="receipt-code-wrap">
+                <div id="receiptCode" class="receipt-code" aria-label="受取コード">発行中…</div>
+                <button id="copyReceiptCodeBtn" class="secondary-btn copy-code-btn" type="button" disabled>コードをコピー</button>
               </div>
-              <div class="coming-soon-content">
-                <div class="result-block">
-                  <h3 id="challengeHeading">🔮 博士ちゃんマルシェ お店タイプ予報</h3>
-                  <div class="challenge-box">
-                    <strong id="challengeType" class="challenge-type"></strong>
-                    <span id="challengeText"></span>
-                    <small class="challenge-note">当日は、そのときの「やってみたい！」で選んでOK。診断結果と違うお店を選ぶのも、もちろん大歓迎です。
-                    </small>
-                  </div>
-                </div>
+              <a id="lineReceiveBtn" class="primary-btn line-btn" href="#" aria-disabled="true">公式LINEを開く</a>
+              <button id="receiptRetryBtn" class="text-btn receipt-retry" type="button" hidden>コードをもう一度発行する</button>
+              <p id="receiptStatus" class="receipt-status" role="status" aria-live="polite">受取コードを安全に発行しています…</p>
+              <p class="receipt-privacy">コード・個別結果URLの有効期限は30日です。詳しくは<a href="privacy.html" target="_blank" rel="noopener">プライバシーポリシー</a>をご確認ください。</p>
+            </section>
 
-                <p class="print-only sheet-note">この診断はお子さんを決めつけるものではなく、親子で「好き」と強みを見つけるきっかけです。<br><span id="resultDate"></span></p>
-
-                <div class="result-tools">
-                  <h3>詳しい診断結果をメールで受け取る</h3>
-                  <p>診断結果を保存したい方、もっと詳しい診断結果を知りたい方は、メールアドレスをご登録ください。1枚の詳しい診断結果シートをメールでお届けします。</p>
-                  <label class="field">メールアドレス
-                    <input id="resultEmailInput" type="email" inputmode="email" autocomplete="email" maxlength="254" placeholder="example@email.com" aria-describedby="resultEmailPrivacy">
-                  </label>
-                  <label class="email-consent"><input id="resultEmailConsent" type="checkbox"><span>診断結果の送付に、このメールアドレスを使用することに同意します。</span></label>
-                  <p id="resultEmailPrivacy" class="privacy-note">入力したメールアドレスは、診断結果のお届けにのみ使用します。</p>
-                  <button id="emailBtn" class="primary-btn" type="button">詳しい診断結果をメールで受け取る</button>
-                  <p id="emailStatus" class="email-status" role="status" aria-live="polite"></p>
-                </div>
-
-                <div class="cta-stack">
-                  <a id="lineCta" class="primary-btn line-btn" href="#">公式LINEで最新情報を見る</a>
-                  <a id="formCta" class="secondary-btn" href="#">参加申込みフォームへ</a>
-                  <p id="linkNote" class="link-note">リンクは本番公開前に設定できます</p>
-                </div>
-              </div>
-            </div>
             <button id="resultGalleryBtn" class="secondary-btn retry-btn" type="button">12タイプを全部見る</button>
             <button id="retryBtn" class="text-btn retry-btn" type="button">もう一度診断する</button>
           </div>
@@ -844,12 +887,12 @@
               <strong>A4・1枚の詳細診断シート</strong>
               <span>内容とデザインはあとから変更できます</span>
             </div>
-            <div class="pdf-preview-actions">
+            <div class="pdf-preview-actions" hidden>
               <button id="downloadPdfBtn" class="primary-btn" type="button">PDFを保存</button>
               <button id="printBtn" class="secondary-btn" type="button">印刷する</button>
             </div>
           </div>
-          <p id="pdfSaveStatus" class="pdf-save-status" role="status" aria-live="polite">スマホは「PDFを保存」からファイルに保存できます。</p>
+          <p id="pdfSaveStatus" class="pdf-save-status" role="status" aria-live="polite">PDF保存機能は現在準備中です。詳細診断結果はこの画面でご覧いただけます。</p>
 
           <article id="detailSheet" class="detail-sheet">
             <header class="detail-header">
@@ -892,7 +935,7 @@
             <section class="detail-evolution">
               <div class="detail-section-heading">
                 <h3>🌱 モンスターの進化ストーリー</h3>
-                <span>得意なところを育てるほど、姿も力も進化していく！</span>
+                <span>この先の姿は、博士ちゃんマルシェでのお楽しみ！</span>
               </div>
               <div id="pdfEvolutionGrid" class="detail-evolution-grid"></div>
             </section>
@@ -939,7 +982,7 @@
       </section>
     </main>
 
-    <footer id="siteFooter" class="footer">こども起業家研究所 ～博士ちゃんラボ～｜その子らしさで稼ぐチカラを</footer>
+    <footer id="siteFooter" class="footer"><span id="siteFooterText">こども起業家研究所 ～博士ちゃんラボ～｜その子らしさで稼ぐチカラを</span><br><a href="privacy.html">プライバシーポリシー</a></footer>
   </div>
 
   <script src="vendor/html2pdf.bundle.min.js"></script>
@@ -1095,10 +1138,11 @@
     };
 
     const questions = [
-      { type: "respondent", kicker: "はじめに", title: "だれがこたえますか？", help: "こたえるひとをえらんでね。えらぶと、そのまませいざのしつもんへすすみます。" },
-      { type: "zodiac", kicker: "星座", title: "お子さんの星座は？", help: "当てはまる星座を選んでください。選ぶと、そのまま次の質問へ進みます。" },
+      { id: "respondent", type: "respondent", kicker: "はじめに", title: "回答するのは誰ですか？", help: "回答する人を選んでください。" },
+      { id: "gender", type: "gender", kicker: "相棒を選ぶ準備", title: "診断するお子さんについて教えてください", help: "これはモンスターの表示だけに使い、タイプ判定には使いません。" },
+      { id: "zodiac", type: "zodiac", kicker: "星座", title: "お子さんの星座は？", help: "当てはまる星座を選んでください。選ぶと、そのまま次の質問へ進みます。" },
       {
-        category: "personality", kicker: "質問 1 / 8", title: "初めての遊びを見つけたとき、どんな様子が多い？",
+        id: "personality_1", category: "personality", kicker: "性格 1 / 4", title: "初めての遊びを見つけたとき、どんな様子が多い？",
         options: [
           { text: "まずやってみる", primary: "challenger", secondary: "leader" },
           { text: "よく見て、遊び方を確かめる", primary: "explorer", secondary: "planner" },
@@ -1107,7 +1151,7 @@
         ]
       },
       {
-        category: "personality", kicker: "質問 2 / 8", title: "思いどおりにできないときは？",
+        id: "personality_2", category: "personality", kicker: "性格 2 / 4", title: "思いどおりにできないときは？",
         options: [
           { text: "できるまで何度も試す", primary: "grower", secondary: "maker" },
           { text: "別のやり方をひらめく", primary: "spark", secondary: "challenger" },
@@ -1116,16 +1160,7 @@
         ]
       },
       {
-        category: "personality", kicker: "質問 3 / 8", title: "グループで遊ぶとき、よく見られる姿は？",
-        options: [
-          { text: "「こうしよう」と方向を決める", primary: "leader", secondary: "planner" },
-          { text: "みんなが入れるように声をかける", primary: "connector", secondary: "empath" },
-          { text: "おもしろい表現で場を盛り上げる", primary: "artist", secondary: "messenger" },
-          { text: "自分の役割に集中して取り組む", primary: "maker", secondary: "grower" }
-        ]
-      },
-      {
-        category: "personality", kicker: "質問 4 / 8", title: "何かを始める前に、しそうなことは？",
+        id: "personality_3", category: "personality", kicker: "性格 3 / 4", title: "何かを始める前に、しそうなことは？",
         options: [
           { text: "順番や必要なものを考える", primary: "planner", secondary: "grower" },
           { text: "絵や見本を作ってイメージする", primary: "maker", secondary: "artist" },
@@ -1134,7 +1169,7 @@
         ]
       },
       {
-        category: "personality", kicker: "質問 5 / 8", title: "近くの子が不安そうなとき、どうすることが多い？",
+        id: "personality_4", category: "personality", kicker: "性格 4 / 4", title: "近くの子が不安そうなとき、どうすることが多い？",
         options: [
           { text: "そばにいて気持ちを聞く", primary: "empath", secondary: "host" },
           { text: "分かりやすくやり方を教える", primary: "messenger", secondary: "planner" },
@@ -1143,7 +1178,7 @@
         ]
       },
       {
-        category: "likes", kicker: "質問 6 / 8", title: "もしお店を出すなら、一番わくわくしそうなのは？",
+        id: "likes_1", category: "likes", kicker: "好き 1 / 3", title: "もしお店を出すなら、一番わくわくしそうなのは？",
         options: [
           { text: "世界に一つの作品やグッズ", primary: "maker", secondary: "spark" },
           { text: "不思議を楽しむ実験やクイズ", primary: "explorer", secondary: "messenger" },
@@ -1152,7 +1187,7 @@
         ]
       },
       {
-        category: "likes", kicker: "質問 7 / 8", title: "特にうれしそうなのは、どんなとき？",
+        id: "likes_2", category: "likes", kicker: "好き 2 / 3", title: "特にうれしそうなのは、どんなとき？",
         options: [
           { text: "作っていたものが完成したとき", primary: "maker", secondary: "grower" },
           { text: "知らなかった答えを見つけたとき", primary: "explorer", secondary: "spark" },
@@ -1161,7 +1196,7 @@
         ]
       },
       {
-        category: "likes", kicker: "質問 8 / 8", title: "もし一つだけ冒険の力を選ぶなら？",
+        id: "likes_3", category: "likes", kicker: "好き 3 / 3", title: "もし一つだけ冒険の力を選ぶなら？",
         options: [
           { text: "見えないアイデアを形にする力", primary: "spark", secondary: "artist" },
           { text: "誰かの心と心をつなぐ力", primary: "connector", secondary: "empath" },
@@ -1171,52 +1206,46 @@
       }
     ];
 
-    // 8問の回答から文章を組み合わせるためのパーツ。
+    // 7問の回答から文章を組み合わせるためのパーツ。
     // 診断ロジックとは分けてあるため、あとから文章だけ調整できます。
     const answerInsights = {
-      2: [
+      personality_1: [
         { trait: "好奇心が動いたら、まず体験して学べる", support: "最初の一歩を認めたあとで『やってみて何が分かった？』と聞くと、経験が自信に変わります。" },
         { trait: "よく観察し、遊び方や仕組みを確かめてから動ける", support: "急かさずに見る時間を作り、『どこに気づいた？』と尋ねると観察力が育ちます。" },
         { trait: "決まった遊びにも、自分だけの工夫を足せる", support: "正解を先に伝えず、『あなたならどう変える？』と任せる時間を作ってみて。" },
         { trait: "仲間を誘い、楽しさを分け合うきっかけを作れる", support: "誰を誘ったかだけでなく、『一緒に楽しむために何をした？』にも注目してみて。" }
       ],
-      3: [
+      personality_2: [
         { trait: "うまくいかなくても、できるまで粘り強く試せる", support: "完成だけでなく、前と違うやり方を試した瞬間を具体的にほめてみて。" },
         { trait: "行き詰まったとき、別の道をひらめける", support: "すぐに答えを渡さず、『ほかにどんな方法がありそう？』と発想を広げてあげて。" },
         { trait: "困ったことを言葉にして、人の力も借りられる", support: "助けを求められたことを強みとして認め、『どんな助けがあると進めそう？』と聞いてみて。" },
         { trait: "周りを感じ取り、安心できるタイミングを待てる", support: "無理に前へ押さず、『見ていて分かったことはある？』と本人のペースを守ってみて。" }
       ],
-      4: [
-        { trait: "みんなが進む方向を言葉にできる", support: "決める力を認めつつ、『みんなの考えも一つずつ聞いてみよう』と仲間の視点を添えて。" },
-        { trait: "一人ひとりが仲間に入れるよう、自然に声をかけられる", support: "やさしい行動を具体的に振り返ると、自分のつなぐ力に気づけます。" },
-        { trait: "自分らしい表現で、その場を楽しくできる", support: "上手さより『どんな気持ちを表したかった？』と聞くと、その子らしい表現が深まります。" },
-        { trait: "自分の役割に集中し、最後まで丁寧に向き合える", support: "結果だけでなく、集中していた時間や細かな工夫にも言葉をかけてみて。" }
-      ],
-      5: [
+      personality_3: [
         { trait: "始める前に、順番や必要なものを整理できる", support: "大人が予定を決めきらず、『最初は何からする？』を本人に任せると作戦力が育ちます。" },
         { trait: "絵や見本にして、頭の中のイメージを形にできる", support: "材料をいくつか選べるようにし、途中の工夫を一緒に見つけてみて。" },
         { trait: "自分のわくわくを言葉にして、人へ届けられる", support: "最後まで聞いたあと、『一番伝えたいのはどこ？』と一緒に整理してみて。" },
         { trait: "小さく試しながら、自分に合う方法を見つけられる", support: "安全な範囲を一緒に決めたら、まず試すところは本人に任せてみて。" }
       ],
-      6: [
+      personality_4: [
         { trait: "不安そうな人のそばで、気持ちを受け止められる", support: "相手へのやさしさと同じくらい、『あなたはどうしたい？』と本人の気持ちも聞いてあげて。" },
         { trait: "分かったことを、相手に合わせて教えられる", support: "教えられたことを認め、『どんな言い方が伝わりやすかった？』と振り返ってみて。" },
         { trait: "自分が一歩目を見せて、周りへ勇気を渡せる", support: "行動の速さを認めながら、『安全に試すには何がいる？』も一緒に考えて。" },
         { trait: "楽しくなる工夫を考え、空気を変えられる", support: "思いつきをすぐ評価せず、『それをしたらどんな気持ちになりそう？』と聞いてみて。" }
       ],
-      7: [
+      likes_1: [
         { trait: "世界に一つの作品やグッズを形にすることに心が動く", step: "身近な材料を3つ選び、『こんなのがあったら楽しい』と思う小さな作品を作ってみよう。" },
         { trait: "不思議の答えを見つけ、クイズや実験で伝えることにわくわくする", step: "気になる『なんで？』を一つ選び、家族に出せる三択クイズを作ってみよう。" },
         { trait: "お客さんと一緒に遊び、盛り上がる体験を作るのが好き", step: "家族が参加できる1分ゲームを考え、実際に遊んでもらってみよう。" },
         { trait: "絵や音、物語で、自分だけの世界を表すことにひかれる", step: "好きな色・音・言葉を三つ選び、短い作品やパフォーマンスにしてみよう。" }
       ],
-      8: [
+      likes_2: [
         { trait: "自分の手で完成させた瞬間に、大きな喜びを感じる", step: "いま作りたいものを一つ選び、『今日ここまで』の小さな完成を作ってみよう。" },
         { trait: "知らなかった答えを見つけるほど、もっと知りたくなる", step: "最近見つけた答えを、絵や写真も使った一枚の『発見カード』にしてみよう。" },
         { trait: "誰かの『ありがとう』が、次の工夫のエネルギーになる", step: "家族一人を思い浮かべ、その人が少しうれしくなるサービスを一つ試してみよう。" },
         { trait: "仲間と力を合わせ、一人ではできないことを形にするのがうれしい", step: "一緒にやりたい人を二人誘い、みんなでできる小さな企画を考えてみよう。" }
       ],
-      9: [
+      likes_3: [
         { trait: "見えないアイデアを、目に見える形へ変えたい", step: "いつもの遊びをもっと便利にする道具を、まず絵に描いてみよう。" },
         { trait: "人と人の心をつなぎ、仲間の輪を広げたい", step: "二人が一緒に楽しめそうな遊びを一つ考え、自分から声をかけてみよう。" },
         { trait: "ゴールまでの道を見つけ、進みやすい作戦を作りたい", step: "やってみたいことを一つ決め、最初の三つの手順を紙に書いてみよう。" },
@@ -1263,6 +1292,10 @@
       "何か": "なにか", "前": "まえ", "考える": "かんがえる", "見本": "みほん", "話す": "はなす", "楽しむ": "たのしむ",
       "先": "さき", "教える": "おしえる", "出す": "だす", "音": "おと", "力": "ちから",
       "形": "かたち", "心": "こころ", "道": "みち", "火": "ひ", "絵": "え", "子": "こ", "座": "ざ", "次": "つぎ"
+      , "回答": "かいとう", "誰": "だれ", "本人": "ほんにん", "内容": "ないよう", "保存": "ほぞん",
+      "名前": "なまえ", "学校名": "がっこうめい", "生年月日": "せいねんがっぴ", "確認": "かくにん",
+      "診断": "しんだん", "結果": "けっか", "男の子": "おとこのこ", "女の子": "おんなのこ",
+      "その他": "そのた", "相棒": "あいぼう", "自由": "じゆう", "文字": "もじ", "入力": "にゅうりょく"
     };
     const furiganaPattern = new RegExp(Object.keys(furiganaReadings).sort((a, b) => b.length - a.length).join("|"), "g");
 
@@ -1275,17 +1308,37 @@
     }
 
     const firstQuestionIndex = 0;
-    const state = { current: firstQuestionIndex, answers: Array(questions.length).fill(null), freeAnswers: Array(questions.length).fill(""), respondent: "", zodiac: "", email: "", emailConsent: false, resultType: "", resultProfile: null, isAdvancing: false };
+    const state = {
+      current: firstQuestionIndex,
+      answers: Array(questions.length).fill(null),
+      freeAnswers: Array(questions.length).fill(""),
+      respondent: "",
+      guardianConfirmed: false,
+      genderChoice: "",
+      monsterVariant: "",
+      galleryVariant: "female",
+      zodiac: "",
+      resultType: "",
+      resultData: null,
+      resultProfile: null,
+      diagnosisCreatedAt: "",
+      receiptCode: "",
+      receiptPromise: null,
+      detailedResultToken: "",
+      isAdvancing: false
+    };
 
     const els = {
       startScreen: document.getElementById("startScreen"), quizScreen: document.getElementById("quizScreen"),
-      hatchScreen: document.getElementById("hatchScreen"), resultScreen: document.getElementById("resultScreen"), galleryScreen: document.getElementById("galleryScreen"), pdfPreviewScreen: document.getElementById("pdfPreviewScreen"),
-      startBtn: document.getElementById("startBtn"), galleryBtn: document.getElementById("galleryBtn"), galleryBackBtn: document.getElementById("galleryBackBtn"), galleryStartBtn: document.getElementById("galleryStartBtn"), resultGalleryBtn: document.getElementById("resultGalleryBtn"), backBtn: document.getElementById("backBtn"), nextBtn: document.getElementById("nextBtn"), pdfViewBtn: document.getElementById("pdfViewBtn"), pdfBackBtn: document.getElementById("pdfBackBtn"), downloadPdfBtn: document.getElementById("downloadPdfBtn"), printBtn: document.getElementById("printBtn"), pdfSaveStatus: document.getElementById("pdfSaveStatus"), emailBtn: document.getElementById("emailBtn"), emailStatus: document.getElementById("emailStatus"), resultEmailInput: document.getElementById("resultEmailInput"), resultEmailConsent: document.getElementById("resultEmailConsent"),
-      questionWrap: document.getElementById("questionWrap"), progressBar: document.getElementById("progressBar"), progressLabel: document.getElementById("progressLabel")
+      hatchScreen: document.getElementById("hatchScreen"), companionScreen: document.getElementById("companionScreen"), resultLoadingScreen: document.getElementById("resultLoadingScreen"), resultScreen: document.getElementById("resultScreen"), galleryScreen: document.getElementById("galleryScreen"), pdfPreviewScreen: document.getElementById("pdfPreviewScreen"),
+      startBtn: document.getElementById("startBtn"), galleryBtn: document.getElementById("galleryBtn"), galleryBackBtn: document.getElementById("galleryBackBtn"), galleryStartBtn: document.getElementById("galleryStartBtn"), galleryFemaleBtn: document.getElementById("galleryFemaleBtn"), galleryMaleBtn: document.getElementById("galleryMaleBtn"), resultGalleryBtn: document.getElementById("resultGalleryBtn"), backBtn: document.getElementById("backBtn"), nextBtn: document.getElementById("nextBtn"), pdfViewBtn: document.getElementById("pdfViewBtn"), pdfBackBtn: document.getElementById("pdfBackBtn"), downloadPdfBtn: document.getElementById("downloadPdfBtn"), printBtn: document.getElementById("printBtn"), pdfSaveStatus: document.getElementById("pdfSaveStatus"),
+      questionWrap: document.getElementById("questionWrap"), progressBar: document.getElementById("progressBar"), progressLabel: document.getElementById("progressLabel"),
+      receiptCard: document.getElementById("receiptCard"), receiptCode: document.getElementById("receiptCode"), copyReceiptCodeBtn: document.getElementById("copyReceiptCodeBtn"), lineReceiveBtn: document.getElementById("lineReceiveBtn"), receiptRetryBtn: document.getElementById("receiptRetryBtn"), receiptStatus: document.getElementById("receiptStatus"),
+      resultLoadingTitle: document.getElementById("resultLoadingTitle"), resultLoadingMessage: document.getElementById("resultLoadingMessage"), resultLoadingRetry: document.getElementById("resultLoadingRetry")
     };
 
     function showScreen(screen) {
-      [els.startScreen, els.quizScreen, els.hatchScreen, els.resultScreen, els.galleryScreen, els.pdfPreviewScreen].forEach(el => el.classList.remove("active"));
+      [els.startScreen, els.quizScreen, els.hatchScreen, els.companionScreen, els.resultLoadingScreen, els.resultScreen, els.galleryScreen, els.pdfPreviewScreen].forEach(el => el.classList.remove("active"));
       screen.classList.add("active");
       window.scrollTo({ top: 0, behavior: "smooth" });
     }
@@ -1298,34 +1351,45 @@
       document.getElementById("projectName").childNodes[0].nodeValue = SITE_CONFIG.projectName;
       document.getElementById("projectNickname").textContent = SITE_CONFIG.projectNickname;
       document.getElementById("diagnosisName").textContent = SITE_CONFIG.diagnosisName;
-      document.getElementById("challengeHeading").textContent = `🔮 ${SITE_CONFIG.activityName} お店タイプ予報`;
       document.getElementById("printBrandline").textContent = `${projectLabel}｜${SITE_CONFIG.diagnosisName} 結果シート`;
-      document.getElementById("siteFooter").textContent = `${projectLabel}｜${SITE_CONFIG.projectTagline}`;
-      document.getElementById("diagnosisLead").innerHTML = "お子さんの星座と、いつもの姿について<br>8つの質問に答えてください。<br>まだタマゴの中にいる「好きの力」が、<br>冒険モンスターになって現れます。";
+      document.getElementById("siteFooterText").textContent = `${projectLabel}｜${SITE_CONFIG.projectTagline}`;
+      document.getElementById("diagnosisLead").innerHTML = "お子さんの星座と、いつもの姿について<br>7つの質問に答えてください。<br>まだタマゴの中にいる「好きの力」が、<br>冒険モンスターになって現れます。";
     }
 
-    function spriteMarkup(url, monster, alt, individualUrl = "") {
-      if (individualUrl) return `<div class="sprite-window"><img class="single" src="${individualUrl}" alt="${alt}"></div>`;
-      const col = monster.spriteIndex % 4;
-      const row = Math.floor(monster.spriteIndex / 4);
-      return `<div class="sprite-window"><img src="${url}" alt="${alt}" style="left:${col * -100}%;top:${row * -100}%"></div>`;
+    function monsterAssetUrl(typeKey, stage = "egg", variant = state.monsterVariant || "female") {
+      const typeNumber = TYPE_ORDER.indexOf(typeKey) + 1;
+      const safeVariant = variant === "male" ? "male" : "female";
+      return `${SITE_CONFIG.monsterAssetBaseUrl || "assets/monsters"}/${safeVariant}-${String(typeNumber).padStart(2, "0")}-${stage}.png`;
+    }
+
+    function spriteMarkup(typeKey, stage, alt, options = {}) {
+      const className = options.silhouette ? "single silhouette" : "single";
+      const variant = options.variant || state.monsterVariant || "female";
+      return `<div class="sprite-window"><img class="${className}" src="${monsterAssetUrl(typeKey, stage, variant)}" alt="${escapeHtml(alt)}"></div>`;
     }
 
     function renderGallery() {
+      els.galleryFemaleBtn.classList.toggle("active", state.galleryVariant === "female");
+      els.galleryMaleBtn.classList.toggle("active", state.galleryVariant === "male");
       document.getElementById("galleryGrid").innerHTML = TYPE_ORDER.map(typeKey => {
         const m = monsters[typeKey];
         return `<article class="monster-card">
           <div class="monster-card-head"><h3>${m.name}</h3><p>${m.title}</p></div>
           <div class="evolution-pair">
-            <div class="evolution-stage"><span class="stage-label">卵</span>${spriteMarkup(SITE_CONFIG.monsterEggSpriteUrl, m, `${m.name}の卵`)}</div>
-            <div class="evolution-stage"><span class="stage-label">進化①</span>${spriteMarkup(SITE_CONFIG.monsterSpriteUrl, m, `${m.name}の進化①`, SITE_CONFIG.monsterImageUrls[typeKey])}</div>
-            <div class="evolution-stage"><span class="stage-label">進化②</span>${spriteMarkup(SITE_CONFIG.monsterEvolvedSpriteUrl, m, `${m.name}の進化②`)}</div>
+            <div class="evolution-stage"><span class="stage-label">卵</span>${spriteMarkup(typeKey, "egg", `${m.name}の卵`, { variant: state.galleryVariant })}</div>
+            <div class="evolution-stage"><span class="stage-label">孵化後</span>${spriteMarkup(typeKey, "hatch", `${m.name}の孵化後（シルエット）`, { variant: state.galleryVariant, silhouette: true })}</div>
+            <div class="evolution-stage"><span class="stage-label">ジュニア</span>${spriteMarkup(typeKey, "junior", `${m.name}のジュニア（シルエット）`, { variant: state.galleryVariant, silhouette: true })}</div>
+            <div class="evolution-stage"><span class="stage-label">大人</span>${spriteMarkup(typeKey, "adult", `${m.name}の大人（シルエット）`, { variant: state.galleryVariant, silhouette: true })}</div>
           </div>
         </article>`;
       }).join("");
     }
 
-    function openGallery() { renderGallery(); showScreen(els.galleryScreen); }
+    function openGallery() {
+      if (state.monsterVariant) state.galleryVariant = state.monsterVariant;
+      renderGallery();
+      showScreen(els.galleryScreen);
+    }
 
     function renderQuestion() {
       const q = questions[state.current];
@@ -1333,13 +1397,16 @@
       if (q.type === "respondent") {
         els.progressBar.style.width = `${100 / questions.length}%`;
         els.progressLabel.textContent = "はじめに";
-      } else if (q.type === "zodiac") {
+      } else if (q.type === "gender") {
         els.progressBar.style.width = `${(2 / questions.length) * 100}%`;
+        els.progressLabel.textContent = "相棒の種類";
+      } else if (q.type === "zodiac") {
+        els.progressBar.style.width = `${(3 / questions.length) * 100}%`;
         els.progressLabel.textContent = "星座";
       } else {
         const questionNumber = questions.slice(0, state.current + 1).filter(question => question.category).length;
         els.progressBar.style.width = `${((state.current + 1) / questions.length) * 100}%`;
-        els.progressLabel.textContent = `${questionNumber} / 8`;
+        els.progressLabel.textContent = `${questionNumber} / 7`;
       }
       els.backBtn.style.visibility = state.current === firstQuestionIndex ? "hidden" : "visible";
       els.nextBtn.style.display = "none";
@@ -1350,16 +1417,51 @@
           <h2 class="question-title">${q.title}</h2>
           <p class="question-help">${q.help}</p>
           <div class="options respondent-options" role="radiogroup" aria-label="${q.title}">
-            <button class="option respondent-option ${state.respondent === "adult" ? "selected" : ""}" type="button" role="radio" aria-checked="${state.respondent === "adult"}" data-respondent="adult"><span class="option-letter">A</span><span><strong>おとながこたえる</strong><small>こどものいつものようすを思いうかべてこたえる</small></span></button>
-            <button class="option respondent-option ${state.respondent === "child" ? "selected" : ""}" type="button" role="radio" aria-checked="${state.respondent === "child"}" data-respondent="child"><span class="option-letter">B</span><span><strong>こどもがこたえる</strong><small>じぶんのことをこたえる・ふりがなつき</small></span></button>
-          </div>`;
+            <button class="option respondent-option ${state.respondent === "adult" ? "selected" : ""}" type="button" role="radio" aria-checked="${state.respondent === "adult"}" data-respondent="adult"><span class="option-letter">A</span><span><strong>${withFurigana("大人が回答する")}</strong><small>${withFurigana("お子さんのいつもの様子を思い浮かべて回答する")}</small></span></button>
+            <button class="option respondent-option ${state.respondent === "child" ? "selected" : ""}" type="button" role="radio" aria-checked="${state.respondent === "child"}" data-respondent="child"><span class="option-letter">B</span><span><strong>${withFurigana("子どもが回答する")}</strong><small>${withFurigana("自分のことを回答する・ふりがな付き")}</small></span></button>
+          </div>
+          ${state.respondent === "child" ? `
+            <div class="guardian-confirm">
+              <strong>${questionText("おうちの人に確認してね")}</strong>
+              <p>${questionText("この診断では、回答した内容と診断結果を保存します。名前や学校名、生年月日は聞きません。")}</p>
+              <button id="guardianConfirmBtn" class="primary-btn" type="button">${questionText("おうちの人と一緒／OKをもらった")}</button>
+            </div>` : ""}`;
         els.questionWrap.querySelectorAll(".respondent-option").forEach(button => {
           button.addEventListener("click", () => {
             if (state.isAdvancing) return;
             state.respondent = button.dataset.respondent;
-            els.questionWrap.querySelectorAll(".respondent-option").forEach(el => { el.classList.remove("selected"); el.setAttribute("aria-checked", "false"); });
-            button.classList.add("selected");
-            button.setAttribute("aria-checked", "true");
+            state.guardianConfirmed = false;
+            if (state.respondent === "child") {
+              renderQuestion();
+              return;
+            }
+            advanceFromCurrent();
+          });
+        });
+        document.getElementById("guardianConfirmBtn")?.addEventListener("click", () => {
+          state.guardianConfirmed = true;
+          advanceFromCurrent();
+        });
+      } else if (q.type === "gender") {
+        const title = state.respondent === "child" ? "あなたについて教えてね" : q.title;
+        const help = state.respondent === "child" ? "モンスターの表示を選ぶために使うよ。診断タイプには関係しません。" : q.help;
+        const choices = [
+          { key: "boy", label: "男の子", letter: "A" },
+          { key: "girl", label: "女の子", letter: "B" },
+          { key: "other", label: "答えたくない／その他", letter: "C" }
+        ];
+        els.questionWrap.innerHTML = `
+          <p class="question-kicker">${questionText(q.kicker)}</p>
+          <h2 class="question-title">${questionText(title)}</h2>
+          <p class="question-help">${questionText(help)}</p>
+          <div class="options" role="radiogroup" aria-label="${title}">
+            ${choices.map(choice => `<button class="option ${state.genderChoice === choice.key ? "selected" : ""}" type="button" role="radio" aria-checked="${state.genderChoice === choice.key}" data-gender="${choice.key}"><span class="option-letter">${choice.letter}</span><span>${questionText(choice.label)}</span></button>`).join("")}
+          </div>`;
+        els.questionWrap.querySelectorAll("[data-gender]").forEach(button => {
+          button.addEventListener("click", () => {
+            if (state.isAdvancing) return;
+            state.genderChoice = button.dataset.gender;
+            state.monsterVariant = state.genderChoice === "boy" ? "male" : state.genderChoice === "girl" ? "female" : "";
             advanceFromCurrent();
           });
         });
@@ -1385,22 +1487,22 @@
       } else {
         const help = state.respondent === "child" ? "あなたに一番近いものを選んでね。" : "一番よく見る姿に近いものを選んでください。";
         const otherSelected = state.answers[state.current] === "other";
-        const freeAnswerLabel = state.respondent === "child" ? "じゆうにかいてね（かかなくてもOK）" : "自由に書いてください（任意）";
-        const freeAnswerPlaceholder = state.respondent === "child" ? "どんなことをするか、じゆうにかいてね" : "どんな様子か、自由に書いてください";
-        const freeAnswerSubmit = state.respondent === "child" ? "これでつぎへ" : "この回答で次へ";
-        const freeAnswerLimit = state.respondent === "child" ? "300もじまで" : "300文字まで";
+        const freeAnswerLabel = state.respondent === "child" ? "自由に書いてね（書かなくてもOK）" : "自由に書いてください（任意）";
+        const freeAnswerPlaceholder = state.respondent === "child" ? "どんなことをするか、自由に書いてね" : "どんな様子か、自由に書いてください";
+        const freeAnswerSubmit = state.respondent === "child" ? "これで次へ" : "この回答で次へ";
+        const freeAnswerLimit = "300文字まで";
         els.questionWrap.innerHTML = `
           <p class="question-kicker">${questionText(q.kicker)}</p>
           <h2 class="question-title">${questionText(q.title)}</h2>
           <p class="question-help">${questionText(help)}</p>
           <div class="options" role="radiogroup" aria-label="${q.title}">
             ${q.options.map((option, i) => `<button class="option ${state.answers[state.current] === i ? "selected" : ""}" type="button" role="radio" aria-checked="${state.answers[state.current] === i}" data-index="${i}"><span class="option-letter">${String.fromCharCode(65+i)}</span><span>${questionText(option.text)}</span></button>`).join("")}
-            <button class="option other-option ${otherSelected ? "selected" : ""}" type="button" role="radio" aria-checked="${otherSelected}" data-other="true"><span class="option-letter">＋</span><span>どれにもあてはまらない／ほかにある</span></button>
+             <button class="option other-option ${otherSelected ? "selected" : ""}" type="button" role="radio" aria-checked="${otherSelected}" data-other="true"><span class="option-letter">＋</span><span>${questionText("どれにも当てはまらない／ほかにある")}</span></button>
           </div>
           <div id="freeAnswerPanel" class="free-answer-panel" ${otherSelected ? "" : "hidden"}>
-            <label class="free-answer-label" for="freeAnswerInput">${freeAnswerLabel}</label>
+            <label class="free-answer-label" for="freeAnswerInput">${questionText(freeAnswerLabel)}</label>
             <textarea id="freeAnswerInput" class="free-answer-input" maxlength="300" placeholder="${freeAnswerPlaceholder}"></textarea>
-            <div class="free-answer-actions"><p class="free-answer-note">${freeAnswerLimit}</p><button id="freeAnswerSubmit" class="primary-btn" type="button">${freeAnswerSubmit}</button></div>
+            <div class="free-answer-actions"><p class="free-answer-note">${questionText(freeAnswerLimit)}</p><button id="freeAnswerSubmit" class="primary-btn" type="button">${questionText(freeAnswerSubmit)}</button></div>
           </div>`;
         const freeAnswerPanel = document.getElementById("freeAnswerPanel");
         const freeAnswerInput = document.getElementById("freeAnswerInput");
@@ -1453,8 +1555,40 @@
 
     function finishDiagnosis() {
       const result = calculateResult();
+      state.resultData = result;
+      state.resultType = result.typeKey;
+      state.diagnosisCreatedAt = new Date().toISOString();
+      document.getElementById("hatchEgg").textContent = "🥚";
       showScreen(els.hatchScreen);
-      window.setTimeout(() => { renderResult(result); showScreen(els.resultScreen); }, 1750);
+      window.setTimeout(() => {
+        if (state.genderChoice === "other") {
+          renderCompanionSelection(result.typeKey);
+          showScreen(els.companionScreen);
+          return;
+        }
+        renderResult(result);
+        showScreen(els.resultScreen);
+      }, 1750);
+    }
+
+    function renderCompanionSelection(typeKey) {
+      const monster = monsters[typeKey];
+      const choices = [
+        { variant: "male", label: "男の子版の相棒" },
+        { variant: "female", label: "女の子版の相棒" }
+      ];
+      document.getElementById("companionOptions").innerHTML = choices.map(choice => `
+        <button class="companion-option" type="button" data-variant="${choice.variant}">
+          ${spriteMarkup(typeKey, "egg", `${monster.name} ${choice.label}`, { variant: choice.variant })}
+          <strong>${choice.label}</strong>
+        </button>`).join("");
+      document.querySelectorAll("[data-variant]").forEach(button => {
+        button.addEventListener("click", () => {
+          state.monsterVariant = button.dataset.variant;
+          renderResult(state.resultData);
+          showScreen(els.resultScreen);
+        }, { once: true });
+      });
     }
 
     function calculateResult() {
@@ -1508,7 +1642,7 @@
         if (!question.category) return null;
         const selectedIndex = state.answers[index];
         if (!Number.isInteger(selectedIndex)) return null;
-        return { index, question, answer: question.options[selectedIndex], insight: answerInsights[index]?.[selectedIndex] || null };
+        return { index, question, answer: question.options[selectedIndex], insight: answerInsights[question.id]?.[selectedIndex] || null };
       }).filter(Boolean);
     }
 
@@ -1569,16 +1703,11 @@
     }
 
     function applyMonsterImage(img, typeKey, monster) {
-      const resultSpriteUrl = SITE_CONFIG.monsterResultSpriteUrl || SITE_CONFIG.monsterEggSpriteUrl;
-      if (!resultSpriteUrl) return false;
-      const col = monster.spriteIndex % 4;
-      const row = Math.floor(monster.spriteIndex / 4);
-      img.src = resultSpriteUrl;
-      img.style.width = "400%";
-      img.style.height = "300%";
-      img.style.left = `${col * -100}%`;
-      img.style.top = `${row * -100}%`;
-      img.style.objectFit = "fill";
+      img.src = monsterAssetUrl(typeKey, "egg");
+      img.style.inset = "0";
+      img.style.width = "100%";
+      img.style.height = "100%";
+      img.style.objectFit = "contain";
       img.classList.add("visible");
       return true;
     }
@@ -1588,11 +1717,11 @@
       const { typeKey, main: m, secondary, third } = profile;
       const typeNumber = TYPE_ORDER.indexOf(typeKey) + 1;
       const respondentLabel = state.respondent === "child" ? "こども回答" : state.respondent === "adult" ? "おとな回答" : "プレビュー";
-      const diagnosisDate = new Intl.DateTimeFormat("ja-JP", { dateStyle: "long" }).format(new Date());
+      const diagnosisDate = new Intl.DateTimeFormat("ja-JP", { dateStyle: "long" }).format(state.diagnosisCreatedAt ? new Date(state.diagnosisCreatedAt) : new Date());
       const sheet = document.getElementById("detailSheet");
       sheet.style.setProperty("--sheet-accent", m.color);
       document.getElementById("pdfTypeNumber").textContent = `TYPE ${String(typeNumber).padStart(2, "0")} / 12`;
-      document.getElementById("pdfEggSprite").innerHTML = spriteMarkup(SITE_CONFIG.monsterEggSpriteUrl, m, `${m.name}の卵`);
+      document.getElementById("pdfEggSprite").innerHTML = spriteMarkup(typeKey, "egg", `${m.name}の卵`);
       document.getElementById("pdfAttribute").textContent = m.attribute;
       document.getElementById("pdfMonsterName").textContent = m.name;
       document.getElementById("pdfMonsterTitle").textContent = m.title;
@@ -1615,13 +1744,14 @@
       document.getElementById("pdfResultMeta").textContent = `診断日：${diagnosisDate}｜${respondentLabel}`;
 
       const stages = [
-        { label: "卵", note: "まだ見ぬ可能性", markup: spriteMarkup(SITE_CONFIG.monsterEggSpriteUrl, m, `${m.name}の卵`) },
-        { label: "進化①", note: "好きを試して育つ", markup: spriteMarkup(SITE_CONFIG.monsterSpriteUrl, m, `${m.name}の進化①`, SITE_CONFIG.monsterImageUrls[typeKey]) },
-        { label: "進化②", note: "得意を力に変える", markup: spriteMarkup(SITE_CONFIG.monsterEvolvedSpriteUrl, m, `${m.name}の進化②`) }
+        { key: "egg", label: "卵", note: "可能性いっぱい", silhouette: false },
+        { key: "hatch", label: "孵化後", note: "どんな姿かな？", silhouette: true },
+        { key: "junior", label: "ジュニア", note: "得意が育つ", silhouette: true },
+        { key: "adult", label: "大人", note: "未来の姿", silhouette: true }
       ];
       document.getElementById("pdfEvolutionGrid").innerHTML = stages.map(stage => `
         <article class="detail-evolution-stage">
-          ${stage.markup}
+          ${spriteMarkup(typeKey, stage.key, `${m.name}の${stage.label}${stage.silhouette ? "（シルエット）" : ""}`, { silhouette: stage.silhouette })}
           <div class="detail-stage-copy"><strong>${stage.label}</strong><span>${stage.note}</span></div>
         </article>
       `).join("");
@@ -1641,6 +1771,30 @@
       return new Promise(resolve => requestAnimationFrame(() => requestAnimationFrame(resolve)));
     }
 
+    async function preparePdfSilhouettes(sheet) {
+      const originals = [];
+      for (const img of sheet.querySelectorAll("img.silhouette")) {
+        if (!img.naturalWidth || !img.naturalHeight) continue;
+        const canvas = document.createElement("canvas");
+        canvas.width = img.naturalWidth;
+        canvas.height = img.naturalHeight;
+        const context = canvas.getContext("2d", { willReadFrequently: true });
+        context.drawImage(img, 0, 0);
+        const pixels = context.getImageData(0, 0, canvas.width, canvas.height);
+        for (let i = 0; i < pixels.data.length; i += 4) {
+          if (pixels.data[i + 3] === 0) continue;
+          pixels.data[i] = 19;
+          pixels.data[i + 1] = 34;
+          pixels.data[i + 2] = 83;
+        }
+        context.putImageData(pixels, 0, 0);
+        originals.push({ img, src: img.src });
+        img.src = canvas.toDataURL("image/png");
+        if (img.decode) await img.decode().catch(() => {});
+      }
+      return () => originals.forEach(({ img, src }) => { img.src = src; });
+    }
+
     async function downloadDetailPdf() {
       const sheet = document.getElementById("detailSheet");
       const monsterName = state.resultProfile?.main?.name || monsters[state.resultType]?.name || "才能モンスター";
@@ -1657,11 +1811,16 @@
       els.downloadPdfBtn.textContent = "PDFを作成中…";
       els.pdfSaveStatus.textContent = "A4・1枚のPDFを作っています。少しお待ちください。";
       document.body.classList.add("pdf-exporting");
+      let restorePdfSilhouettes = () => {};
 
       try {
         if (document.fonts?.ready) await document.fonts.ready;
         await waitForSheetImages(sheet);
+        restorePdfSilhouettes = await preparePdfSilhouettes(sheet);
         await nextPaint();
+        const exportRect = sheet.getBoundingClientRect();
+        const exportWidth = Math.ceil(exportRect.width);
+        const exportHeight = Math.ceil(exportRect.height);
 
         const worker = window.html2pdf().set({
           margin: 0,
@@ -1674,7 +1833,10 @@
             backgroundColor: "#fffdf7",
             scrollX: 0,
             scrollY: 0,
-            windowWidth: 1123
+            width: exportWidth,
+            height: exportHeight,
+            windowWidth: exportWidth,
+            windowHeight: exportHeight
           },
           jsPDF: { unit: "mm", format: "a4", orientation: "portrait", compress: true },
           pagebreak: { mode: ["css"] }
@@ -1709,6 +1871,7 @@
           els.pdfSaveStatus.textContent = "保存できませんでした。「印刷する」からPDF保存をお試しください。";
         }
       } finally {
+        restorePdfSilhouettes();
         document.body.classList.remove("pdf-exporting");
         els.downloadPdfBtn.disabled = false;
         els.printBtn.disabled = false;
@@ -1716,10 +1879,11 @@
       }
     }
 
-    function renderResult(resultInput) {
+    function renderResult(resultInput, options = {}) {
       const profile = buildPersonalizedProfile(resultInput);
       const { typeKey, main: m } = profile;
       state.resultType = typeKey;
+      state.resultData = typeof resultInput === "string" ? { typeKey, ranking: [typeKey], scores: {} } : resultInput;
       state.resultProfile = profile;
       const panel = document.getElementById("monsterPanel");
       panel.style.setProperty("--monster-glow", `${m.color}70`);
@@ -1733,101 +1897,191 @@
       document.getElementById("personalTraitList").innerHTML = profile.traits.map(item => `<li>${escapeHtml(item)}</li>`).join("");
       document.getElementById("strengthList").innerHTML = profile.strengths.map(item => `<li>${escapeHtml(item)}</li>`).join("");
       document.getElementById("parentTip").textContent = profile.parentTip;
-      document.getElementById("challengeType").textContent = m.challengeType;
-      document.getElementById("challengeText").textContent = m.challenge;
-      document.getElementById("resultDate").textContent = `診断日：${new Intl.DateTimeFormat("ja-JP", { dateStyle: "long" }).format(new Date())}`;
 
       const sigil = document.getElementById("monsterSigil");
       const img = document.getElementById("monsterImg");
       sigil.textContent = m.symbol;
       sigil.style.setProperty("--monster-color", m.color);
       sigil.classList.toggle("hidden", applyMonsterImage(img, typeKey, m));
+      const resultStages = [
+        { key: "egg", label: "卵", silhouette: false },
+        { key: "hatch", label: "孵化後", silhouette: true },
+        { key: "junior", label: "ジュニア", silhouette: true },
+        { key: "adult", label: "大人", silhouette: true }
+      ];
+      document.getElementById("resultEvolution").innerHTML = resultStages.map(stage => `<div class="result-evolution-item">${spriteMarkup(typeKey, stage.key, `${m.name}の${stage.label}`, { silhouette: stage.silhouette })}<strong>${stage.label}</strong></div>`).join("");
       renderDetailSheet(profile);
-
-      const comingSoon = SITE_CONFIG.resultActionsComingSoon === true;
-      const comingSoonZone = document.getElementById("comingSoonZone");
-      comingSoonZone.classList.toggle("active", comingSoon);
-      comingSoonZone.setAttribute("aria-disabled", String(comingSoon));
-      els.resultEmailInput.disabled = comingSoon;
-      els.resultEmailConsent.disabled = comingSoon;
-      els.resultEmailInput.value = state.email;
-      els.resultEmailConsent.checked = state.emailConsent;
-      updateResultEmailState();
-      configureLink(document.getElementById("lineCta"), comingSoon ? "" : SITE_CONFIG.lineUrl);
-      configureLink(document.getElementById("formCta"), comingSoon ? "" : SITE_CONFIG.applicationUrl);
-      document.getElementById("linkNote").hidden = !comingSoon && Boolean(SITE_CONFIG.lineUrl && SITE_CONFIG.applicationUrl);
-      els.emailStatus.textContent = comingSoon
-        ? "メールでの詳しい診断結果は、ただいま準備中です。"
-        : SITE_CONFIG.resultEmailEndpoint
-        ? `${maskEmail(state.email)}へ結果をお届けします。`
-        : "プレビュー中：メール送信先の設定後に自動送信できます。";
+      els.receiptCard.hidden = options.skipReceipt === true;
+      if (!options.skipReceipt) createReceiptForCurrentDiagnosis();
     }
 
-    function updateResultEmailState() {
-      const comingSoon = SITE_CONFIG.resultActionsComingSoon === true;
-      const validEmail = els.resultEmailInput && els.resultEmailInput.validity.valid && state.email;
-      els.emailBtn.disabled = Boolean(comingSoon || !validEmail || !state.emailConsent);
+    function apiUrl(path) {
+      const localBase = /^(localhost|127\.0\.0\.1)$/.test(window.location.hostname) ? "http://127.0.0.1:8787" : "";
+      const base = String(localBase || SITE_CONFIG.apiBaseUrl || "").trim().replace(/\/$/, "");
+      return base ? `${base}${path}` : new URL(path, window.location.origin).toString();
     }
 
-    function maskEmail(email) {
-      const [name, domain] = email.split("@");
-      if (!name || !domain) return "入力したメールアドレス";
-      return `${name.slice(0, 2)}${"*".repeat(Math.max(2, Math.min(5, name.length - 2)))}@${domain}`;
-    }
-
-    function buildResultEmailPayload() {
-      const m = monsters[state.resultType];
-      const profile = state.resultProfile || buildPersonalizedProfile(state.resultType);
+    function buildDiagnosisPayload() {
       return {
-        email: state.email,
+        version: 2,
         respondentType: state.respondent,
+        guardianConfirmed: state.respondent === "child" ? state.guardianConfirmed : false,
+        genderChoice: state.genderChoice,
+        monsterVariant: state.monsterVariant,
         zodiac: state.zodiac,
         answers: questions.map((question, index) => {
           if (!question.category) return null;
-          const isFreeAnswer = state.answers[index] === "other";
-          const selected = question.options[state.answers[index]];
-          return { question: question.title, answerType: isFreeAnswer ? "free" : "choice", answer: isFreeAnswer ? state.freeAnswers[index] : selected?.text || "", primaryType: selected?.primary || "", secondaryType: selected?.secondary || "" };
-        }).filter(Boolean),
-        subject: `【${SITE_CONFIG.projectName}】${SITE_CONFIG.diagnosisName}結果：${m.name}`,
-        result: {
-          monsterName: m.name,
-          monsterTitle: m.title,
-          secondaryMonster: profile.secondary.name,
-          talentMix: [profile.main, profile.secondary, profile.third].map((monster, index) => ({ name: monster.name, percentage: profile.mixPercentages[index] })),
-          attribute: m.attribute,
-          heading: m.heading,
-          introduction: m.intro,
-           personalTraits: profile.traits,
-           strengths: profile.strengths,
-           parentTip: profile.parentTip,
-           firstStep: profile.firstStep,
-           future: profile.future,
-           supportTip: profile.supportTip,
-           marcheChallenge: `${m.challengeType} ${m.challenge}`
-        }
+          const isFree = state.answers[index] === "other";
+          return {
+            answerType: isFree ? "free" : "choice",
+            choiceIndex: isFree ? null : state.answers[index],
+            freeText: isFree ? state.freeAnswers[index].trim() : ""
+          };
+        }).filter(Boolean)
       };
     }
 
-    async function sendResultEmail(automatic = false) {
-      if (!SITE_CONFIG.resultEmailEndpoint) {
-        els.emailStatus.textContent = "メール送信サービスの接続後に使えるようになります。1枚資料は今すぐ保存できます。";
+    function lineMessageUrl(code) {
+      const officialId = String(SITE_CONFIG.lineOfficialId || "").trim();
+      if (!officialId || !code) return "";
+      return `https://line.me/R/oaMessage/${encodeURIComponent(officialId)}/?${encodeURIComponent(code)}`;
+    }
+
+    function isMobileLineDevice() {
+      return /Android|iPhone|iPad|iPod/i.test(navigator.userAgent) || (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
+    }
+
+    function setReceiptLoading() {
+      els.receiptCard.setAttribute("aria-busy", "true");
+      els.receiptCode.textContent = "発行中…";
+      els.copyReceiptCodeBtn.disabled = true;
+      els.lineReceiveBtn.href = "#";
+      els.lineReceiveBtn.setAttribute("aria-disabled", "true");
+      els.receiptRetryBtn.hidden = true;
+      els.receiptStatus.textContent = "受取コードを安全に発行しています…";
+    }
+
+    function showReceiptCode(code, expiresAt) {
+      state.receiptCode = code;
+      els.receiptCard.setAttribute("aria-busy", "false");
+      els.receiptCode.textContent = code;
+      els.copyReceiptCodeBtn.disabled = false;
+      const mobile = isMobileLineDevice();
+      const lineUrl = mobile ? lineMessageUrl(code) : String(SITE_CONFIG.lineUrl || "").trim();
+      els.lineReceiveBtn.href = lineUrl || "#";
+      els.lineReceiveBtn.target = "_blank";
+      els.lineReceiveBtn.rel = "noopener noreferrer";
+      if (lineUrl) els.lineReceiveBtn.removeAttribute("aria-disabled");
+      els.lineReceiveBtn.textContent = mobile ? "公式LINEを開く（コード入力済み）" : "公式LINEのQRコードを表示";
+      const date = expiresAt ? new Intl.DateTimeFormat("ja-JP", { dateStyle: "medium" }).format(new Date(expiresAt)) : "30日後";
+      els.receiptStatus.textContent = mobile
+        ? `発行できました。有効期限：${date}。LINEが開いたら送信を押してね！`
+        : `発行できました。有効期限：${date}。コードをコピーし、QRコードからスマホのLINEを開いて送ってね！`;
+    }
+
+    function showReceiptError() {
+      els.receiptCard.setAttribute("aria-busy", "false");
+      els.receiptCode.textContent = "発行できませんでした";
+      els.copyReceiptCodeBtn.disabled = true;
+      els.lineReceiveBtn.href = "#";
+      els.lineReceiveBtn.setAttribute("aria-disabled", "true");
+      els.receiptRetryBtn.hidden = false;
+      els.receiptStatus.textContent = "通信状況を確認して、もう一度お試しください。簡易診断結果はそのまま見られます。";
+    }
+
+    async function createReceiptForCurrentDiagnosis() {
+      if (state.receiptCode) {
+        showReceiptCode(state.receiptCode);
         return;
       }
-      els.emailBtn.disabled = true;
-      els.emailStatus.textContent = automatic ? "結果メールを送信しています…" : `${maskEmail(state.email)}へ送信しています…`;
+      if (state.receiptPromise) return state.receiptPromise;
+      setReceiptLoading();
+      state.receiptPromise = (async () => {
+        try {
+          const response = await fetch(apiUrl("/api/diagnoses"), {
+            method: "POST",
+            credentials: "omit",
+            headers: { "Content-Type": "application/json", "Accept": "application/json" },
+            body: JSON.stringify(buildDiagnosisPayload())
+          });
+          if (!response.ok) throw new Error(`diagnosis endpoint returned ${response.status}`);
+          const data = await response.json();
+          if (!data.receiptCode) throw new Error("receipt code missing");
+          showReceiptCode(data.receiptCode, data.receiptExpiresAt);
+        } catch (error) {
+          console.error("Receipt code creation failed", error);
+          showReceiptError();
+        } finally {
+          state.receiptPromise = null;
+        }
+      })();
+      return state.receiptPromise;
+    }
+
+    async function copyReceiptCode() {
+      if (!state.receiptCode) return;
       try {
-        const response = await fetch(SITE_CONFIG.resultEmailEndpoint, {
-          method: "POST",
-          credentials: "omit",
-          headers: { "Content-Type": "application/json", "Accept": "application/json" },
-          body: JSON.stringify(buildResultEmailPayload())
-        });
-        if (!response.ok) throw new Error(`mail endpoint returned ${response.status}`);
-        els.emailStatus.textContent = `${maskEmail(state.email)}へ診断結果を送信しました。`;
+        if (navigator.clipboard?.writeText) {
+          await navigator.clipboard.writeText(state.receiptCode);
+        } else {
+          const input = document.createElement("textarea");
+          input.value = state.receiptCode;
+          input.style.position = "fixed";
+          input.style.opacity = "0";
+          document.body.appendChild(input);
+          input.select();
+          document.execCommand("copy");
+          input.remove();
+        }
+        els.receiptStatus.textContent = "コードをコピーしました。そのまま公式LINEで送ってね！";
+      } catch {
+        els.receiptStatus.textContent = "コピーできない場合は、コードを長押しして選択してください。";
+      }
+    }
+
+    function restoreDetailedResult(data) {
+      state.respondent = data.diagnosis.respondentType;
+      state.guardianConfirmed = data.diagnosis.guardianConfirmed === true;
+      state.genderChoice = data.diagnosis.genderChoice || "other";
+      state.monsterVariant = data.diagnosis.monsterVariant || "female";
+      state.zodiac = data.diagnosis.zodiac;
+      state.diagnosisCreatedAt = data.createdAt || "";
+      let answerIndex = 0;
+      questions.forEach((question, index) => {
+        if (!question.category) return;
+        const answer = data.diagnosis.answers[answerIndex++];
+        if (answer?.answerType === "free") {
+          state.answers[index] = "other";
+          state.freeAnswers[index] = String(answer.freeText || "");
+        } else {
+          state.answers[index] = Number(answer?.choiceIndex);
+          state.freeAnswers[index] = "";
+        }
+      });
+      state.resultData = data.result;
+      state.resultType = data.result.typeKey;
+      state.resultProfile = buildPersonalizedProfile(data.result);
+    }
+
+    async function loadDetailedResult(token) {
+      state.detailedResultToken = token;
+      els.resultLoadingTitle.textContent = "詳しい診断結果を開いています";
+      els.resultLoadingMessage.textContent = "あなた専用の結果を準備しています。少しお待ちください…";
+      els.resultLoadingRetry.hidden = true;
+      showScreen(els.resultLoadingScreen);
+      try {
+        const response = await fetch(apiUrl(`/api/results/${encodeURIComponent(token)}`), { credentials: "omit", headers: { "Accept": "application/json" } });
+        if (!response.ok) throw new Error(`result endpoint returned ${response.status}`);
+        const data = await response.json();
+        restoreDetailedResult(data);
+        renderResult(data.result, { skipReceipt: true });
+        renderDetailSheet(state.resultProfile);
+        showScreen(els.pdfPreviewScreen);
       } catch (error) {
-        console.error("Result email failed", error);
-        els.emailStatus.textContent = "メールを送れませんでした。時間をおいて、もう一度お試しください。";
-        updateResultEmailState();
+        console.error("Detailed result loading failed", error);
+        els.resultLoadingTitle.textContent = "結果を開けませんでした";
+        els.resultLoadingMessage.textContent = "URLの有効期限が切れているか、通信が不安定な可能性があります。LINEのトークからもう一度開いてください。";
+        els.resultLoadingRetry.hidden = false;
       }
     }
 
@@ -1848,41 +2102,42 @@
     els.startBtn.addEventListener("click", () => { showScreen(els.quizScreen); renderQuestion(); });
     els.galleryBtn.addEventListener("click", openGallery);
     els.resultGalleryBtn.addEventListener("click", openGallery);
+    els.galleryFemaleBtn.addEventListener("click", () => { state.galleryVariant = "female"; renderGallery(); });
+    els.galleryMaleBtn.addEventListener("click", () => { state.galleryVariant = "male"; renderGallery(); });
     els.galleryBackBtn.addEventListener("click", () => showScreen(els.startScreen));
     els.galleryStartBtn.addEventListener("click", () => { resetDiagnosis(); showScreen(els.quizScreen); renderQuestion(); });
     els.backBtn.addEventListener("click", () => { if (!state.isAdvancing && state.current > firstQuestionIndex) { state.current--; renderQuestion(); } });
 
     els.pdfViewBtn.addEventListener("click", () => { renderDetailSheet(state.resultProfile || state.resultType); showScreen(els.pdfPreviewScreen); });
-    els.pdfBackBtn.addEventListener("click", () => showScreen(els.resultScreen));
+    els.pdfBackBtn.addEventListener("click", () => {
+      if (state.detailedResultToken) renderResult(state.resultData || state.resultType, { skipReceipt: true });
+      showScreen(els.resultScreen);
+    });
     els.downloadPdfBtn.addEventListener("click", downloadDetailPdf);
     els.printBtn.addEventListener("click", () => window.print());
     window.addEventListener("beforeprint", () => document.body.classList.add("pdf-exporting"));
     window.addEventListener("afterprint", () => document.body.classList.remove("pdf-exporting"));
-    els.emailBtn.addEventListener("click", () => sendResultEmail(false));
-    els.resultEmailInput.addEventListener("input", () => {
-      state.email = els.resultEmailInput.value.trim();
-      updateResultEmailState();
-    });
-    els.resultEmailConsent.addEventListener("change", () => {
-      state.emailConsent = els.resultEmailConsent.checked;
-      updateResultEmailState();
-    });
+    els.copyReceiptCodeBtn.addEventListener("click", copyReceiptCode);
+    els.receiptRetryBtn.addEventListener("click", createReceiptForCurrentDiagnosis);
+    els.resultLoadingRetry.addEventListener("click", () => loadDetailedResult(state.detailedResultToken));
 
     function resetDiagnosis() {
       state.current = firstQuestionIndex;
       state.answers = Array(questions.length).fill(null);
       state.freeAnswers = Array(questions.length).fill("");
       state.respondent = "";
+      state.guardianConfirmed = false;
+      state.genderChoice = "";
+      state.monsterVariant = "";
       state.zodiac = "";
-      state.email = "";
-      state.emailConsent = false;
       state.resultType = "";
+      state.resultData = null;
       state.resultProfile = null;
+      state.diagnosisCreatedAt = "";
+      state.receiptCode = "";
+      state.receiptPromise = null;
+      state.detailedResultToken = "";
       state.isAdvancing = false;
-      els.resultEmailInput.value = "";
-      els.resultEmailConsent.checked = false;
-      els.emailStatus.textContent = "";
-      updateResultEmailState();
     }
 
     document.getElementById("retryBtn").addEventListener("click", () => {
@@ -1895,13 +2150,29 @@
     const previewParams = new URLSearchParams(window.location.search);
     const previewType = previewParams.get("type");
     const previewRespondent = previewParams.get("respondent");
+    const previewVariant = previewParams.get("variant");
+    const detailedResultToken = previewParams.get("result");
     if (["adult", "child"].includes(previewRespondent)) state.respondent = previewRespondent;
-    if (previewParams.get("preview") === "result" && TYPE_ORDER.includes(previewType)) {
-      renderResult(previewType);
+    if (["female", "male"].includes(previewVariant)) {
+      state.monsterVariant = previewVariant;
+      state.genderChoice = previewVariant === "male" ? "boy" : "girl";
+    }
+    if (detailedResultToken) {
+      if (/^[A-Za-z0-9_-]{43}$/.test(detailedResultToken)) {
+        loadDetailedResult(detailedResultToken);
+      } else {
+        els.resultLoadingTitle.textContent = "結果URLを確認できませんでした";
+        els.resultLoadingMessage.textContent = "LINEのトークに届いたボタンから、もう一度開いてください。";
+        els.resultLoadingRetry.hidden = true;
+        showScreen(els.resultLoadingScreen);
+      }
+    } else if (previewParams.get("preview") === "result" && TYPE_ORDER.includes(previewType)) {
+      renderResult(previewType, { skipReceipt: true });
       showScreen(els.resultScreen);
     } else if (previewParams.get("preview") === "pdf" && TYPE_ORDER.includes(previewType)) {
-      renderResult(previewType);
+      renderResult(previewType, { skipReceipt: true });
       renderDetailSheet(state.resultProfile || previewType);
+      if (previewParams.get("export") === "1") document.body.classList.add("pdf-exporting");
       showScreen(els.pdfPreviewScreen);
     }
   </script>

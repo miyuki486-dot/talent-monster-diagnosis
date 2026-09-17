@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#0a1742">
+  <title>プライバシーポリシー｜こども起業家研究所</title>
+  <style>
+    :root { color-scheme: light; font-family: "Hiragino Sans", "Yu Gothic UI", "Yu Gothic", Meiryo, system-ui, sans-serif; color: #142342; background: #0a1742; }
+    * { box-sizing: border-box; }
+    body { margin: 0; min-height: 100vh; padding: 20px; background: radial-gradient(circle at 8% 8%, rgba(70,215,244,.2), transparent 25rem), linear-gradient(145deg, #071334, #173b89); }
+    main { width: min(820px, 100%); margin: 0 auto; padding: clamp(28px, 6vw, 58px); border-radius: 28px; background: #fffef8; box-shadow: 0 22px 60px rgba(0,0,0,.24); }
+    .eyebrow { margin: 0 0 10px; color: #2b70e4; font-size: .82rem; font-weight: 900; letter-spacing: .1em; }
+    h1 { margin: 0 0 10px; color: #17386f; font-size: clamp(1.8rem, 5vw, 2.8rem); }
+    .updated { margin: 0 0 28px; color: #687895; font-size: .85rem; }
+    h2 { margin: 30px 0 10px; color: #244f91; font-size: 1.15rem; }
+    p, li { color: #3e506f; line-height: 1.85; }
+    ul { padding-left: 1.3rem; }
+    a { color: #1e62c7; font-weight: 800; }
+    .notice { margin: 22px 0; padding: 18px; border: 2px solid #78dce9; border-radius: 17px; background: linear-gradient(135deg, #eaffff, #fff8cf); }
+    .back { display: inline-grid; place-items: center; min-height: 50px; margin-top: 28px; padding: 12px 20px; border-radius: 14px; background: #245fc6; color: white; text-decoration: none; }
+  </style>
+</head>
+<body>
+  <main>
+    <p class="eyebrow">PRIVACY POLICY</p>
+    <h1>プライバシーポリシー</h1>
+    <p class="updated">制定日：2026年9月16日</p>
+
+    <p><span id="operatorName">こども起業家研究所</span>（以下「運営者」）は、「才能モンスター発見！博士ちゃん診断」で取り扱う情報を、次の方針に沿って管理します。</p>
+
+    <h2>1. 保存する情報</h2>
+    <ul>
+      <li>回答者の区分（大人・子ども）、モンスター表示の選択、星座、7問の選択回答</li>
+      <li>「答えたくない／その他」を選んだ場合に、最後に選んだ相棒（男の子版・女の子版）</li>
+      <li>任意で入力された自由回答</li>
+      <li>診断タイプ、受取コード、診断日時</li>
+      <li>公式LINEで受取コードを利用した場合、LINEユーザーIDを元に作成した復元できない識別値</li>
+    </ul>
+    <div class="notice">子どもの氏名、学校名、生年月日、住所、電話番号は、この診断では入力を求めません。自由回答にも個人を特定できる情報を書かないでください。</div>
+
+    <h2>2. 利用目的</h2>
+    <ul>
+      <li>診断結果の表示と、公式LINEから詳しい診断結果をお届けするため</li>
+      <li>不正利用の防止と、サービスの安全な運営のため</li>
+      <li>個人を特定できない形で、回答傾向の分析や診断内容の改善を行うため</li>
+    </ul>
+
+    <h2>3. 保存期間</h2>
+    <ul>
+      <li>受取コードと個別結果URL：診断から30日間</li>
+      <li>受取用の診断データ：診断から90日後に削除</li>
+      <li>分析用データ：LINEの識別値、受取コード、自由回答などを除外したうえで長期保存</li>
+    </ul>
+
+    <h2>4. 第三者への提供</h2>
+    <p>法令に基づく場合を除き、本人または保護者の同意なく第三者へ提供しません。運営に必要な範囲で利用するクラウドサービスには、適切な安全管理を求めます。</p>
+
+    <h2>5. 安全管理</h2>
+    <p>受取コードやLINEの識別情報は、そのまま検索・表示できない形へ変換して保存します。個別結果URLには推測しにくい文字列を使用し、有効期限を設定します。ただし、個別結果URLを他の人へ共有すると、その人も結果を見られる可能性があるため、取り扱いにご注意ください。</p>
+
+    <h2>6. 子どもの利用</h2>
+    <p>こどもが回答する場合は、保護者またはそれに代わるおとなの確認を得て利用してください。</p>
+
+    <h2>7. 確認・削除のご相談</h2>
+    <p>保存情報についてのご相談は、<a id="privacyContact" href="https://line.me/R/ti/p/%40536lguxf">公式LINE（@536lguxf）</a>からお問い合わせください。本人確認や対象データの特定ができない場合、ご希望に添えないことがあります。</p>
+
+    <h2>8. 方針の変更</h2>
+    <p>サービス内容や法令の変更に応じて、この方針を改定することがあります。重要な変更はサイト上でお知らせします。</p>
+
+    <a class="back" href="index.html">診断サイトへ戻る</a>
+  </main>
+  <script src="settings.js"></script>
+  <script>
+    const operatorName = SITE_CONFIG.privacyOperatorName || SITE_CONFIG.projectName;
+    document.getElementById("operatorName").textContent = operatorName;
+    document.title = `プライバシーポリシー｜${operatorName}`;
+    const contact = document.getElementById("privacyContact");
+    contact.textContent = SITE_CONFIG.privacyContactLabel || "公式LINE";
+    contact.href = SITE_CONFIG.privacyContactUrl || SITE_CONFIG.lineUrl || "#";
+  </script>
+</body>
+</html>

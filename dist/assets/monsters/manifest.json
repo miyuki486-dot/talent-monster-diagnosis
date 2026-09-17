@@ -1,0 +1,784 @@
+{
+  "source": "キラリモンスター修正.pdf",
+  "sourceSha256": "1da4667f3cb8dd0183f21fd2c9114bcf5ba67b158e438a38b41581345ac3f6b8",
+  "grid": {
+    "columns": 4,
+    "rows": 3
+  },
+  "sourceStructure": {
+    "female": {
+      "label": "女の子版",
+      "page": 1,
+      "stages": {
+        "egg": {
+          "label": "卵",
+          "position": 1,
+          "pageImageName": "FormXob.ded60f7919a8cbedacfaa4a5e3f25613"
+        },
+        "hatch": {
+          "label": "孵化後",
+          "position": 2,
+          "pageImageName": "FormXob.83eb764b87538983e6498c2b741c98d8"
+        },
+        "junior": {
+          "label": "ジュニア",
+          "position": 3,
+          "pageImageName": "FormXob.a886994d817d67258c74fdd16759713f"
+        },
+        "adult": {
+          "label": "大人",
+          "position": 4,
+          "pageImageName": "FormXob.d4d4a4ae4b47fac1e68fa43d77655bd9"
+        }
+      }
+    },
+    "male": {
+      "label": "男の子版",
+      "page": 7,
+      "stages": {
+        "egg": {
+          "label": "卵",
+          "position": 1,
+          "pageImageName": "FormXob.2bd2a32a29b4824c01158b251225675a"
+        },
+        "hatch": {
+          "label": "孵化後",
+          "position": 2,
+          "pageImageName": "FormXob.d998d1b8cb34e3d47560b9ee63c90fb5"
+        },
+        "junior": {
+          "label": "ジュニア",
+          "position": 3,
+          "pageImageName": "FormXob.920e06ef243f422968a338bcde189b2a"
+        },
+        "adult": {
+          "label": "大人",
+          "position": 4,
+          "pageImageName": "FormXob.077bf1530c1905cc9cee54b5c0de24d6"
+        }
+      }
+    }
+  },
+  "types": [
+    {
+      "number": 1,
+      "name": "ヒラメキラ",
+      "gridCell": {
+        "column": 1,
+        "row": 1
+      },
+      "variants": {
+        "female": {
+          "label": "女の子版",
+          "stages": {
+            "egg": {
+              "label": "卵",
+              "file": "female-01-egg.png",
+              "sha256": "f46cc818e636e102baac2b488a4200cc48f108e870ed0901437590b86a0f83ea"
+            },
+            "hatch": {
+              "label": "孵化後",
+              "file": "female-01-hatch.png",
+              "sha256": "5ccd0ebecb1d65b11eaa64f9a3930b8cc43df5bc8b0c8557fcaca1ce9c88b6cc"
+            },
+            "junior": {
+              "label": "ジュニア",
+              "file": "female-01-junior.png",
+              "sha256": "a76764ff5ed5244497846baafc726c6890a3bf040182deb2be62a0f1b2e9c7ae"
+            },
+            "adult": {
+              "label": "大人",
+              "file": "female-01-adult.png",
+              "sha256": "7cd2142647684f33d9d4955e69b0f7712165c6896e0deaa4848709143bc31f16"
+            }
+          }
+        },
+        "male": {
+          "label": "男の子版",
+          "stages": {
+            "egg": {
+              "label": "卵",
+              "file": "male-01-egg.png",
+              "sha256": "358a2f37a608271aec1c8a8a9aff989528b20ac85ce57a58470d50c91655deb7"
+            },
+            "hatch": {
+              "label": "孵化後",
+              "file": "male-01-hatch.png",
+              "sha256": "a61759f86b941392831b154e099c64512cffe3d28f9f61a5d6f7c6f8f3d6816b"
+            },
+            "junior": {
+              "label": "ジュニア",
+              "file": "male-01-junior.png",
+              "sha256": "d80b3d3e833c46bf270dbf88a576bf94e520f0c9288bc7f3ca2bf6220493f685"
+            },
+            "adult": {
+              "label": "大人",
+              "file": "male-01-adult.png",
+              "sha256": "d8941d0bea1480b20eee0758effa83fa33a3787430e339d66f4643085d467b80"
+            }
+          }
+        }
+      }
+    },
+    {
+      "number": 2,
+      "name": "ツクリオン",
+      "gridCell": {
+        "column": 2,
+        "row": 1
+      },
+      "variants": {
+        "female": {
+          "label": "女の子版",
+          "stages": {
+            "egg": {
+              "label": "卵",
+              "file": "female-02-egg.png",
+              "sha256": "de09332d600f8d3895fabf0a7c6c139361879360a719f32696e47d3d07dd00d3"
+            },
+            "hatch": {
+              "label": "孵化後",
+              "file": "female-02-hatch.png",
+              "sha256": "7915cd9e465b998fd97940a18755987b4c4029599f626a67a5c48410b130d639"
+            },
+            "junior": {
+              "label": "ジュニア",
+              "file": "female-02-junior.png",
+              "sha256": "1a393ef1d31dae3465835b59b0959b552ffafb47791207ecf6e7a5b3469e6632"
+            },
+            "adult": {
+              "label": "大人",
+              "file": "female-02-adult.png",
+              "sha256": "888d7c575e92ecec57f029d9bde8a42b317b44ecf0daf076db5d7a7216c1dab1"
+            }
+          }
+        },
+        "male": {
+          "label": "男の子版",
+          "stages": {
+            "egg": {
+              "label": "卵",
+              "file": "male-02-egg.png",
+              "sha256": "765a653ed6410dd8aee4e7ded86a47a6f48f6693711d068a0c0c69ee7556b026"
+            },
+            "hatch": {
+              "label": "孵化後",
+              "file": "male-02-hatch.png",
+              "sha256": "5f76b3014e378f2fc9e66da71638130e7b985dd8b6fca72775cf2fce13d9fdd7"
+            },
+            "junior": {
+              "label": "ジュニア",
+              "file": "male-02-junior.png",
+              "sha256": "554d9b9005bfe2afea8bf116d54294a89da7894fc8c01e9264dbb3ba6040e9ad"
+            },
+            "adult": {
+              "label": "大人",
+              "file": "male-02-adult.png",
+              "sha256": "eba5e24ab91e65112ba4ddfbe4ff5fbd40d4dcdb60d8427bb63674a8b32793dd"
+            }
+          }
+        }
+      }
+    },
+    {
+      "number": 3,
+      "name": "ミッケル",
+      "gridCell": {
+        "column": 3,
+        "row": 1
+      },
+      "variants": {
+        "female": {
+          "label": "女の子版",
+          "stages": {
+            "egg": {
+              "label": "卵",
+              "file": "female-03-egg.png",
+              "sha256": "5447ff6a294347bb50ddeb8b2405d75926e505ce809526656ed91c076a053dcd"
+            },
+            "hatch": {
+              "label": "孵化後",
+              "file": "female-03-hatch.png",
+              "sha256": "8fe1df126df560d0f95a3b32861e523fc3e44ebb6faa262f517a6c22ac49afae"
+            },
+            "junior": {
+              "label": "ジュニア",
+              "file": "female-03-junior.png",
+              "sha256": "d2a577dd570c453aeb76ffe76dc80e9ab3a2d9db7fb24e435ac0e496145eae50"
+            },
+            "adult": {
+              "label": "大人",
+              "file": "female-03-adult.png",
+              "sha256": "86ce74b4fff7f56b23a1a5230c5cfe6eaa2804056530d0da571b30c9442f93d1"
+            }
+          }
+        },
+        "male": {
+          "label": "男の子版",
+          "stages": {
+            "egg": {
+              "label": "卵",
+              "file": "male-03-egg.png",
+              "sha256": "05ed0a079df39d80b0366ac889e6c04d52052cb0554e1183af697ad1cec90cf9"
+            },
+            "hatch": {
+              "label": "孵化後",
+              "file": "male-03-hatch.png",
+              "sha256": "60c1e34d059f9bb783bbd5fc5c37251afca1cb3cdf30a40466c52facfd2f08a9"
+            },
+            "junior": {
+              "label": "ジュニア",
+              "file": "male-03-junior.png",
+              "sha256": "671314959e6a8cddd5a74ec19c317daa3ff6f97feb85742ac29a1fb605235cb4"
+            },
+            "adult": {
+              "label": "大人",
+              "file": "male-03-adult.png",
+              "sha256": "6100f27e37cd610c98b091123997c286b58210a88022c0da2619d5b2f5429b38"
+            }
+          }
+        }
+      }
+    },
+    {
+      "number": 4,
+      "name": "トビコン",
+      "gridCell": {
+        "column": 4,
+        "row": 1
+      },
+      "variants": {
+        "female": {
+          "label": "女の子版",
+          "stages": {
+            "egg": {
+              "label": "卵",
+              "file": "female-04-egg.png",
+              "sha256": "aedc46f829e3f19bccc430de3342de1c9b726da94569f0c4038b2e41c493a73e"
+            },
+            "hatch": {
+              "label": "孵化後",
+              "file": "female-04-hatch.png",
+              "sha256": "c66fd2d72c62d568fdd639f83e9cb9441e74cd13f0647594856781c496df14cf"
+            },
+            "junior": {
+              "label": "ジュニア",
+              "file": "female-04-junior.png",
+              "sha256": "434dbe0214e32ecdb914863f27baf35e3e3df5be711703b8443c9316a799b2c8"
+            },
+            "adult": {
+              "label": "大人",
+              "file": "female-04-adult.png",
+              "sha256": "f039606c50c2e52ecef34357b89fba1a1a0a4610bc58a213174ba781c4cf4afd"
+            }
+          }
+        },
+        "male": {
+          "label": "男の子版",
+          "stages": {
+            "egg": {
+              "label": "卵",
+              "file": "male-04-egg.png",
+              "sha256": "3c997adb795bd517ce987c492baba10c2e07c57e8e17733a3499d008efbfb2a3"
+            },
+            "hatch": {
+              "label": "孵化後",
+              "file": "male-04-hatch.png",
+              "sha256": "7c79fe4d8acb0bfed3bf7d6a20210dfe05391fa20b4888943a92de8b1153cd2a"
+            },
+            "junior": {
+              "label": "ジュニア",
+              "file": "male-04-junior.png",
+              "sha256": "77f48ec579ba105664c21dbecfc902c747220c031c84d4e72da9e30dd9fb6fa3"
+            },
+            "adult": {
+              "label": "大人",
+              "file": "male-04-adult.png",
+              "sha256": "911be31027a05478ac7567f1a299e75573c5c8f6f6d171fe415621fcd9b01248"
+            }
+          }
+        }
+      }
+    },
+    {
+      "number": 5,
+      "name": "コツミン",
+      "gridCell": {
+        "column": 1,
+        "row": 2
+      },
+      "variants": {
+        "female": {
+          "label": "女の子版",
+          "stages": {
+            "egg": {
+              "label": "卵",
+              "file": "female-05-egg.png",
+              "sha256": "28d01fe37477e4debfbe751dd898f73aa4cb943915381b31d7c1560b47aca901"
+            },
+            "hatch": {
+              "label": "孵化後",
+              "file": "female-05-hatch.png",
+              "sha256": "1357dfd320b6b3589331a4ad550c9340a8e798caf3c72e66ee3675889654970c"
+            },
+            "junior": {
+              "label": "ジュニア",
+              "file": "female-05-junior.png",
+              "sha256": "20c44c63ecc9fe7032131531e11b8681fec7ee4a95a14790493879336e3a3d37"
+            },
+            "adult": {
+              "label": "大人",
+              "file": "female-05-adult.png",
+              "sha256": "9e7fa86ad19ebbd48d8e990f5371ba4aad87541e2cfa8402c9a854579ab663c7"
+            }
+          }
+        },
+        "male": {
+          "label": "男の子版",
+          "stages": {
+            "egg": {
+              "label": "卵",
+              "file": "male-05-egg.png",
+              "sha256": "65fc36041371252b75c3e656559f31bcc0461fc3281e667ab7572b3fc7d8d28e"
+            },
+            "hatch": {
+              "label": "孵化後",
+              "file": "male-05-hatch.png",
+              "sha256": "34a0652b7dccd5dab07041f131df87aac2ee22aa9f66497a498112eb9523e398"
+            },
+            "junior": {
+              "label": "ジュニア",
+              "file": "male-05-junior.png",
+              "sha256": "9706a564b70faf21edd65d70913248a941047f96abc1cd252fe2bda73ca26441"
+            },
+            "adult": {
+              "label": "大人",
+              "file": "male-05-adult.png",
+              "sha256": "a5acaac9f47dc2e877256436511b81065560d4295453204e350bda2f3c862ac6"
+            }
+          }
+        }
+      }
+    },
+    {
+      "number": 6,
+      "name": "コトハネ",
+      "gridCell": {
+        "column": 2,
+        "row": 2
+      },
+      "variants": {
+        "female": {
+          "label": "女の子版",
+          "stages": {
+            "egg": {
+              "label": "卵",
+              "file": "female-06-egg.png",
+              "sha256": "4706836a73b364b70cde257f5909ae45bdfa300ad703bfe74706e5bc97bd2dee"
+            },
+            "hatch": {
+              "label": "孵化後",
+              "file": "female-06-hatch.png",
+              "sha256": "2ecbf586ea2e520b81c289c53da0125faaf978a0e89049c1a4d053fd8a85b660"
+            },
+            "junior": {
+              "label": "ジュニア",
+              "file": "female-06-junior.png",
+              "sha256": "05db05371c44a462d689c219e2f059fb20631dacbb3d4d2e2ded84579120e5b9"
+            },
+            "adult": {
+              "label": "大人",
+              "file": "female-06-adult.png",
+              "sha256": "8112f52aa81f6b89feb2c28e557ea9d5120b2daee30510a9af3d73a65ded7dc8"
+            }
+          }
+        },
+        "male": {
+          "label": "男の子版",
+          "stages": {
+            "egg": {
+              "label": "卵",
+              "file": "male-06-egg.png",
+              "sha256": "f4b10648e65b869d48b41859a23327750b193d89f632e46d2d843afbdfa5095c"
+            },
+            "hatch": {
+              "label": "孵化後",
+              "file": "male-06-hatch.png",
+              "sha256": "dc4a2ebb750e4b88356dbea6a8bbf417a9a77a209fbd60da36b5adb0d4824395"
+            },
+            "junior": {
+              "label": "ジュニア",
+              "file": "male-06-junior.png",
+              "sha256": "39bfba31b0063c7db369e5e9d5a7925cbe2ded0a3f42f21e5b5c00d4013406c2"
+            },
+            "adult": {
+              "label": "大人",
+              "file": "male-06-adult.png",
+              "sha256": "f4242ef760ec7aa4e3fce2d0e3573f74ead1caa733103a8640a495f664c60335"
+            }
+          }
+        }
+      }
+    },
+    {
+      "number": 7,
+      "name": "ヨリソ",
+      "gridCell": {
+        "column": 3,
+        "row": 2
+      },
+      "variants": {
+        "female": {
+          "label": "女の子版",
+          "stages": {
+            "egg": {
+              "label": "卵",
+              "file": "female-07-egg.png",
+              "sha256": "ed0ca435a19f9e7f3de9bccb53edbbe8ee3de5755d07bb5663f732f547dd1900"
+            },
+            "hatch": {
+              "label": "孵化後",
+              "file": "female-07-hatch.png",
+              "sha256": "24a8abf7bc7b16ff8a608750a868afee999e7b6f96f7b0b607897f4c9be47068"
+            },
+            "junior": {
+              "label": "ジュニア",
+              "file": "female-07-junior.png",
+              "sha256": "a9f03e6f79ee9c6c56b3ac2efca40d73f2ff042e1de874bfcafa76c9d950c77d"
+            },
+            "adult": {
+              "label": "大人",
+              "file": "female-07-adult.png",
+              "sha256": "55edcadf47c77bd28ab6f76e1811fd4ce1981dae5805e691082e5ab03d3c72ec"
+            }
+          }
+        },
+        "male": {
+          "label": "男の子版",
+          "stages": {
+            "egg": {
+              "label": "卵",
+              "file": "male-07-egg.png",
+              "sha256": "a62fe6aa7410dc7e069ac05fbd8a71ceee358e680230b4badd95278e1d86de7b"
+            },
+            "hatch": {
+              "label": "孵化後",
+              "file": "male-07-hatch.png",
+              "sha256": "7e034065f1e92eb6f28c480a97cfec36b5e3d0c0bf2487cc429c5b5921991d05"
+            },
+            "junior": {
+              "label": "ジュニア",
+              "file": "male-07-junior.png",
+              "sha256": "66bbfb2a912eeed068f55970da0488f4d977f999383b1a8fc6d8ee4e06032221"
+            },
+            "adult": {
+              "label": "大人",
+              "file": "male-07-adult.png",
+              "sha256": "ff1a8b70680ba7f1b862f34bf735f080248538c1c59256797a7a091d3d793207"
+            }
+          }
+        }
+      }
+    },
+    {
+      "number": 8,
+      "name": "ムスビット",
+      "gridCell": {
+        "column": 4,
+        "row": 2
+      },
+      "variants": {
+        "female": {
+          "label": "女の子版",
+          "stages": {
+            "egg": {
+              "label": "卵",
+              "file": "female-08-egg.png",
+              "sha256": "7619d1c563e95d74a8fa4fc7e73b5aad10ad1d733be0e25cee7e8a054ec427af"
+            },
+            "hatch": {
+              "label": "孵化後",
+              "file": "female-08-hatch.png",
+              "sha256": "d3a86bcba3f1240dfcfd50cf8cb4f407d215f533dd2cc2e2ed18b950e7e273a5"
+            },
+            "junior": {
+              "label": "ジュニア",
+              "file": "female-08-junior.png",
+              "sha256": "ee83713ace9299814ace3a1462b4b0204d70cbbc81b7381646270ee3b66443a9"
+            },
+            "adult": {
+              "label": "大人",
+              "file": "female-08-adult.png",
+              "sha256": "a9bb0819cb9029e6feec95308277c0ef1fe0a638f6ddef9623ce066b5171dd48"
+            }
+          }
+        },
+        "male": {
+          "label": "男の子版",
+          "stages": {
+            "egg": {
+              "label": "卵",
+              "file": "male-08-egg.png",
+              "sha256": "40539596767865fa7f67dae9e9499bf2df06b03afbdeeaa71dd98e6dc79b3f4a"
+            },
+            "hatch": {
+              "label": "孵化後",
+              "file": "male-08-hatch.png",
+              "sha256": "bafd81981c56ea6d5db7ba7f81ae4d2f2318813b78efbd76e38f3715255faea7"
+            },
+            "junior": {
+              "label": "ジュニア",
+              "file": "male-08-junior.png",
+              "sha256": "64b989fb6550422b2efbb707ddb95558bd6680716e3b1f140c39126109df7adb"
+            },
+            "adult": {
+              "label": "大人",
+              "file": "male-08-adult.png",
+              "sha256": "d5b0b3771626d12f1e2d63abf1fce3150ca4334c1bec6d280b5f79a8b4fd09b2"
+            }
+          }
+        }
+      }
+    },
+    {
+      "number": 9,
+      "name": "イロドラ",
+      "gridCell": {
+        "column": 1,
+        "row": 3
+      },
+      "variants": {
+        "female": {
+          "label": "女の子版",
+          "stages": {
+            "egg": {
+              "label": "卵",
+              "file": "female-09-egg.png",
+              "sha256": "873998b3271682956f68b116218216eb15a208b247f0ba1a3cb523f386aeba43"
+            },
+            "hatch": {
+              "label": "孵化後",
+              "file": "female-09-hatch.png",
+              "sha256": "e68467c52f489a455693b37735db4cb26f931ea1d303078a5549134eec5460d5"
+            },
+            "junior": {
+              "label": "ジュニア",
+              "file": "female-09-junior.png",
+              "sha256": "6a534aa034ae9cf7d906b952f07982088280ddcdda722cf6195a9a4e0708ac4c"
+            },
+            "adult": {
+              "label": "大人",
+              "file": "female-09-adult.png",
+              "sha256": "4d31f0dd8a39f8ab0be4c6c95aa1599bf4bcb4b755881aa3e60986672df0e3fa"
+            }
+          }
+        },
+        "male": {
+          "label": "男の子版",
+          "stages": {
+            "egg": {
+              "label": "卵",
+              "file": "male-09-egg.png",
+              "sha256": "48518a68c39629a00e37d842b1e313676221de189d8e8e4ddf377b4dfa11279e"
+            },
+            "hatch": {
+              "label": "孵化後",
+              "file": "male-09-hatch.png",
+              "sha256": "d3a3e1e2f78f696ccb99325185f92ba95375214d570529632444f3b57d6db0d4"
+            },
+            "junior": {
+              "label": "ジュニア",
+              "file": "male-09-junior.png",
+              "sha256": "e2bfd12bb08b9c9c8cfa18bbf2cb58e37698f6a734dfb18aa82a80eaf5310c08"
+            },
+            "adult": {
+              "label": "大人",
+              "file": "male-09-adult.png",
+              "sha256": "af626dfda5dd1356a871e18afaeeda4f3c62bb721e2a3e29488197a599672255"
+            }
+          }
+        }
+      }
+    },
+    {
+      "number": 10,
+      "name": "ミチシル",
+      "gridCell": {
+        "column": 2,
+        "row": 3
+      },
+      "variants": {
+        "female": {
+          "label": "女の子版",
+          "stages": {
+            "egg": {
+              "label": "卵",
+              "file": "female-10-egg.png",
+              "sha256": "c0700e6f29722ec20241abf9e1525f7a2e95317ac60da71fb665e7e720cd651b"
+            },
+            "hatch": {
+              "label": "孵化後",
+              "file": "female-10-hatch.png",
+              "sha256": "dc85c048d086901eae8db9439699f5fa8e00f45c8c083e5d045aafc6f53eee99"
+            },
+            "junior": {
+              "label": "ジュニア",
+              "file": "female-10-junior.png",
+              "sha256": "b21b66de72cb86b74357d9d6dac97975fd11f3d4368e62e411b0cff80a9b2b95"
+            },
+            "adult": {
+              "label": "大人",
+              "file": "female-10-adult.png",
+              "sha256": "187e0d5d318c318559df57f7c1766e6c685e4368c79d384be03102f83530a8aa"
+            }
+          }
+        },
+        "male": {
+          "label": "男の子版",
+          "stages": {
+            "egg": {
+              "label": "卵",
+              "file": "male-10-egg.png",
+              "sha256": "2e90e1b1f7f27b1416b6456eac1c1a512b85ca07c1abc6c59ee8f09a510526ba"
+            },
+            "hatch": {
+              "label": "孵化後",
+              "file": "male-10-hatch.png",
+              "sha256": "3a84ca070179c9bd5ed459477c9432d3dd6d22d397b2a331d3b14e82cc104980"
+            },
+            "junior": {
+              "label": "ジュニア",
+              "file": "male-10-junior.png",
+              "sha256": "40a2a63ec472a1a09ea5161a580717c851f6f0c1ac9420cee31a98265c52a182"
+            },
+            "adult": {
+              "label": "大人",
+              "file": "male-10-adult.png",
+              "sha256": "d7c5e0258d7e975a4b3132d17646ab7c0927c410adf265aca738570bca292c72"
+            }
+          }
+        }
+      }
+    },
+    {
+      "number": 11,
+      "name": "ヨロコビィ",
+      "gridCell": {
+        "column": 3,
+        "row": 3
+      },
+      "variants": {
+        "female": {
+          "label": "女の子版",
+          "stages": {
+            "egg": {
+              "label": "卵",
+              "file": "female-11-egg.png",
+              "sha256": "5de74dce68943aea3592ab19486c74f77429c0c5e377018d754d1a443e7da2c9"
+            },
+            "hatch": {
+              "label": "孵化後",
+              "file": "female-11-hatch.png",
+              "sha256": "15f969086a6f24df11428dc7147d8f4812c175c539f66c397eeac7e5bf6bca16"
+            },
+            "junior": {
+              "label": "ジュニア",
+              "file": "female-11-junior.png",
+              "sha256": "54fc6b6ab652c6ed1e06b6b73db9c387fa8b8bb11135332e3b2688faddc966e3"
+            },
+            "adult": {
+              "label": "大人",
+              "file": "female-11-adult.png",
+              "sha256": "bc4814f32889aabf8a5034d8d89d0c68552c6539ed4283447e453fc5ee8eab78"
+            }
+          }
+        },
+        "male": {
+          "label": "男の子版",
+          "stages": {
+            "egg": {
+              "label": "卵",
+              "file": "male-11-egg.png",
+              "sha256": "e6e0b6bfa2253652e850045d0fe15186ef1d8066d2ffb4cfd08e7fb12cda3112"
+            },
+            "hatch": {
+              "label": "孵化後",
+              "file": "male-11-hatch.png",
+              "sha256": "b74ea313d965e00beee8d279bfc551645752698176c5fa1a92e78566cb0051ab"
+            },
+            "junior": {
+              "label": "ジュニア",
+              "file": "male-11-junior.png",
+              "sha256": "e7ab0eff804af13a06c60feaa26baabbe579cf4687e0e6c38cbf851a52f0d059"
+            },
+            "adult": {
+              "label": "大人",
+              "file": "male-11-adult.png",
+              "sha256": "16c3a11bbee69fbdb2f10149dbb937ca3486836b6c22ea5b1afc22465c20c15e"
+            }
+          }
+        }
+      }
+    },
+    {
+      "number": 12,
+      "name": "センディア",
+      "gridCell": {
+        "column": 4,
+        "row": 3
+      },
+      "variants": {
+        "female": {
+          "label": "女の子版",
+          "stages": {
+            "egg": {
+              "label": "卵",
+              "file": "female-12-egg.png",
+              "sha256": "8ca88ce1a5ebedea39aef023a180f92f78f9d8d4a344a3d7a0e0c76207eaf69e"
+            },
+            "hatch": {
+              "label": "孵化後",
+              "file": "female-12-hatch.png",
+              "sha256": "a8999035392a7c61d22968888614f51be2f3507f7c4d6de572ea70a4b55bd9b5"
+            },
+            "junior": {
+              "label": "ジュニア",
+              "file": "female-12-junior.png",
+              "sha256": "152f45dc391985aa6bc0312d0e80d974f7d034b8db0ea60f4d79f049c0aee98a"
+            },
+            "adult": {
+              "label": "大人",
+              "file": "female-12-adult.png",
+              "sha256": "349d2ffc359df7a1e116f2b1051c677b7a42bf0fe2375b1139b850956940e924"
+            }
+          }
+        },
+        "male": {
+          "label": "男の子版",
+          "stages": {
+            "egg": {
+              "label": "卵",
+              "file": "male-12-egg.png",
+              "sha256": "5b56f667fcd12a1b5a1593b22c295d5da2b2c95ada9503ea9bfeb263d9b7741b"
+            },
+            "hatch": {
+              "label": "孵化後",
+              "file": "male-12-hatch.png",
+              "sha256": "2eac91c67f930bc2778496e4008861bf145cce865ef0716b140926727793db4b"
+            },
+            "junior": {
+              "label": "ジュニア",
+              "file": "male-12-junior.png",
+              "sha256": "b029d4b3d1260cd245d34c9f91282188f496be61c900f410d5b503a63bcfecc0"
+            },
+            "adult": {
+              "label": "大人",
+              "file": "male-12-adult.png",
+              "sha256": "09f0e0e75b617ce46a40f24cd23a62f842407612ce10ab0dc4df94421ca6af2d"
+            }
+          }
+        }
+      }
+    }
+  ]
+}

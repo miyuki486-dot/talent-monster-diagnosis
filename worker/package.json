@@ -1,0 +1,11 @@
+{
+  "name": "talent-monster-line-api",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node --test test/*.test.js"
+  },
+  "devDependencies": {
+    "wrangler": "4.45.0"
+  }
+}
