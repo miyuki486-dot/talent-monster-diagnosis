@@ -62,10 +62,12 @@ test("判定待ち演出はタイプ別画像を見せず未孵化の卵を表�
   assert.doesNotMatch(finishDiagnosis, /monsterAssetUrl|spriteMarkup|<img/);
 });
 
-test("詳細結果はサーバー生成PDFとPNGへの導線を持ち、旧ブラウザ生成コードも保持する", () => {
+test("詳細結果は画像保存に一本化し、PDF生成コードとエンドポイントを保持する", () => {
   const frontend = readFileSync(frontendUrl, "utf8");
-  assert.match(frontend, /id="downloadPdfBtn"[\s\S]*PDFで保存<\/a>/);
-  assert.match(frontend, /id="downloadImageBtn"[\s\S]*画像で保存<\/a>/);
+  assert.match(frontend, /id="downloadPdfBtn"[^>]*hidden[^>]*>PDFで保存<\/a>/);
+  assert.match(frontend, /id="downloadImageBtn"[^>]*disabled[^>]*>画像を保存<\/button>/);
+  assert.match(frontend, /診断シートを保存/);
+  assert.match(frontend, /保存した画像はA4サイズでもきれいに印刷できます✨/);
   assert.match(frontend, /id="printBtn"[^>]*hidden/);
   assert.match(frontend, /apiUrl\(`\/api\/results\/\$\{encodeURIComponent\(token\)\}\/pdf`\)/);
   assert.match(frontend, /apiUrl\(`\/api\/results\/\$\{encodeURIComponent\(token\)\}\/image`\)/);
@@ -73,6 +75,24 @@ test("詳細結果はサーバー生成PDFとPNGへの導線を持ち、旧ブ�
   assert.match(frontend, /dataset\.pdfReady = "true"/);
   assert.match(frontend, /document\.fonts\?\.ready/);
   assert.match(frontend, /async function downloadDetailPdf\(\)/);
+});
+
+test("画像保存は機能検出・ファイル共有・安全なフォールバックを使う", () => {
+  const frontend = readFileSync(frontendUrl, "utf8");
+  const supportFunction = frontend.match(/function supportsImageFileSharing\(\) \{[\s\S]*?\n    \}/)?.[0] || "";
+  const saveFunction = frontend.match(/function saveDetailedResultImage\(event\) \{[\s\S]*?\n    \}/)?.[0] || "";
+  assert.match(supportFunction, /typeof navigator\.share !== "function"/);
+  assert.match(supportFunction, /typeof navigator\.canShare !== "function"/);
+  assert.match(supportFunction, /navigator\.canShare\(\{ files: \[probe\] \}\)/);
+  assert.doesNotMatch(supportFunction, /userAgent|iPhone|Android|Safari|Chrome|LINE/i);
+  assert.match(saveFunction, /navigator\.share\(\{/);
+  assert.match(saveFunction, /files: \[preparedImageFile\]/);
+  assert.match(saveFunction, /imageSaveBusy/);
+  assert.doesNotMatch(saveFunction, /userAgent|navigator\.platform|iPhone|Android|Safari|Chrome/i);
+  assert.match(frontend, /error\?\.name === "AbortError"/);
+  assert.match(frontend, /id="imageSaveFallback"/);
+  assert.match(frontend, /showImageFallback\(preparedImageBlob\)/);
+  assert.match(frontend, /診断シートを作成しています…/);
 });
 
 test("PDFとPNGの出力専用表示は正解デザインの淡い配色と日本語フォントを使う", () => {
