@@ -64,6 +64,9 @@ function environment() {
       calls: browserCalls,
       async quickAction(action, options) {
         browserCalls.push({ action, options });
+        if (action === "screenshot") {
+          return new Response(new Uint8Array([137, 80, 78, 71, 13, 10, 26, 10]), { status: 200, headers: { "Content-Type": "image/png" } });
+        }
         return new Response("%PDF-1.7\nserver-rendered-test", { status: 200, headers: { "Content-Type": "application/pdf" } });
       }
     }
@@ -170,6 +173,22 @@ test("診断保存、LINE照合、個別結果取得まで一連で動く", asyn
     assert.equal(pdfSourceUrl.searchParams.get("result"), resultToken);
     assert.equal(pdfSourceUrl.searchParams.get("serverPdf"), "1");
 
+    const imageResponse = await worker.fetch(browserRequest(`/api/results/${resultToken}/image`), env);
+    assert.equal(imageResponse.status, 200);
+    assert.equal(imageResponse.headers.get("Content-Type"), "image/png");
+    assert.match(imageResponse.headers.get("Content-Disposition"), /talent-monster-result\.png/);
+    const imageBytes = new Uint8Array(await imageResponse.arrayBuffer());
+    assert.deepEqual(Array.from(imageBytes), [137, 80, 78, 71, 13, 10, 26, 10]);
+    assert.equal(env.BROWSER.calls.length, 2);
+    assert.equal(env.BROWSER.calls[1].action, "screenshot");
+    assert.equal(env.BROWSER.calls[1].options.selector, "#detailSheet");
+    assert.equal(env.BROWSER.calls[1].options.screenshotOptions.type, "png");
+    assert.equal(env.BROWSER.calls[1].options.screenshotOptions.captureBeyondViewport, true);
+    assert.equal(env.BROWSER.calls[1].options.waitForSelector.selector, '#detailSheet[data-pdf-ready="true"]');
+    const imageSourceUrl = new URL(env.BROWSER.calls[1].options.url);
+    assert.equal(imageSourceUrl.searchParams.get("result"), resultToken);
+    assert.equal(imageSourceUrl.searchParams.get("serverPdf"), "1");
+
     const otherUserBody = JSON.stringify({
       events: [{
         webhookEventId: "event-2",
@@ -215,5 +234,7 @@ test("無効な個別結果トークンではBrowser Runを呼ばない", async 
   const env = environment();
   const response = await worker.fetch(browserRequest(`/api/results/${"A".repeat(43)}/pdf`), env);
   assert.equal(response.status, 404);
+  const imageResponse = await worker.fetch(browserRequest(`/api/results/${"A".repeat(43)}/image`), env);
+  assert.equal(imageResponse.status, 404);
   assert.equal(env.BROWSER.calls.length, 0);
 });

@@ -8,6 +8,14 @@
   <title>才能モンスター発見！博士ちゃん診断</title>
   <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%230a1742'/%3E%3Cpath d='M32 10c11 0 19 18 19 30 0 9-8 14-19 14S13 49 13 40c0-12 8-30 19-30Z' fill='%23ffd45a'/%3E%3Cpath d='m19 36 8-5 5 5 7-8 7 6' fill='none' stroke='%230a1742' stroke-width='4' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
   <style>
+    @font-face {
+      font-family: "Talent Monster JP";
+      src: url("assets/fonts/NotoSansJP-Variable.ttf") format("truetype");
+      font-style: normal;
+      font-weight: 100 900;
+      font-display: swap;
+    }
+
     :root {
       color-scheme: light;
       --navy: #08163d;
@@ -512,16 +520,19 @@
     .pdf-ready-card { display: grid; grid-template-columns: 1fr auto; align-items: center; gap: 16px; margin-top: 24px; padding: 18px; border: 2px solid #ffd65c; border-radius: 20px; background: linear-gradient(135deg, #fff8c9, #edfbff 58%, #fff0f6); box-shadow: 0 12px 28px rgba(53,91,164,.11); }
     .pdf-ready-card strong { display: block; margin-bottom: 4px; color: #18386f; font-size: 1rem; }
     .pdf-ready-card p { margin: 0; color: #586887; font-size: .82rem; line-height: 1.6; }
-    .pdf-preview-screen { display: none; padding: clamp(20px, 4vw, 44px); background: linear-gradient(145deg, #e8fbff, #fff6cc 48%, #ffe9f4); }
-    .pdf-preview-toolbar { display: flex; align-items: center; justify-content: space-between; gap: 16px; width: min(210mm, 100%); margin: 0 auto 18px; }
-    .pdf-preview-toolbar div { text-align: center; }
+    .pdf-preview-screen { display: none; padding: clamp(20px, 4vw, 44px); background: linear-gradient(145deg, #effcff, #fffdf3 58%, #f8f3ff); }
+    .pdf-preview-toolbar { display: grid; grid-template-columns: auto 1fr auto; align-items: center; gap: 16px; width: min(210mm, 100%); margin: 0 auto 14px; padding: 14px 16px; border: 1px solid #cfe9ef; border-radius: 18px; background: rgba(255,255,255,.92); box-shadow: 0 10px 28px rgba(37,77,137,.10); }
+    .pdf-preview-toolbar-copy { text-align: center; }
     .pdf-preview-toolbar strong { display: block; color: #17366c; }
-    .pdf-preview-toolbar span { color: var(--muted); font-size: .78rem; }
-    .pdf-preview-actions { display: flex; justify-content: flex-end; gap: 9px; text-align: right !important; }
+    .pdf-preview-toolbar small { display: block; margin-top: 2px; color: var(--muted); font-size: .75rem; font-weight: 700; }
+    .pdf-preview-actions { display: flex; justify-content: flex-end; gap: 8px; text-align: right !important; }
     .pdf-preview-actions[hidden] { display: none !important; }
-    .pdf-preview-actions .primary-btn, .pdf-preview-actions .secondary-btn { min-height: 48px; padding: 11px 17px; white-space: nowrap; }
-    .pdf-preview-actions .primary-btn[aria-disabled="true"] { pointer-events: none; opacity: .55; }
-    .pdf-save-status { min-height: 1.4em; width: min(210mm, 100%); margin: -8px auto 14px; color: #34568e; font-size: .8rem; font-weight: 800; text-align: right; }
+    .pdf-preview-actions .save-format-btn { display: inline-flex; align-items: center; justify-content: center; min-height: 44px; padding: 10px 15px; border: 1px solid #9edce6; border-radius: 999px; color: #173c70; font-size: .84rem; font-weight: 900; text-decoration: none; white-space: nowrap; box-shadow: 0 6px 15px rgba(35,87,148,.09); }
+    .pdf-preview-actions .save-format-btn.pdf { background: #fff2a8; border-color: #f1cd56; }
+    .pdf-preview-actions .save-format-btn.image { background: #dff8f3; border-color: #82d8c6; }
+    .pdf-preview-actions .save-format-btn[aria-disabled="true"] { pointer-events: none; opacity: .55; }
+    .pdf-save-status { width: min(210mm, 100%); margin: 0 auto 12px; padding: 10px 14px; border-radius: 12px; background: #e8f8fc; color: #34568e; font-size: .8rem; font-weight: 800; text-align: center; }
+    .pdf-save-status:empty { display: none; }
     .detail-sheet { --sheet-accent: #53d8f3; position: relative; width: min(210mm, 100%); min-height: 297mm; margin: auto; overflow: hidden; border: 1.2mm solid #82dfea; border-radius: 18px; background: radial-gradient(circle at 91% 5%, #ffe76e 0 8%, transparent 25%), radial-gradient(circle at 3% 63%, #bff5ff 0 11%, transparent 31%), radial-gradient(circle at 93% 86%, #ffd4e7 0 10%, transparent 29%), linear-gradient(145deg, #fffef7, #f2fbff 44%, #fff2fa); color: #152746; padding: 12mm 13mm 10mm; box-shadow: 0 24px 60px rgba(24,57,116,.18); }
     .detail-sheet::before, .detail-sheet::after { content: ""; position: absolute; z-index: 0; border-radius: 50%; pointer-events: none; }
     .detail-sheet::before { width: 42mm; height: 42mm; right: -15mm; top: 82mm; border: 7mm solid rgba(83,216,243,.22); }
@@ -547,6 +558,7 @@
     .detail-mix-legend { display: flex; flex-wrap: wrap; gap: 1mm 3mm; margin-top: 1mm; color: #4f668c; font-size: 6.8pt; font-weight: 800; }
     .detail-strengths { display: flex; flex-wrap: wrap; gap: 1.5mm; margin: 3mm 0 0; padding: 0; list-style: none; }
     .detail-strengths li { padding: 1.5mm 2.5mm; border-radius: 2.5mm; background: #fff; color: #17376a; font-size: 8.4pt; font-weight: 900; box-shadow: 0 1mm 3mm rgba(30,73,139,.1); }
+    .detail-strengths li::before { content: ""; display: inline-block; width: 1.5mm; height: 1.5mm; margin-right: 1.2mm; border-radius: 50%; background: #55cfe4; vertical-align: .2mm; }
     .detail-guides { display: grid; grid-template-columns: 1fr 1fr; gap: 4mm; margin-top: 5mm; }
     .detail-guide { min-height: 36mm; padding: 4mm; border-radius: 5mm; }
     .detail-guide.grow { background: linear-gradient(135deg, #fff0a9, #fff8d7); border: .6mm solid #ffc846; }
@@ -570,7 +582,7 @@
     .detail-talk h3 { margin: 0; color: #0f566d; font-size: 9.7pt; }
     .detail-talk ul { display: grid; gap: 1.5mm; margin: 0; padding: 0; list-style: none; }
     .detail-talk li { color: #284f60; font-size: 8pt; font-weight: 750; line-height: 1.45; }
-    .detail-talk li::before { content: "✦ "; color: #ec9b29; }
+    .detail-talk li::before { content: ""; display: inline-block; width: 1.4mm; height: 1.4mm; margin-right: 1.4mm; border-radius: 50%; background: #ec9b29; vertical-align: .2mm; }
     .detail-insights { display: grid; grid-template-columns: 1fr 1fr; gap: 4mm; margin-top: 5mm; }
     .detail-insight { min-height: 31mm; padding: 3.5mm 4mm; border-radius: 5mm; }
     .detail-insight.future { border: .6mm solid #71b8ff; background: linear-gradient(135deg, #dff1ff, #eef7ff); }
@@ -581,7 +593,8 @@
     .detail-conversation h3 { margin: 0; color: #6e3b77; font-size: 9.7pt; }
     .detail-conversation ul { display: grid; grid-template-columns: repeat(3, 1fr); gap: 3mm; margin: 0; padding: 0; list-style: none; }
     .detail-conversation li { color: #394c72; font-size: 7.4pt; font-weight: 750; line-height: 1.45; }
-    .detail-conversation li::before { content: "✦ "; color: #f08058; }
+    .detail-conversation li::before { content: ""; display: inline-block; width: 1.4mm; height: 1.4mm; margin-right: 1.4mm; border-radius: 50%; background: #f08058; vertical-align: .2mm; }
+    .section-icon { display: inline-block; flex: 0 0 auto; width: 2.4mm; height: 2.4mm; margin-right: 1.4mm; border-radius: 50%; background: linear-gradient(135deg, #56d7e9, #ffd45a); vertical-align: .2mm; }
     .detail-footer { position: static; display: flex; align-items: flex-end; justify-content: space-between; gap: 7mm; margin-top: 7mm; padding-top: 3mm; border-top: .4mm solid #d9e4f7; }
     .detail-footer p { margin: 0; color: #526889; font-size: 7pt; font-weight: 600; line-height: 1.5; }
     .detail-footer-brand { color: #28599e !important; font-weight: 900; text-align: right; white-space: nowrap; }
@@ -647,7 +660,8 @@
       .pdf-ready-card { grid-template-columns: 1fr; }
       .receipt-code-wrap { grid-template-columns: 1fr; }
       .copy-code-btn { width: 100%; }
-      .pdf-preview-toolbar { align-items: stretch; flex-direction: column; }
+      .pdf-preview-toolbar { grid-template-columns: 1fr; align-items: stretch; }
+      .pdf-preview-toolbar-copy { order: -1; }
       .pdf-preview-actions { display: grid; grid-template-columns: 1fr 1fr; }
       .pdf-save-status { text-align: center; }
       .detail-sheet { min-height: 0; padding: 26px 20px; border-radius: 14px; }
@@ -671,40 +685,73 @@
     }
 
     body.pdf-exporting { width: 210mm !important; min-width: 210mm !important; margin: 0 !important; overflow: visible !important; background: white !important; }
+    body.pdf-exporting, body.pdf-exporting * { font-family: "Talent Monster JP", "Noto Sans CJK JP", IPAGothic, sans-serif !important; }
     body.pdf-exporting .page-shell::before, body.pdf-exporting .page-shell::after { display: none !important; }
     body.pdf-exporting .topbar, body.pdf-exporting .footer, body.pdf-exporting .screen:not(.pdf-preview-screen), body.pdf-exporting .pdf-preview-toolbar, body.pdf-exporting .pdf-save-status { display: none !important; }
     body.pdf-exporting .page-shell, body.pdf-exporting main, body.pdf-exporting .app-card { display: block !important; width: 210mm !important; min-width: 210mm !important; height: auto !important; min-height: 0 !important; margin: 0 !important; padding: 0 !important; overflow: visible !important; border: 0 !important; border-radius: 0 !important; box-shadow: none !important; background: white !important; }
     body.pdf-exporting .pdf-preview-screen { display: block !important; width: 210mm !important; min-width: 210mm !important; height: auto !important; min-height: 0 !important; padding: 0 !important; overflow: visible !important; animation: none !important; }
-    body.pdf-exporting .detail-sheet { width: 209mm !important; height: 295mm !important; min-height: 0 !important; padding: 9mm 11mm 7mm !important; border-radius: 0 !important; box-shadow: none !important; background: radial-gradient(circle at 91% 5%, #ffe76e 0 8%, transparent 25%), radial-gradient(circle at 3% 63%, #bff5ff 0 11%, transparent 31%), radial-gradient(circle at 93% 86%, #ffd4e7 0 10%, transparent 29%), linear-gradient(145deg, #fffef7 0 82%, #f2fbff 94%, #fff2fa 100%) !important; }
-    body.pdf-exporting .detail-header { padding-bottom: 3mm !important; }
-    body.pdf-exporting .detail-eyebrow { margin-bottom: 1mm !important; font-size: 7.2pt !important; }
-    body.pdf-exporting .detail-header h1 { font-size: 18pt !important; }
-    body.pdf-exporting .detail-hero { grid-template-columns: 48mm 1fr !important; align-items: start !important; gap: 5mm !important; margin-top: 4mm !important; }
-    body.pdf-exporting .detail-monster-card { align-self: start !important; width: auto !important; margin: 0 !important; padding: 3mm !important; gap: 2mm !important; }
-    body.pdf-exporting .detail-monster-card .sprite-window { height: 40mm !important; aspect-ratio: auto !important; }
-    body.pdf-exporting .detail-monster-card p { font-size: 7.3pt !important; line-height: 1.35 !important; }
-    body.pdf-exporting .detail-summary h2 { font-size: 23pt !important; }
-    body.pdf-exporting .detail-summary h3 { font-size: 11.5pt !important; }
-    body.pdf-exporting .detail-intro { font-size: 8.2pt !important; line-height: 1.55 !important; }
-    body.pdf-exporting .detail-strengths { margin-top: 2mm !important; }
-    body.pdf-exporting .detail-mix-summary { margin-top: 1.7mm !important; font-size: 7.6pt !important; line-height: 1.4 !important; }
+    body.pdf-exporting .detail-sheet { width: 209mm !important; height: 295mm !important; min-height: 0 !important; padding: 8mm 10mm 7mm !important; border: .7mm solid #8ddce8 !important; border-radius: 0 !important; box-shadow: none !important; color: #15315c !important; background: radial-gradient(circle at 101% 1%, #fff2a8 0 16mm, transparent 16.5mm), radial-gradient(circle at -2% 59%, #dcf7fd 0 17mm, transparent 17.5mm), radial-gradient(circle at 102% 91%, #ffe7f1 0 15mm, transparent 15.5mm), linear-gradient(180deg, #f8fdff 0%, #f1faff 100%) !important; }
+    body.pdf-exporting .detail-sheet::before, body.pdf-exporting .detail-sheet::after { display: none !important; }
+    body.pdf-exporting .detail-header { padding-bottom: 2.4mm !important; border-bottom: .9mm solid #55cee2 !important; }
+    body.pdf-exporting .detail-eyebrow { margin-bottom: .7mm !important; color: #e95b79 !important; font-size: 6.5pt !important; letter-spacing: .12em !important; }
+    body.pdf-exporting .detail-header h1 { color: #173c70 !important; font-size: 16.5pt !important; }
+    body.pdf-exporting .detail-type-number { padding: 1.6mm 4mm !important; background: #173c70 !important; box-shadow: none !important; font-size: 7.5pt !important; }
+    body.pdf-exporting .detail-hero { grid-template-columns: 47mm 1fr !important; align-items: start !important; gap: 5mm !important; margin-top: 3.2mm !important; }
+    body.pdf-exporting .detail-monster-card { align-self: start !important; width: auto !important; margin: 0 !important; padding: 2.4mm !important; gap: 1.5mm !important; border: .55mm solid #78d8e5 !important; border-radius: 4mm !important; background: rgba(255,255,255,.84) !important; box-shadow: none !important; }
+    body.pdf-exporting .detail-monster-card .sprite-window { height: 40mm !important; aspect-ratio: auto !important; background: #f5fbff !important; box-shadow: none !important; }
+    body.pdf-exporting .detail-monster-card p { color: #34547c !important; font-size: 6.8pt !important; line-height: 1.35 !important; }
+    body.pdf-exporting .detail-attribute { padding: 1mm 2.2mm !important; background: #dff7fb !important; color: #174e78 !important; font-size: 7.5pt !important; }
+    body.pdf-exporting .detail-summary h2 { margin-top: 1.2mm !important; color: #123766 !important; font-size: 20pt !important; }
+    body.pdf-exporting .detail-summary h3 { margin-bottom: 1.2mm !important; color: #173e75 !important; font-size: 10.3pt !important; }
+    body.pdf-exporting .detail-monster-title { margin-bottom: 1.8mm !important; font-size: 8pt !important; }
+    body.pdf-exporting .detail-intro { color: #2f4568 !important; font-size: 7.4pt !important; line-height: 1.5 !important; }
+    body.pdf-exporting .detail-strengths { gap: 1.2mm !important; margin-top: 1.5mm !important; }
+    body.pdf-exporting .detail-strengths li { padding: 1mm 2mm !important; border: 0 !important; border-radius: 999px !important; box-shadow: none !important; font-size: 7pt !important; }
+    body.pdf-exporting .detail-strengths li:nth-child(1) { background: #dff7fb !important; }
+    body.pdf-exporting .detail-strengths li:nth-child(2) { background: #fff0a8 !important; }
+    body.pdf-exporting .detail-strengths li:nth-child(3) { background: #ffe2ed !important; }
+    body.pdf-exporting .detail-strengths li::before { display: none !important; }
+    body.pdf-exporting .detail-mix-summary { margin-top: 1.4mm !important; color: #29577e !important; font-size: 6.8pt !important; line-height: 1.35 !important; }
+    body.pdf-exporting .detail-mixbar { height: 1.5mm !important; margin-top: 1mm !important; }
+    body.pdf-exporting .detail-mix-legend { margin-top: .7mm !important; font-size: 5.8pt !important; }
     body.pdf-exporting .detail-guides, body.pdf-exporting .detail-insights { grid-template-columns: 1fr 1fr !important; }
-    body.pdf-exporting .detail-guides { gap: 3mm !important; margin-top: 3mm !important; }
-    body.pdf-exporting .detail-guide { min-height: 29mm !important; padding: 3mm !important; }
-    body.pdf-exporting .detail-guide p { font-size: 8pt !important; line-height: 1.48 !important; }
-    body.pdf-exporting .detail-shop { grid-template-columns: 40mm 1fr !important; }
-    body.pdf-exporting .detail-talk { grid-template-columns: 42mm 1fr !important; }
-    body.pdf-exporting .detail-evolution { margin-top: 3mm !important; }
-    body.pdf-exporting .detail-section-heading { margin-bottom: 1.5mm !important; }
-    body.pdf-exporting .detail-evolution-stage { grid-template-columns: 20mm 1fr !important; text-align: left !important; min-height: 23mm !important; padding: 2mm !important; }
-    body.pdf-exporting .detail-evolution-stage .sprite-window { width: 19mm !important; height: 19mm !important; margin: 0 !important; aspect-ratio: auto !important; }
-    body.pdf-exporting .detail-shop, body.pdf-exporting .detail-talk { margin-top: 3mm !important; padding: 3mm 4mm !important; }
-    body.pdf-exporting .detail-insights { gap: 3mm !important; margin-top: 3mm !important; }
-    body.pdf-exporting .detail-insight { min-height: 25mm !important; padding: 3mm !important; }
-    body.pdf-exporting .detail-insight p { font-size: 7.4pt !important; line-height: 1.4 !important; }
-    body.pdf-exporting .detail-conversation { grid-template-columns: 39mm 1fr !important; gap: 3mm !important; margin-top: 3mm !important; padding: 3mm 4mm !important; }
-    body.pdf-exporting .detail-conversation ul { grid-template-columns: repeat(3, 1fr) !important; }
-    body.pdf-exporting .detail-footer { position: absolute !important; right: 11mm !important; bottom: 5mm !important; left: 11mm !important; align-items: flex-end !important; flex-direction: row !important; margin-top: 0 !important; }
+    body.pdf-exporting .detail-guides { gap: 3mm !important; margin-top: 2.6mm !important; }
+    body.pdf-exporting .detail-guide { min-height: 31mm !important; padding: 3mm 3.5mm !important; border-width: .4mm !important; border-radius: 4mm !important; box-shadow: none !important; }
+    body.pdf-exporting .detail-guide.grow { background: #fff6ca !important; border-color: #e9c34d !important; }
+    body.pdf-exporting .detail-guide.first { background: #e5faf4 !important; border-color: #6ccdb7 !important; }
+    body.pdf-exporting .detail-guide h3 { margin-bottom: 1.2mm !important; font-size: 8.6pt !important; }
+    body.pdf-exporting .detail-guide p { font-size: 7.2pt !important; line-height: 1.5 !important; }
+    body.pdf-exporting .detail-shop { grid-template-columns: 37mm 1fr !important; background: #f7e8fb !important; border-color: #d8a6e2 !important; }
+    body.pdf-exporting .detail-talk { grid-template-columns: 39mm 1fr !important; background: #e3f9f3 !important; border-color: #78d2c2 !important; }
+    body.pdf-exporting .detail-evolution { margin-top: 2.6mm !important; }
+    body.pdf-exporting .detail-section-heading { gap: 1.2mm !important; margin-bottom: 1.3mm !important; }
+    body.pdf-exporting .detail-section-heading h3 { font-size: 8.8pt !important; }
+    body.pdf-exporting .detail-section-heading span { font-size: 6.5pt !important; }
+    body.pdf-exporting .detail-evolution-grid { gap: 2mm !important; }
+    body.pdf-exporting .detail-evolution-stage { display: block !important; text-align: center !important; min-height: 42mm !important; padding: 2.5mm !important; border: .45mm solid #c0dbea !important; border-radius: 4mm !important; background: rgba(255,255,255,.88) !important; box-shadow: none !important; }
+    body.pdf-exporting .detail-evolution-stage .sprite-window { width: 100% !important; height: 30mm !important; margin: 0 0 1mm !important; aspect-ratio: auto !important; border-radius: 2.5mm !important; background: #eef9fd !important; box-shadow: none !important; }
+    body.pdf-exporting .detail-evolution-stage img.silhouette { filter: brightness(0) saturate(100%) !important; opacity: .82 !important; }
+    body.pdf-exporting .detail-stage-copy strong { font-size: 7.2pt !important; }
+    body.pdf-exporting .detail-stage-copy span { display: block !important; font-size: 5.8pt !important; line-height: 1.25 !important; }
+    body.pdf-exporting .detail-shop, body.pdf-exporting .detail-talk { min-height: 20mm !important; margin-top: 2.8mm !important; padding: 3mm 3.5mm !important; border-width: .4mm !important; border-radius: 4mm !important; box-shadow: none !important; }
+    body.pdf-exporting .detail-shop-label, body.pdf-exporting .detail-shop-copy strong, body.pdf-exporting .detail-talk h3 { font-size: 8pt !important; }
+    body.pdf-exporting .detail-shop-copy p, body.pdf-exporting .detail-talk li { font-size: 6.6pt !important; line-height: 1.35 !important; }
+    body.pdf-exporting .detail-talk ul { grid-template-columns: repeat(3, 1fr) !important; gap: 2mm !important; }
+    body.pdf-exporting .detail-talk li::before { width: 1.2mm !important; height: 1.2mm !important; margin-right: .8mm !important; }
+    body.pdf-exporting .detail-insights { gap: 3mm !important; margin-top: 2.6mm !important; }
+    body.pdf-exporting .detail-insight { min-height: 28mm !important; padding: 3mm 3.5mm !important; border-width: .4mm !important; border-radius: 4mm !important; box-shadow: none !important; }
+    body.pdf-exporting .detail-insight.future { background: #e9f5ff !important; }
+    body.pdf-exporting .detail-insight.support { background: #fff0e9 !important; }
+    body.pdf-exporting .detail-insight h3 { margin-bottom: 1mm !important; font-size: 8pt !important; }
+    body.pdf-exporting .detail-insight p { font-size: 7pt !important; line-height: 1.42 !important; }
+    body.pdf-exporting .detail-conversation { display: block !important; min-height: 22mm !important; margin-top: 2.8mm !important; padding: 3mm 3.5mm !important; border: .4mm solid #78d2c2 !important; border-radius: 4mm !important; background: #e3f9f3 !important; box-shadow: none !important; }
+    body.pdf-exporting .detail-conversation h3 { margin-bottom: 1.4mm !important; color: #0f566d !important; font-size: 8pt !important; }
+    body.pdf-exporting .detail-conversation ul { grid-template-columns: repeat(3, 1fr) !important; gap: 2.5mm !important; }
+    body.pdf-exporting .detail-conversation li { font-size: 6.5pt !important; line-height: 1.35 !important; }
+    body.pdf-exporting .detail-conversation li::before { width: 1.2mm !important; height: 1.2mm !important; margin-right: .8mm !important; }
+    body.pdf-exporting .section-icon { width: 1.8mm !important; height: 1.8mm !important; margin-right: 1mm !important; }
+    body.pdf-exporting .detail-footer { position: absolute !important; right: 10mm !important; bottom: 4.5mm !important; left: 10mm !important; align-items: flex-end !important; flex-direction: row !important; margin-top: 0 !important; padding-top: 2mm !important; }
+    body.pdf-exporting .detail-footer p { font-size: 5.5pt !important; line-height: 1.35 !important; }
     body.pdf-exporting .detail-footer-brand { text-align: right !important; }
 
     @page { size: A4 portrait; margin: 0; }
@@ -884,16 +931,17 @@
         <div id="pdfPreviewScreen" class="screen pdf-preview-screen">
           <div class="pdf-preview-toolbar">
             <button id="pdfBackBtn" class="text-btn" type="button">← 診断結果に戻る</button>
-            <div>
-              <strong>A4・1枚の詳細診断シート</strong>
-              <span>内容とデザインはあとから変更できます</span>
+            <div class="pdf-preview-toolbar-copy">
+              <strong>詳しい診断シートを保存</strong>
+              <small>PDFまたは画像を選べます</small>
             </div>
             <div class="pdf-preview-actions">
-              <a id="downloadPdfBtn" class="primary-btn" href="#" target="_blank" rel="noopener" aria-disabled="true">PDFを保存</a>
+              <a id="downloadPdfBtn" class="save-format-btn pdf" href="#" target="_blank" rel="noopener" aria-disabled="true">PDFで保存</a>
+              <a id="downloadImageBtn" class="save-format-btn image" href="#" target="_blank" rel="noopener" aria-disabled="true">画像で保存</a>
               <button id="printBtn" class="secondary-btn" type="button" hidden>印刷する</button>
             </div>
           </div>
-          <p id="pdfSaveStatus" class="pdf-save-status" role="status" aria-live="polite">PDFはA4・1ページで作成されます。</p>
+          <p id="pdfSaveStatus" class="pdf-save-status" role="status" aria-live="polite"></p>
 
           <article id="detailSheet" class="detail-sheet">
             <header class="detail-header">
@@ -924,25 +972,25 @@
 
             <section class="detail-guides">
               <article class="detail-guide grow">
-                <h3>☀ 才能を育てるヒント</h3>
+                <h3><span class="section-icon" aria-hidden="true"></span>才能を育てるヒント</h3>
                 <p id="pdfParentTip"></p>
               </article>
               <article class="detail-guide first">
-                <h3>🚀 今日からできる最初の一歩</h3>
+                <h3><span class="section-icon" aria-hidden="true"></span>今日からできる最初の一歩</h3>
                 <p id="pdfFirstStep"></p>
               </article>
             </section>
 
             <section class="detail-evolution">
               <div class="detail-section-heading">
-                <h3>🌱 モンスターの進化ストーリー</h3>
+                <h3><span class="section-icon" aria-hidden="true"></span>モンスターの進化ストーリー</h3>
                 <span>この先の姿は、博士ちゃんマルシェでのお楽しみ！</span>
               </div>
               <div id="pdfEvolutionGrid" class="detail-evolution-grid"></div>
             </section>
 
             <section class="detail-shop">
-              <div class="detail-shop-label">🔮 お店タイプ予報</div>
+              <div class="detail-shop-label"><span class="section-icon" aria-hidden="true"></span>お店タイプ予報</div>
               <div class="detail-shop-copy">
                 <strong id="pdfChallengeType"></strong>
                 <p id="pdfChallengeText"></p>
@@ -950,23 +998,23 @@
             </section>
 
             <section class="detail-talk">
-              <h3>💎 回答から見えた<br>その子らしさ</h3>
+              <h3><span class="section-icon" aria-hidden="true"></span>回答から見えた<br>その子らしさ</h3>
               <ul id="pdfPersonalTraits"></ul>
             </section>
 
             <section class="detail-insights">
               <article class="detail-insight future">
-                <h3>🌈 この才能が育った未来</h3>
+                <h3><span class="section-icon" aria-hidden="true"></span>この才能が育った未来</h3>
                 <p id="pdfFuture"></p>
               </article>
               <article class="detail-insight support">
-                <h3>🧭 つまずいた時のヒント</h3>
+                <h3><span class="section-icon" aria-hidden="true"></span>つまずいた時のヒント</h3>
                 <p id="pdfSupportTip"></p>
               </article>
             </section>
 
             <section class="detail-conversation">
-              <h3>🎈 親子で話してみよう</h3>
+              <h3><span class="section-icon" aria-hidden="true"></span>親子で話してみよう</h3>
               <ul>
                 <li>最近「おもしろい！」と思ったのは？</li>
                 <li>この力で、何をやってみたい？</li>
@@ -1332,7 +1380,7 @@
     const els = {
       startScreen: document.getElementById("startScreen"), quizScreen: document.getElementById("quizScreen"),
       hatchScreen: document.getElementById("hatchScreen"), companionScreen: document.getElementById("companionScreen"), resultLoadingScreen: document.getElementById("resultLoadingScreen"), resultScreen: document.getElementById("resultScreen"), galleryScreen: document.getElementById("galleryScreen"), pdfPreviewScreen: document.getElementById("pdfPreviewScreen"),
-      startBtn: document.getElementById("startBtn"), galleryBtn: document.getElementById("galleryBtn"), galleryBackBtn: document.getElementById("galleryBackBtn"), galleryStartBtn: document.getElementById("galleryStartBtn"), galleryFemaleBtn: document.getElementById("galleryFemaleBtn"), galleryMaleBtn: document.getElementById("galleryMaleBtn"), resultGalleryBtn: document.getElementById("resultGalleryBtn"), backBtn: document.getElementById("backBtn"), nextBtn: document.getElementById("nextBtn"), pdfViewBtn: document.getElementById("pdfViewBtn"), pdfBackBtn: document.getElementById("pdfBackBtn"), downloadPdfBtn: document.getElementById("downloadPdfBtn"), printBtn: document.getElementById("printBtn"), pdfSaveStatus: document.getElementById("pdfSaveStatus"),
+      startBtn: document.getElementById("startBtn"), galleryBtn: document.getElementById("galleryBtn"), galleryBackBtn: document.getElementById("galleryBackBtn"), galleryStartBtn: document.getElementById("galleryStartBtn"), galleryFemaleBtn: document.getElementById("galleryFemaleBtn"), galleryMaleBtn: document.getElementById("galleryMaleBtn"), resultGalleryBtn: document.getElementById("resultGalleryBtn"), backBtn: document.getElementById("backBtn"), nextBtn: document.getElementById("nextBtn"), pdfViewBtn: document.getElementById("pdfViewBtn"), pdfBackBtn: document.getElementById("pdfBackBtn"), downloadPdfBtn: document.getElementById("downloadPdfBtn"), downloadImageBtn: document.getElementById("downloadImageBtn"), printBtn: document.getElementById("printBtn"), pdfSaveStatus: document.getElementById("pdfSaveStatus"),
       questionWrap: document.getElementById("questionWrap"), progressBar: document.getElementById("progressBar"), progressLabel: document.getElementById("progressLabel"),
       receiptCard: document.getElementById("receiptCard"), receiptCode: document.getElementById("receiptCode"), copyReceiptCodeBtn: document.getElementById("copyReceiptCodeBtn"), lineReceiveBtn: document.getElementById("lineReceiveBtn"), receiptRetryBtn: document.getElementById("receiptRetryBtn"), receiptStatus: document.getElementById("receiptStatus"),
       resultLoadingTitle: document.getElementById("resultLoadingTitle"), resultLoadingMessage: document.getElementById("resultLoadingMessage"), resultLoadingRetry: document.getElementById("resultLoadingRetry")
@@ -1729,7 +1777,7 @@
       document.getElementById("pdfMonsterTitle").textContent = m.title;
       document.getElementById("pdfHeading").textContent = m.heading;
       document.getElementById("pdfIntro").textContent = m.intro;
-      document.getElementById("pdfStrengths").innerHTML = profile.strengths.map(item => `<li>✦ ${escapeHtml(item)}</li>`).join("");
+      document.getElementById("pdfStrengths").innerHTML = profile.strengths.map(item => `<li>${escapeHtml(item)}</li>`).join("");
       document.getElementById("pdfMixSummary").textContent = profile.mixSummary;
       const mixTypes = [m, secondary, third];
       const mixBar = document.getElementById("pdfMixBar");
@@ -1757,7 +1805,10 @@
           <div class="detail-stage-copy"><strong>${stage.label}</strong><span>${stage.note}</span></div>
         </article>
       `).join("");
-      return waitForSheetImages(sheet).then(() => {
+      return Promise.all([
+        waitForSheetImages(sheet),
+        document.fonts?.ready || Promise.resolve()
+      ]).then(() => {
         sheet.dataset.pdfReady = "true";
       });
     }
@@ -2083,6 +2134,8 @@
         await renderDetailSheet(state.resultProfile);
         els.downloadPdfBtn.href = apiUrl(`/api/results/${encodeURIComponent(token)}/pdf`);
         els.downloadPdfBtn.setAttribute("aria-disabled", "false");
+        els.downloadImageBtn.href = apiUrl(`/api/results/${encodeURIComponent(token)}/image`);
+        els.downloadImageBtn.setAttribute("aria-disabled", "false");
         showScreen(els.pdfPreviewScreen);
       } catch (error) {
         console.error("Detailed result loading failed", error);
@@ -2120,17 +2173,23 @@
       if (state.detailedResultToken) renderResult(state.resultData || state.resultType, { skipReceipt: true });
       showScreen(els.resultScreen);
     });
-    els.downloadPdfBtn.addEventListener("click", event => {
-      if (els.downloadPdfBtn.getAttribute("aria-disabled") === "true") {
+    function handleResultDownload(event, element, formatLabel) {
+      if (element.getAttribute("aria-disabled") === "true") {
         event.preventDefault();
-        els.pdfSaveStatus.textContent = "この画面ではPDFを作成できません。LINEに届いた詳しい診断結果からお試しください。";
+        els.pdfSaveStatus.textContent = `この画面では${formatLabel}を作成できません。LINEに届いた詳しい診断結果からお試しください。`;
         return;
       }
-      els.pdfSaveStatus.textContent = "新しい画面でPDFを作成しています。そのまま少しお待ちください。";
-    });
+      els.pdfSaveStatus.textContent = "診断シートを作成しています…";
+      window.setTimeout(() => { els.pdfSaveStatus.textContent = ""; }, 12000);
+    }
+    els.downloadPdfBtn.addEventListener("click", event => handleResultDownload(event, els.downloadPdfBtn, "PDF"));
+    els.downloadImageBtn.addEventListener("click", event => handleResultDownload(event, els.downloadImageBtn, "画像"));
     els.printBtn.addEventListener("click", () => window.print());
     window.addEventListener("beforeprint", () => document.body.classList.add("pdf-exporting"));
-    window.addEventListener("afterprint", () => document.body.classList.remove("pdf-exporting"));
+    window.addEventListener("afterprint", () => {
+      const params = new URLSearchParams(window.location.search);
+      if (params.get("serverPdf") !== "1" && params.get("export") !== "1") document.body.classList.remove("pdf-exporting");
+    });
     els.copyReceiptCodeBtn.addEventListener("click", copyReceiptCode);
     els.receiptRetryBtn.addEventListener("click", createReceiptForCurrentDiagnosis);
     els.resultLoadingRetry.addEventListener("click", () => loadDetailedResult(state.detailedResultToken));

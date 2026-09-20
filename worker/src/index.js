@@ -215,6 +215,16 @@ function buildPdfSourceUrl(publicSiteUrl, token) {
   return url.toString();
 }
 
+async function runBrowserActionWithRetry(browser, action, options) {
+  let rendered = await browser.quickAction(action, options);
+  const retryAfter = Number(rendered.headers.get("Retry-After") || 0);
+  if (rendered.status === 429 && retryAfter > 0 && retryAfter <= 12) {
+    await new Promise(resolve => setTimeout(resolve, retryAfter * 1000));
+    rendered = await browser.quickAction(action, options);
+  }
+  return rendered;
+}
+
 async function getDetailedResultPdf(request, env, token) {
   if (!isAllowedBrowserOrigin(request, env)) return json(request, env, { error: "origin_not_allowed" }, 403);
   if (!(await checkRateLimit(request, env, "pdf", 10, 60 * 60))) {
@@ -250,12 +260,7 @@ async function getDetailedResultPdf(request, env, token) {
         timeout: 45000
       }
     };
-    let rendered = await env.BROWSER.quickAction("pdf", pdfRequest);
-    const retryAfter = Number(rendered.headers.get("Retry-After") || 0);
-    if (rendered.status === 429 && retryAfter > 0 && retryAfter <= 12) {
-      await new Promise(resolve => setTimeout(resolve, retryAfter * 1000));
-      rendered = await env.BROWSER.quickAction("pdf", pdfRequest);
-    }
+    const rendered = await runBrowserActionWithRetry(env.BROWSER, "pdf", pdfRequest);
 
     if (!rendered.ok) {
       const retryHeader = rendered.headers.get("Retry-After");
@@ -280,6 +285,64 @@ async function getDetailedResultPdf(request, env, token) {
   } catch {
     console.error("PDF generation failed");
     return new Response("PDFを作成できませんでした。少し時間をおいて、もう一度お試しください。", {
+      status: 503,
+      headers: { "Content-Type": "text/plain; charset=utf-8", ...securityHeaders(), ...corsHeaders(request, env), "Retry-After": "30" }
+    });
+  }
+}
+
+async function getDetailedResultImage(request, env, token) {
+  if (!isAllowedBrowserOrigin(request, env)) return json(request, env, { error: "origin_not_allowed" }, 403);
+  if (!(await checkRateLimit(request, env, "image", 10, 60 * 60))) {
+    return new Response("画像の作成回数が上限に達しました。時間をおいてからもう一度お試しください。", {
+      status: 429,
+      headers: { "Content-Type": "text/plain; charset=utf-8", ...securityHeaders(), ...corsHeaders(request, env), "Retry-After": "3600" }
+    });
+  }
+  const row = await findDetailedResult(env, token);
+  if (!row) return json(request, env, { error: "expired_or_not_found" }, 404);
+  if (!env.BROWSER?.quickAction) return json(request, env, { error: "image_service_unavailable" }, 503);
+
+  const sourceUrl = buildPdfSourceUrl(env.PUBLIC_SITE_URL, token);
+  try {
+    const imageRequest = {
+      url: sourceUrl,
+      viewport: { width: 1123, height: 1587, deviceScaleFactor: 2 },
+      gotoOptions: { waitUntil: "networkidle2", timeout: 45000 },
+      waitForSelector: { selector: '#detailSheet[data-pdf-ready="true"]', visible: true, timeout: 45000 },
+      actionTimeout: 45000,
+      selector: "#detailSheet",
+      screenshotOptions: {
+        type: "png",
+        omitBackground: false,
+        captureBeyondViewport: true
+      }
+    };
+    const rendered = await runBrowserActionWithRetry(env.BROWSER, "screenshot", imageRequest);
+
+    if (!rendered.ok) {
+      const retryHeader = rendered.headers.get("Retry-After");
+      return new Response("画像を作成できませんでした。少し時間をおいて、もう一度お試しください。", {
+        status: rendered.status,
+        headers: {
+          "Content-Type": "text/plain; charset=utf-8",
+          ...securityHeaders(),
+          ...corsHeaders(request, env),
+          ...(retryHeader ? { "Retry-After": retryHeader } : {})
+        }
+      });
+    }
+
+    const headers = new Headers({
+      "Content-Type": "image/png",
+      "Content-Disposition": `inline; filename="talent-monster-result.png"; filename*=UTF-8''${encodeURIComponent("才能モンスター詳しい診断結果.png")}`,
+      ...securityHeaders(),
+      ...corsHeaders(request, env)
+    });
+    return new Response(rendered.body, { status: 200, headers });
+  } catch {
+    console.error("Image generation failed");
+    return new Response("画像を作成できませんでした。少し時間をおいて、もう一度お試しください。", {
       status: 503,
       headers: { "Content-Type": "text/plain; charset=utf-8", ...securityHeaders(), ...corsHeaders(request, env), "Retry-After": "30" }
     });
@@ -435,6 +498,8 @@ export default {
     if (request.method === "POST" && url.pathname === "/api/diagnoses") return createDiagnosis(request, env);
     const pdfMatch = url.pathname.match(/^\/api\/results\/([^/]+)\/pdf$/);
     if (request.method === "GET" && pdfMatch) return getDetailedResultPdf(request, env, decodeURIComponent(pdfMatch[1]));
+    const imageMatch = url.pathname.match(/^\/api\/results\/([^/]+)\/image$/);
+    if (request.method === "GET" && imageMatch) return getDetailedResultImage(request, env, decodeURIComponent(imageMatch[1]));
     const resultMatch = url.pathname.match(/^\/api\/results\/([^/]+)$/);
     if (request.method === "GET" && resultMatch) return getDetailedResult(request, env, decodeURIComponent(resultMatch[1]));
     if (request.method === "POST" && url.pathname === "/webhooks/line") return handleLineWebhook(request, env);
