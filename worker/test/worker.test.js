@@ -50,6 +50,7 @@ class D1TestDatabase {
 }
 
 function environment() {
+  const browserCalls = [];
   return {
     DB: new D1TestDatabase(),
     ALLOWED_ORIGINS: "https://site.example",
@@ -58,7 +59,14 @@ function environment() {
     LINE_USER_HASH_PEPPER: "line-user-test-secret",
     IP_HASH_PEPPER: "ip-test-secret",
     LINE_CHANNEL_SECRET: "line-channel-test-secret",
-    LINE_CHANNEL_ACCESS_TOKEN: "line-access-test-secret"
+    LINE_CHANNEL_ACCESS_TOKEN: "line-access-test-secret",
+    BROWSER: {
+      calls: browserCalls,
+      async quickAction(action, options) {
+        browserCalls.push({ action, options });
+        return new Response("%PDF-1.7\nserver-rendered-test", { status: 200, headers: { "Content-Type": "application/pdf" } });
+      }
+    }
   };
 }
 
@@ -146,6 +154,22 @@ test("診断保存、LINE照合、個別結果取得まで一連で動く", asyn
     assert.equal(detailed.diagnosis.genderChoice, "other");
     assert.equal(detailed.diagnosis.monsterVariant, "male");
 
+    const pdfResponse = await worker.fetch(browserRequest(`/api/results/${resultToken}/pdf`), env);
+    assert.equal(pdfResponse.status, 200);
+    assert.equal(pdfResponse.headers.get("Content-Type"), "application/pdf");
+    assert.match(pdfResponse.headers.get("Content-Disposition"), /talent-monster-result\.pdf/);
+    assert.match(await pdfResponse.text(), /^%PDF-1\.7/);
+    assert.equal(env.BROWSER.calls.length, 1);
+    assert.equal(env.BROWSER.calls[0].action, "pdf");
+    assert.equal(env.BROWSER.calls[0].options.pdfOptions.format, "a4");
+    assert.equal(env.BROWSER.calls[0].options.pdfOptions.preferCSSPageSize, true);
+    assert.equal(env.BROWSER.calls[0].options.pdfOptions.printBackground, true);
+    assert.equal(env.BROWSER.calls[0].options.emulateMediaType, "print");
+    assert.equal(env.BROWSER.calls[0].options.waitForSelector.selector, '#detailSheet[data-pdf-ready="true"]');
+    const pdfSourceUrl = new URL(env.BROWSER.calls[0].options.url);
+    assert.equal(pdfSourceUrl.searchParams.get("result"), resultToken);
+    assert.equal(pdfSourceUrl.searchParams.get("serverPdf"), "1");
+
     const otherUserBody = JSON.stringify({
       events: [{
         webhookEventId: "event-2",
@@ -185,4 +209,11 @@ test("LINE署名が不正なWebhookを拒否する", async () => {
     body: JSON.stringify({ events: [] })
   }), env);
   assert.equal(response.status, 401);
+});
+
+test("無効な個別結果トークンではBrowser Runを呼ばない", async () => {
+  const env = environment();
+  const response = await worker.fetch(browserRequest(`/api/results/${"A".repeat(43)}/pdf`), env);
+  assert.equal(response.status, 404);
+  assert.equal(env.BROWSER.calls.length, 0);
 });

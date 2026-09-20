@@ -520,6 +520,7 @@
     .pdf-preview-actions { display: flex; justify-content: flex-end; gap: 9px; text-align: right !important; }
     .pdf-preview-actions[hidden] { display: none !important; }
     .pdf-preview-actions .primary-btn, .pdf-preview-actions .secondary-btn { min-height: 48px; padding: 11px 17px; white-space: nowrap; }
+    .pdf-preview-actions .primary-btn[aria-disabled="true"] { pointer-events: none; opacity: .55; }
     .pdf-save-status { min-height: 1.4em; width: min(210mm, 100%); margin: -8px auto 14px; color: #34568e; font-size: .8rem; font-weight: 800; text-align: right; }
     .detail-sheet { --sheet-accent: #53d8f3; position: relative; width: min(210mm, 100%); min-height: 297mm; margin: auto; overflow: hidden; border: 1.2mm solid #82dfea; border-radius: 18px; background: radial-gradient(circle at 91% 5%, #ffe76e 0 8%, transparent 25%), radial-gradient(circle at 3% 63%, #bff5ff 0 11%, transparent 31%), radial-gradient(circle at 93% 86%, #ffd4e7 0 10%, transparent 29%), linear-gradient(145deg, #fffef7, #f2fbff 44%, #fff2fa); color: #152746; padding: 12mm 13mm 10mm; box-shadow: 0 24px 60px rgba(24,57,116,.18); }
     .detail-sheet::before, .detail-sheet::after { content: ""; position: absolute; z-index: 0; border-radius: 50%; pointer-events: none; }
@@ -674,7 +675,7 @@
     body.pdf-exporting .topbar, body.pdf-exporting .footer, body.pdf-exporting .screen:not(.pdf-preview-screen), body.pdf-exporting .pdf-preview-toolbar, body.pdf-exporting .pdf-save-status { display: none !important; }
     body.pdf-exporting .page-shell, body.pdf-exporting main, body.pdf-exporting .app-card { display: block !important; width: 210mm !important; min-width: 210mm !important; height: auto !important; min-height: 0 !important; margin: 0 !important; padding: 0 !important; overflow: visible !important; border: 0 !important; border-radius: 0 !important; box-shadow: none !important; background: white !important; }
     body.pdf-exporting .pdf-preview-screen { display: block !important; width: 210mm !important; min-width: 210mm !important; height: auto !important; min-height: 0 !important; padding: 0 !important; overflow: visible !important; animation: none !important; }
-    body.pdf-exporting .detail-sheet { width: 209mm !important; height: 295mm !important; min-height: 0 !important; padding: 9mm 11mm 7mm !important; border-radius: 0 !important; box-shadow: none !important; }
+    body.pdf-exporting .detail-sheet { width: 209mm !important; height: 295mm !important; min-height: 0 !important; padding: 9mm 11mm 7mm !important; border-radius: 0 !important; box-shadow: none !important; background: radial-gradient(circle at 91% 5%, #ffe76e 0 8%, transparent 25%), radial-gradient(circle at 3% 63%, #bff5ff 0 11%, transparent 31%), radial-gradient(circle at 93% 86%, #ffd4e7 0 10%, transparent 29%), linear-gradient(145deg, #fffef7 0 82%, #f2fbff 94%, #fff2fa 100%) !important; }
     body.pdf-exporting .detail-header { padding-bottom: 3mm !important; }
     body.pdf-exporting .detail-eyebrow { margin-bottom: 1mm !important; font-size: 7.2pt !important; }
     body.pdf-exporting .detail-header h1 { font-size: 18pt !important; }
@@ -887,12 +888,12 @@
               <strong>A4・1枚の詳細診断シート</strong>
               <span>内容とデザインはあとから変更できます</span>
             </div>
-            <div class="pdf-preview-actions" hidden>
-              <button id="downloadPdfBtn" class="primary-btn" type="button">PDFを保存</button>
-              <button id="printBtn" class="secondary-btn" type="button">印刷する</button>
+            <div class="pdf-preview-actions">
+              <a id="downloadPdfBtn" class="primary-btn" href="#" target="_blank" rel="noopener" aria-disabled="true">PDFを保存</a>
+              <button id="printBtn" class="secondary-btn" type="button" hidden>印刷する</button>
             </div>
           </div>
-          <p id="pdfSaveStatus" class="pdf-save-status" role="status" aria-live="polite">PDF保存機能は現在準備中です。詳細診断結果はこの画面でご覧いただけます。</p>
+          <p id="pdfSaveStatus" class="pdf-save-status" role="status" aria-live="polite">PDFはA4・1ページで作成されます。</p>
 
           <article id="detailSheet" class="detail-sheet">
             <header class="detail-header">
@@ -1719,6 +1720,7 @@
       const respondentLabel = state.respondent === "child" ? "こども回答" : state.respondent === "adult" ? "おとな回答" : "プレビュー";
       const diagnosisDate = new Intl.DateTimeFormat("ja-JP", { dateStyle: "long" }).format(state.diagnosisCreatedAt ? new Date(state.diagnosisCreatedAt) : new Date());
       const sheet = document.getElementById("detailSheet");
+      sheet.dataset.pdfReady = "false";
       sheet.style.setProperty("--sheet-accent", m.color);
       document.getElementById("pdfTypeNumber").textContent = `TYPE ${String(typeNumber).padStart(2, "0")} / 12`;
       document.getElementById("pdfEggSprite").innerHTML = spriteMarkup(typeKey, "egg", `${m.name}の卵`);
@@ -1755,6 +1757,9 @@
           <div class="detail-stage-copy"><strong>${stage.label}</strong><span>${stage.note}</span></div>
         </article>
       `).join("");
+      return waitForSheetImages(sheet).then(() => {
+        sheet.dataset.pdfReady = "true";
+      });
     }
 
     function waitForSheetImages(sheet) {
@@ -2075,7 +2080,9 @@
         const data = await response.json();
         restoreDetailedResult(data);
         renderResult(data.result, { skipReceipt: true });
-        renderDetailSheet(state.resultProfile);
+        await renderDetailSheet(state.resultProfile);
+        els.downloadPdfBtn.href = apiUrl(`/api/results/${encodeURIComponent(token)}/pdf`);
+        els.downloadPdfBtn.setAttribute("aria-disabled", "false");
         showScreen(els.pdfPreviewScreen);
       } catch (error) {
         console.error("Detailed result loading failed", error);
@@ -2113,7 +2120,14 @@
       if (state.detailedResultToken) renderResult(state.resultData || state.resultType, { skipReceipt: true });
       showScreen(els.resultScreen);
     });
-    els.downloadPdfBtn.addEventListener("click", downloadDetailPdf);
+    els.downloadPdfBtn.addEventListener("click", event => {
+      if (els.downloadPdfBtn.getAttribute("aria-disabled") === "true") {
+        event.preventDefault();
+        els.pdfSaveStatus.textContent = "この画面ではPDFを作成できません。LINEに届いた詳しい診断結果からお試しください。";
+        return;
+      }
+      els.pdfSaveStatus.textContent = "新しい画面でPDFを作成しています。そのまま少しお待ちください。";
+    });
     els.printBtn.addEventListener("click", () => window.print());
     window.addEventListener("beforeprint", () => document.body.classList.add("pdf-exporting"));
     window.addEventListener("afterprint", () => document.body.classList.remove("pdf-exporting"));
@@ -2152,6 +2166,8 @@
     const previewRespondent = previewParams.get("respondent");
     const previewVariant = previewParams.get("variant");
     const detailedResultToken = previewParams.get("result");
+    const serverPdfMode = previewParams.get("serverPdf") === "1";
+    if (serverPdfMode) document.body.classList.add("pdf-exporting");
     if (["adult", "child"].includes(previewRespondent)) state.respondent = previewRespondent;
     if (["female", "male"].includes(previewVariant)) {
       state.monsterVariant = previewVariant;

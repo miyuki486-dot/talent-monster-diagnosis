@@ -25,7 +25,7 @@ Cloudflare WorkersとD1で、受取コード発行・LINE照合・個別結果UR
 
 1. 既存D1へ `migrations/0002_monster_variant.sql` を1回だけ適用する
 2. Workerを更新し、`/health`と自動テストを確認する（旧8問データも移行中は受付可能）
-3. ローカル／実機で、診断→コード送信→詳細結果のWeb表示を確認する（PDF保存は別タスク）
+3. ローカル／実機で、診断→コード送信→詳細結果のWeb表示→PDF保存を確認する
 4. 問題がなければ、最後にGitHub Pagesを更新する
 
 本番D1へ `schema.sql` を再適用しないでください。新規環境を作る場合だけ `schema.sql` を使います。

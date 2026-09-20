@@ -7,6 +7,9 @@ workers_dev = true
 PUBLIC_SITE_URL = "https://miyuki486-dot.github.io/talent-monster-diagnosis/"
 ALLOWED_ORIGINS = "https://miyuki486-dot.github.io,http://127.0.0.1:4173,http://localhost:4173"
 
+[browser]
+binding = "BROWSER"
+
 [[d1_databases]]
 binding = "DB"
 database_name = "talent-monster-diagnosis"

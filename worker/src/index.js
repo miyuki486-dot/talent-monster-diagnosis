@@ -164,10 +164,8 @@ async function createDiagnosis(request, env) {
   return json(request, env, { error: "code_generation_failed" }, 503);
 }
 
-async function getDetailedResult(request, env, token) {
-  if (!isAllowedBrowserOrigin(request, env)) return json(request, env, { error: "origin_not_allowed" }, 403);
-  if (!(await checkRateLimit(request, env, "result", 120, 60 * 60))) return json(request, env, { error: "rate_limited" }, 429, { "Retry-After": "3600" });
-  if (!/^[A-Za-z0-9_-]{43}$/.test(token)) return json(request, env, { error: "not_found" }, 404);
+async function findDetailedResult(env, token) {
+  if (!/^[A-Za-z0-9_-]{43}$/.test(token)) return null;
   const tokenHash = await sha256(token);
   const row = await env.DB.prepare(`
     SELECT d.respondent_type, d.guardian_confirmed, d.gender_choice, d.monster_variant, d.zodiac, d.answers_json,
@@ -177,9 +175,12 @@ async function getDetailedResult(request, env, token) {
     WHERE t.token_hash = ?1
   `).bind(tokenHash).first();
   const now = unixNow();
-  if (!row || Number(row.result_expires_at) < now) return json(request, env, { error: "expired_or_not_found" }, 404);
+  if (!row || Number(row.result_expires_at) < now) return null;
+  return row;
+}
 
-  return json(request, env, {
+function detailedResultPayload(row) {
+  return {
     diagnosis: {
       version: 2,
       respondentType: row.respondent_type,
@@ -196,7 +197,93 @@ async function getDetailedResult(request, env, token) {
     },
     createdAt: new Date(Number(row.created_at) * 1000).toISOString(),
     expiresAt: new Date(Number(row.result_expires_at) * 1000).toISOString()
-  });
+  };
+}
+
+async function getDetailedResult(request, env, token) {
+  if (!isAllowedBrowserOrigin(request, env)) return json(request, env, { error: "origin_not_allowed" }, 403);
+  if (!(await checkRateLimit(request, env, "result", 120, 60 * 60))) return json(request, env, { error: "rate_limited" }, 429, { "Retry-After": "3600" });
+  const row = await findDetailedResult(env, token);
+  if (!row) return json(request, env, { error: "expired_or_not_found" }, 404);
+  return json(request, env, detailedResultPayload(row));
+}
+
+function buildPdfSourceUrl(publicSiteUrl, token) {
+  const url = new URL(publicSiteUrl);
+  url.searchParams.set("result", token);
+  url.searchParams.set("serverPdf", "1");
+  return url.toString();
+}
+
+async function getDetailedResultPdf(request, env, token) {
+  if (!isAllowedBrowserOrigin(request, env)) return json(request, env, { error: "origin_not_allowed" }, 403);
+  if (!(await checkRateLimit(request, env, "pdf", 10, 60 * 60))) {
+    return new Response("PDFの作成回数が上限に達しました。時間をおいてからもう一度お試しください。", {
+      status: 429,
+      headers: { "Content-Type": "text/plain; charset=utf-8", ...securityHeaders(), ...corsHeaders(request, env), "Retry-After": "3600" }
+    });
+  }
+  const row = await findDetailedResult(env, token);
+  if (!row) return json(request, env, { error: "expired_or_not_found" }, 404);
+  if (!env.BROWSER?.quickAction) return json(request, env, { error: "pdf_service_unavailable" }, 503);
+
+  const sourceUrl = buildPdfSourceUrl(env.PUBLIC_SITE_URL, token);
+  try {
+    const pdfRequest = {
+      url: sourceUrl,
+      viewport: { width: 1123, height: 1587 },
+      gotoOptions: { waitUntil: "networkidle2", timeout: 45000 },
+      waitForSelector: { selector: '#detailSheet[data-pdf-ready="true"]', visible: true, timeout: 45000 },
+      actionTimeout: 45000,
+      emulateMediaType: "print",
+      addStyleTag: [{
+        content: "@page{size:A4 portrait;margin:0}html,body{margin:0!important;padding:0!important}"
+      }],
+      pdfOptions: {
+        format: "a4",
+        landscape: false,
+        printBackground: true,
+        preferCSSPageSize: true,
+        displayHeaderFooter: false,
+        scale: 1,
+        margin: { top: "0", right: "0", bottom: "0", left: "0" },
+        timeout: 45000
+      }
+    };
+    let rendered = await env.BROWSER.quickAction("pdf", pdfRequest);
+    const retryAfter = Number(rendered.headers.get("Retry-After") || 0);
+    if (rendered.status === 429 && retryAfter > 0 && retryAfter <= 12) {
+      await new Promise(resolve => setTimeout(resolve, retryAfter * 1000));
+      rendered = await env.BROWSER.quickAction("pdf", pdfRequest);
+    }
+
+    if (!rendered.ok) {
+      const retryHeader = rendered.headers.get("Retry-After");
+      return new Response("PDFを作成できませんでした。少し時間をおいて、もう一度お試しください。", {
+        status: rendered.status,
+        headers: {
+          "Content-Type": "text/plain; charset=utf-8",
+          ...securityHeaders(),
+          ...corsHeaders(request, env),
+          ...(retryHeader ? { "Retry-After": retryHeader } : {})
+        }
+      });
+    }
+
+    const headers = new Headers({
+      "Content-Type": "application/pdf",
+      "Content-Disposition": `inline; filename="talent-monster-result.pdf"; filename*=UTF-8''${encodeURIComponent("才能モンスター詳しい診断結果.pdf")}`,
+      ...securityHeaders(),
+      ...corsHeaders(request, env)
+    });
+    return new Response(rendered.body, { status: 200, headers });
+  } catch {
+    console.error("PDF generation failed");
+    return new Response("PDFを作成できませんでした。少し時間をおいて、もう一度お試しください。", {
+      status: 503,
+      headers: { "Content-Type": "text/plain; charset=utf-8", ...securityHeaders(), ...corsHeaders(request, env), "Retry-After": "30" }
+    });
+  }
 }
 
 async function verifyLineSignature(rawBody, signature, channelSecret) {
@@ -346,7 +433,10 @@ export default {
     }
     if (request.method === "GET" && url.pathname === "/health") return json(request, env, { ok: true });
     if (request.method === "POST" && url.pathname === "/api/diagnoses") return createDiagnosis(request, env);
-    if (request.method === "GET" && url.pathname.startsWith("/api/results/")) return getDetailedResult(request, env, decodeURIComponent(url.pathname.slice("/api/results/".length)));
+    const pdfMatch = url.pathname.match(/^\/api\/results\/([^/]+)\/pdf$/);
+    if (request.method === "GET" && pdfMatch) return getDetailedResultPdf(request, env, decodeURIComponent(pdfMatch[1]));
+    const resultMatch = url.pathname.match(/^\/api\/results\/([^/]+)$/);
+    if (request.method === "GET" && resultMatch) return getDetailedResult(request, env, decodeURIComponent(resultMatch[1]));
     if (request.method === "POST" && url.pathname === "/webhooks/line") return handleLineWebhook(request, env);
     return json(request, env, { error: "not_found" }, 404);
   },
@@ -355,4 +445,4 @@ export default {
   }
 };
 
-export { buildResultUrl, resultButtonMessage, verifyLineSignature };
+export { buildPdfSourceUrl, buildResultUrl, resultButtonMessage, verifyLineSignature };
