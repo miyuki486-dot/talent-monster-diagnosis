@@ -37,6 +37,38 @@ test("判定質問は性格4問と好き3問の7問構成", () => {
   ]);
 });
 
+test("文言変更後も対象3設問の採点先と順番は変わらない", () => {
+  assert.deepEqual(DIAGNOSIS_QUESTIONS[1].options, [
+    ["grower", "maker"], ["spark", "challenger"], ["messenger", "connector"], ["empath", "planner"]
+  ]);
+  assert.deepEqual(DIAGNOSIS_QUESTIONS[4].options, [
+    ["maker", "spark"], ["explorer", "messenger"], ["challenger", "host"], ["artist", "leader"]
+  ]);
+  assert.deepEqual(DIAGNOSIS_QUESTIONS[6].options, [
+    ["spark", "artist"], ["connector", "empath"], ["planner", "explorer"], ["leader", "challenger"]
+  ]);
+});
+
+test("自由回答時も既存の性格50点・好き30点の再配分を維持する", () => {
+  const personalityOnly = samplePayload({
+    answers: Array.from({ length: 7 }, (_value, index) => index === 1
+      ? { answerType: "choice", choiceIndex: 0, freeText: "" }
+      : { answerType: "free", choiceIndex: null, freeText: "" })
+  });
+  const personalityResult = calculateDiagnosis(normalizeDiagnosisPayload(personalityOnly));
+  assert.equal(personalityResult.scores.grower, 50);
+  assert.equal(personalityResult.scores.maker, 21);
+
+  const likesOnly = samplePayload({
+    answers: Array.from({ length: 7 }, (_value, index) => index === 4
+      ? { answerType: "choice", choiceIndex: 0, freeText: "" }
+      : { answerType: "free", choiceIndex: null, freeText: "" })
+  });
+  const likesResult = calculateDiagnosis(normalizeDiagnosisPayload(likesOnly));
+  assert.equal(likesResult.scores.maker, 30);
+  assert.equal(likesResult.scores.spark, 32.6);
+});
+
 test("性別表示と選んだ相棒の組み合わせを検証する", () => {
   assert.throws(
     () => normalizeDiagnosisPayload(samplePayload({ genderChoice: "boy", monsterVariant: "female" })),

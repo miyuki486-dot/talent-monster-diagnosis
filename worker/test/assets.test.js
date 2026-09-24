@@ -7,6 +7,7 @@ const manifestUrl = new URL("../../dist/assets/monsters/manifest.json", import.m
 const assetBaseUrl = new URL("../../dist/assets/monsters/", import.meta.url);
 const frontendUrl = new URL("../../dist/index.html", import.meta.url);
 const japaneseFontUrl = new URL("../../dist/assets/fonts/NotoSansJP-Variable.ttf", import.meta.url);
+const hatchEggUrl = new URL("../../dist/assets/hatch-egg.png", import.meta.url);
 const manifest = JSON.parse(readFileSync(manifestUrl, "utf8"));
 const typeNames = [
   "ヒラメキラ", "ツクリオン", "ミッケル", "トビコン",
@@ -57,9 +58,65 @@ test("相棒選択は全12タイプで同じ番号の男女の卵をペアにで
 test("判定待ち演出はタイプ別画像を見せず未孵化の卵を表示する", () => {
   const frontend = readFileSync(frontendUrl, "utf8");
   const finishDiagnosis = frontend.match(/function finishDiagnosis\(\) \{[\s\S]*?\n    \}/)?.[0] || "";
-  assert.match(frontend, /id="hatchEgg"[^>]*>🥚<\/div>/);
-  assert.match(finishDiagnosis, /getElementById\("hatchEgg"\)\.textContent = "🥚"/);
-  assert.doesNotMatch(finishDiagnosis, /monsterAssetUrl|spriteMarkup|<img/);
+  const hatchEgg = readFileSync(hatchEggUrl);
+  assert.equal(sha256(hatchEggUrl), "63364458ad9867fc935bddd486127c8681e42fd611b180ae4a29f630722f962d");
+  assert.deepEqual([...hatchEgg.subarray(0, 8)], [137, 80, 78, 71, 13, 10, 26, 10]);
+  assert.equal(hatchEgg[25], 6, "透過を持てるRGBA形式のPNGを使用する");
+  assert.match(frontend, /id="hatchEggImage" src="assets\/hatch-egg\.png"/);
+  assert.match(finishDiagnosis, /getElementById\("hatchEggImage"\)\.src = "assets\/hatch-egg\.png"/);
+  assert.match(frontend, /\.hatch-egg \{[^}]*place-items: center;[^}]*margin-inline: auto;[^}]*animation: wobble/);
+  assert.match(frontend, /\.hatch-egg img \{[^}]*object-fit: contain;[^}]*transform: translate\(1\.2%, -\.6%\)/);
+  assert.doesNotMatch(finishDiagnosis, /monsterAssetUrl|spriteMarkup/);
+});
+
+test("変更した3設問の文言と回答解釈が決定稿どおり", () => {
+  const frontend = readFileSync(frontendUrl, "utf8");
+  for (const text of [
+    "もしお店をするなら、どんなことが一番ワクワクする？",
+    "いちばんワクワクするものを選んでね！",
+    "お子さんがいちばんワクワクしそうなものを選んでください。",
+    "自分で考えたものを作る",
+    "ふしぎを調べて、「わかった！」をみんなに伝える",
+    "お客さんと一緒に遊んで、盛り上がる",
+    "絵や音、物語などで、自分の世界を表現する",
+    "できるまで、もう一度やってみる",
+    "別のやり方を考えて、試してみる",
+    "誰かに話して、一緒に考えてもらう",
+    "まずよく見て、どうするか考える",
+    "もし冒険に出るなら、どの役で行きたい？",
+    "💡 ひらめき発明家", "🤝 なかまつなぎ屋", "🧭 道ひらき探検家", "🔥 やる気まほう使い",
+    "✨ ？？？", "じぶんだけの役がある！",
+    "行き詰まったとき、別のやり方を考えて試せる",
+    "困ったことを誰かに話して、一緒に考えられる",
+    "まずよく見て、自分に合う進み方を考えられる"
+  ]) assert.equal(frontend.includes(text), true, text);
+
+  const expectedPairs = {
+    personality_2: [["grower", "maker"], ["spark", "challenger"], ["messenger", "connector"], ["empath", "planner"]],
+    likes_1: [["maker", "spark"], ["explorer", "messenger"], ["challenger", "host"], ["artist", "leader"]],
+    likes_3: [["spark", "artist"], ["connector", "empath"], ["planner", "explorer"], ["leader", "challenger"]]
+  };
+  for (const [questionId, pairs] of Object.entries(expectedPairs)) {
+    const block = frontend.match(new RegExp(`id: "${questionId}"[\\s\\S]*?options: \\[([\\s\\S]*?)\\n        \\]`))?.[1] || "";
+    pairs.forEach(([primary, secondary]) => assert.match(block, new RegExp(`primary: "${primary}", secondary: "${secondary}"`)));
+  }
+});
+
+test("子ども向けふりがなは漢字だけをruby要素に入れる", () => {
+  const frontend = readFileSync(frontendUrl, "utf8");
+  const rubyBases = Array.from(frontend.matchAll(/rubyText\("([^"]+)",\s*"[^"]+"\)/g), match => match[1]);
+  assert.ok(rubyBases.length >= 100, "質問・選択肢・案内文の漢字を広く網羅する");
+  rubyBases.forEach(base => assert.doesNotMatch(base, /[ぁ-んァ-ヶー]/, `${base} の送り仮名をruby外へ出す`));
+  assert.equal(frontend.includes('"選ぶ": `${rubyText("選", "えら")}ぶ`'), true);
+  assert.equal(frontend.includes('"思いどおり": `${rubyText("思", "おも")}いどおり`'), true);
+  for (const text of ["当てはまらない", "見つけて", "遊んで", "準備", "書かなく", "やる気", "屋", "戻る"]) {
+    assert.match(frontend, new RegExp(`"${text}"\\s*:`), `${text} にふりがな定義がある`);
+  }
+  assert.match(frontend, /progressLabel\.innerHTML = questionText\("相棒の種類"\)/);
+  assert.match(frontend, /progressLabel\.innerHTML = questionText\("星座"\)/);
+  assert.match(frontend, /backBtn\.innerHTML = questionText\("← ひとつ戻る"\)/);
+  assert.match(frontend, /<h2 class="question-title">\$\{questionText\(q\.title\)\}<\/h2>/);
+  assert.doesNotMatch(frontend, /<ruby>\$\{word\}<rt>/);
 });
 
 test("詳細結果は画像保存に一本化し、PDF生成コードとエンドポイントを保持する", () => {

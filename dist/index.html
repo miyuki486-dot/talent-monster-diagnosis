@@ -371,6 +371,9 @@
     .option.selected { border-color: var(--blue); background: #edf4ff; box-shadow: 0 0 0 3px rgba(43,112,228,.1); }
     .option-letter { flex: 0 0 auto; display: grid; place-items: center; width: 32px; height: 32px; border-radius: 10px; background: #eaf0ff; color: #2457bb; font-size: .85rem; }
     .option.selected .option-letter { background: var(--blue); color: white; }
+    .option-copy { display: grid; gap: 3px; }
+    .option-copy strong { display: block; font-size: 1rem; }
+    .option-copy small { display: block; color: var(--muted); font-size: .8rem; font-weight: 750; line-height: 1.55; }
     .other-option { grid-column: 1 / -1; min-height: 64px; }
 
     .free-answer-panel { margin-top: 16px; padding: 18px; border: 2px solid #b9cdf8; border-radius: 17px; background: #f4f8ff; }
@@ -396,7 +399,8 @@
       color: white;
     }
 
-    .hatch-egg { font-size: clamp(7rem, 18vw, 11rem); animation: wobble .65s ease-in-out infinite alternate; filter: drop-shadow(0 20px 30px rgba(0,0,0,.35)); }
+    .hatch-egg { display: grid; place-items: center; width: clamp(150px, 32vw, 240px); margin-inline: auto; animation: wobble .65s ease-in-out infinite alternate; filter: drop-shadow(0 20px 30px rgba(0,0,0,.35)); }
+    .hatch-egg img { display: block; width: 100%; height: auto; object-fit: contain; transform: translate(1.2%, -.6%); }
     .hatch-screen h2 { margin-top: 24px; font-size: clamp(1.65rem, 4vw, 2.6rem); }
     .hatch-screen p { color: #d9e8ff; font-weight: 700; }
     @keyframes wobble { 0% { transform: rotate(-5deg) scale(.98); } 100% { transform: rotate(5deg) scale(1.04); } }
@@ -852,7 +856,7 @@
 
         <div id="hatchScreen" class="screen hatch-screen">
           <div>
-            <div id="hatchEgg" class="hatch-egg" aria-hidden="true">🥚</div>
+            <div id="hatchEgg" class="hatch-egg"><img id="hatchEggImage" src="assets/hatch-egg.png" alt="星と水玉模様のタマゴ"></div>
             <h2>タマゴが動きはじめた！</h2>
             <p>お子さんの「好きの力」を読み解いています…</p>
           </div>
@@ -1226,10 +1230,10 @@
       {
         id: "personality_2", category: "personality", kicker: "性格 2 / 4", title: "思いどおりにできないときは？",
         options: [
-          { text: "できるまで何度も試す", primary: "grower", secondary: "maker" },
-          { text: "別のやり方をひらめく", primary: "spark", secondary: "challenger" },
-          { text: "誰かに聞いたり、状況を説明したりする", primary: "messenger", secondary: "connector" },
-          { text: "周りの様子を見て、そっと助けを待つ", primary: "empath", secondary: "planner" }
+          { text: "できるまで、もう一度やってみる", primary: "grower", secondary: "maker" },
+          { text: "別のやり方を考えて、試してみる", primary: "spark", secondary: "challenger" },
+          { text: "誰かに話して、一緒に考えてもらう", primary: "messenger", secondary: "connector" },
+          { text: "まずよく見て、どうするか考える", primary: "empath", secondary: "planner" }
         ]
       },
       {
@@ -1251,12 +1255,14 @@
         ]
       },
       {
-        id: "likes_1", category: "likes", kicker: "好き 1 / 3", title: "もしお店を出すなら、一番わくわくしそうなのは？",
+        id: "likes_1", category: "likes", kicker: "好き 1 / 3", title: "もしお店をするなら、どんなことが一番ワクワクする？",
+        childHelp: "いちばんワクワクするものを選んでね！",
+        adultHelp: "お子さんがいちばんワクワクしそうなものを選んでください。",
         options: [
-          { text: "世界に一つの作品やグッズ", primary: "maker", secondary: "spark" },
-          { text: "不思議を楽しむ実験やクイズ", primary: "explorer", secondary: "messenger" },
-          { text: "お客さんが参加するゲーム", primary: "challenger", secondary: "host" },
-          { text: "絵、音、物語などのパフォーマンス", primary: "artist", secondary: "leader" }
+          { text: "自分で考えたものを作る", primary: "maker", secondary: "spark" },
+          { text: 'ふしぎを調べて、「わかった！」をみんなに伝える', primary: "explorer", secondary: "messenger" },
+          { text: "お客さんと一緒に遊んで、盛り上がる", primary: "challenger", secondary: "host" },
+          { text: "絵や音、物語などで、自分の世界を表現する", primary: "artist", secondary: "leader" }
         ]
       },
       {
@@ -1269,12 +1275,13 @@
         ]
       },
       {
-        id: "likes_3", category: "likes", kicker: "好き 3 / 3", title: "もし一つだけ冒険の力を選ぶなら？",
+        id: "likes_3", category: "likes", kicker: "好き 3 / 3", title: "もし冒険に出るなら、どの役で行きたい？",
+        otherTitle: "✨ ？？？", otherText: "じぶんだけの役がある！",
         options: [
-          { text: "見えないアイデアを形にする力", primary: "spark", secondary: "artist" },
-          { text: "誰かの心と心をつなぐ力", primary: "connector", secondary: "empath" },
-          { text: "ゴールまでの道を見つける力", primary: "planner", secondary: "explorer" },
-          { text: "みんなの勇気に火をつける力", primary: "leader", secondary: "challenger" }
+          { text: "ひらめき発明家：新しいアイデアを思いついて、みんなに見せる", title: "💡 ひらめき発明家", detail: "新しいアイデアを思いついて、みんなに見せる", primary: "spark", secondary: "artist" },
+          { text: "なかまつなぎ屋：みんなに声をかけて、仲間をつなぐ", title: "🤝 なかまつなぎ屋", detail: "みんなに声をかけて、仲間をつなぐ", primary: "connector", secondary: "empath" },
+          { text: "道ひらき探検家：手がかりを見つけて、ゴールまでの作戦を考える", title: "🧭 道ひらき探検家", detail: "手がかりを見つけて、ゴールまでの作戦を考える", primary: "planner", secondary: "explorer" },
+          { text: 'やる気まほう使い：「やってみよう！」と、みんなの勇気を引き出す', title: "🔥 やる気まほう使い", detail: '「やってみよう！」と、みんなの勇気を引き出す', primary: "leader", secondary: "challenger" }
         ]
       }
     ];
@@ -1290,9 +1297,9 @@
       ],
       personality_2: [
         { trait: "うまくいかなくても、できるまで粘り強く試せる", support: "完成だけでなく、前と違うやり方を試した瞬間を具体的にほめてみて。" },
-        { trait: "行き詰まったとき、別の道をひらめける", support: "すぐに答えを渡さず、『ほかにどんな方法がありそう？』と発想を広げてあげて。" },
-        { trait: "困ったことを言葉にして、人の力も借りられる", support: "助けを求められたことを強みとして認め、『どんな助けがあると進めそう？』と聞いてみて。" },
-        { trait: "周りを感じ取り、安心できるタイミングを待てる", support: "無理に前へ押さず、『見ていて分かったことはある？』と本人のペースを守ってみて。" }
+        { trait: "行き詰まったとき、別のやり方を考えて試せる", support: "すぐに答えを渡さず、『ほかにどんな方法がありそう？』と発想を広げてあげて。" },
+        { trait: "困ったことを誰かに話して、一緒に考えられる", support: "人に話せたことを強みとして認め、『一緒に何から考えようか？』と聞いてみて。" },
+        { trait: "まずよく見て、自分に合う進み方を考えられる", support: "無理に前へ押さず、『見ていて分かったことはある？』と本人のペースを守ってみて。" }
       ],
       personality_3: [
         { trait: "始める前に、順番や必要なものを整理できる", support: "大人が予定を決めきらず、『最初は何からする？』を本人に任せると作戦力が育ちます。" },
@@ -1307,8 +1314,8 @@
         { trait: "楽しくなる工夫を考え、空気を変えられる", support: "思いつきをすぐ評価せず、『それをしたらどんな気持ちになりそう？』と聞いてみて。" }
       ],
       likes_1: [
-        { trait: "世界に一つの作品やグッズを形にすることに心が動く", step: "身近な材料を3つ選び、『こんなのがあったら楽しい』と思う小さな作品を作ってみよう。" },
-        { trait: "不思議の答えを見つけ、クイズや実験で伝えることにわくわくする", step: "気になる『なんで？』を一つ選び、家族に出せる三択クイズを作ってみよう。" },
+        { trait: "自分で考えたものを形にすることに心が動く", step: "身近な材料を3つ選び、『こんなのがあったら楽しい』と思う小さな作品を作ってみよう。" },
+        { trait: 'ふしぎを調べて、「わかった！」をみんなに伝えることにわくわくする', step: "気になる『なんで？』を一つ選び、分かったことを家族に伝えてみよう。" },
         { trait: "お客さんと一緒に遊び、盛り上がる体験を作るのが好き", step: "家族が参加できる1分ゲームを考え、実際に遊んでもらってみよう。" },
         { trait: "絵や音、物語で、自分だけの世界を表すことにひかれる", step: "好きな色・音・言葉を三つ選び、短い作品やパフォーマンスにしてみよう。" }
       ],
@@ -1342,38 +1349,45 @@
       capricorn: ["grower", "planner"], aquarius: ["spark", "messenger"], pisces: ["artist", "empath"]
     };
 
+    const rubyText = (base, reading) => `<ruby>${base}<rt>${reading}</rt></ruby>`;
     const furiganaReadings = {
-      "当てはまる": "あてはまる", "思いどおり": "おもいどおり", "分かりやすく": "わかりやすく",
-      "合わせられた": "あわせられた", "盛り上げる": "もりあげる", "知らなかった": "しらなかった",
-      "見つけた": "みつけた", "見つける": "みつける", "見られる": "みられる", "取り組む": "とりくむ",
-      "遊び方": "あそびかた", "やり方": "やりかた", "初めて": "はじめて", "確かめる": "たしかめる", "思いつく": "おもいつく",
-      "聞いたり": "きいたり", "進みます": "すすみます", "作って": "つくって", "見せる": "みせる",
-      "お客さん": "おきゃくさん", "一番": "いちばん", "一緒": "いっしょ", "何度": "なんど",
-      "自分": "じぶん", "誰か": "だれか", "状況": "じょうきょう", "説明": "せつめい",
-      "周り": "まわり", "方向": "ほうこう", "表現": "ひょうげん", "役割": "やくわり",
-      "集中": "しゅうちゅう", "順番": "じゅんばん", "必要": "ひつよう", "楽しさ": "たのしさ",
-      "小さく": "ちいさく", "近く": "ちかく", "近い": "ちかい", "不安": "ふあん", "気持ち": "きもち",
-      "楽しく": "たのしく", "方法": "ほうほう", "お店": "おみせ", "世界": "せかい",
-      "一つ": "ひとつ", "作品": "さくひん", "不思議": "ふしぎ", "実験": "じっけん",
-      "参加": "さんか", "物語": "ものがたり", "特に": "とくに", "完成": "かんせい",
-      "答える": "こたえる", "答え": "こたえ", "言われた": "いわれた", "冒険": "ぼうけん",
-      "見えない": "みえない", "勇気": "ゆうき", "星座": "せいざ", "質問": "しつもん",
-      "選んで": "えらんで", "選ぶ": "えらぶ", "遊び": "あそび", "遊ぶ": "あそぶ", "様子": "ようす",
-      "多い": "おおい", "見て": "みて", "誘って": "さそって", "始める": "はじめる",
-      "思い": "おもい", "試して": "ためして", "試す": "ためす", "聞く": "きく", "助け": "たすけ", "待つ": "まつ", "別": "べつ",
-      "姿": "すがた", "決める": "きめる", "入れる": "はいれる", "声": "こえ", "場": "ば",
-      "何か": "なにか", "前": "まえ", "考える": "かんがえる", "見本": "みほん", "話す": "はなす", "楽しむ": "たのしむ",
-      "先": "さき", "教える": "おしえる", "出す": "だす", "音": "おと", "力": "ちから",
-      "形": "かたち", "心": "こころ", "道": "みち", "火": "ひ", "絵": "え", "子": "こ", "座": "ざ", "次": "つぎ"
-      , "回答": "かいとう", "誰": "だれ", "本人": "ほんにん", "内容": "ないよう", "保存": "ほぞん",
-      "名前": "なまえ", "学校名": "がっこうめい", "生年月日": "せいねんがっぴ", "確認": "かくにん",
-      "診断": "しんだん", "結果": "けっか", "男の子": "おとこのこ", "女の子": "おんなのこ",
-      "その他": "そのた", "相棒": "あいぼう", "自由": "じゆう", "文字": "もじ", "入力": "にゅうりょく"
+      "当てはまらない": `${rubyText("当", "あ")}てはまらない`, "当てはまる": `${rubyText("当", "あ")}てはまる`, "思いどおり": `${rubyText("思", "おも")}いどおり`, "分かりやすく": `${rubyText("分", "わ")}かりやすく`,
+      "合わせられた": `${rubyText("合", "あ")}わせられた`, "盛り上がる": `${rubyText("盛", "も")}り${rubyText("上", "あ")}がる`, "盛り上げる": `${rubyText("盛", "も")}り${rubyText("上", "あ")}げる`, "知らなかった": `${rubyText("知", "し")}らなかった`,
+      "見つけて": `${rubyText("見", "み")}つけて`, "見つけた": `${rubyText("見", "み")}つけた`, "見つける": `${rubyText("見", "み")}つける`, "見られる": `${rubyText("見", "み")}られる`, "取り組む": `${rubyText("取", "と")}り${rubyText("組", "く")}む`,
+      "遊び方": `${rubyText("遊", "あそ")}び${rubyText("方", "かた")}`, "やり方": `やり${rubyText("方", "かた")}`, "初めて": `${rubyText("初", "はじ")}めて`, "確かめる": `${rubyText("確", "たし")}かめる`, "思いつく": `${rubyText("思", "おも")}いつく`,
+      "思い浮かべて": `${rubyText("思", "おも")}い${rubyText("浮", "う")}かべて`, "聞いたり": `${rubyText("聞", "き")}いたり`, "聞きません": `${rubyText("聞", "き")}きません`, "進みます": `${rubyText("進", "すす")}みます`, "作って": `${rubyText("作", "つく")}って`, "作る": `${rubyText("作", "つく")}る`, "見せる": `${rubyText("見", "み")}せる`,
+      "お客さん": `お${rubyText("客", "きゃく")}さん`, "一番": rubyText("一番", "いちばん"), "一緒": rubyText("一緒", "いっしょ"), "一度": rubyText("一度", "いちど"), "何度": rubyText("何度", "なんど"),
+      "自分": rubyText("自分", "じぶん"), "誰か": `${rubyText("誰", "だれ")}か`, "状況": rubyText("状況", "じょうきょう"), "説明": rubyText("説明", "せつめい"),
+      "周り": `${rubyText("周", "まわ")}り`, "方向": rubyText("方向", "ほうこう"), "表現": rubyText("表現", "ひょうげん"), "役割": rubyText("役割", "やくわり"),
+      "集中": rubyText("集中", "しゅうちゅう"), "順番": rubyText("順番", "じゅんばん"), "必要": rubyText("必要", "ひつよう"), "楽しさ": `${rubyText("楽", "たの")}しさ`,
+      "小さく": `${rubyText("小", "ちい")}さく`, "近く": `${rubyText("近", "ちか")}く`, "近い": `${rubyText("近", "ちか")}い`, "不安": rubyText("不安", "ふあん"), "気持ち": `${rubyText("気持", "きも")}ち`,
+      "楽しく": `${rubyText("楽", "たの")}しく`, "方法": rubyText("方法", "ほうほう"), "お店": `お${rubyText("店", "みせ")}`, "世界": rubyText("世界", "せかい"),
+      "一つ": `${rubyText("一", "ひと")}つ`, "作品": rubyText("作品", "さくひん"), "不思議": rubyText("不思議", "ふしぎ"), "実験": rubyText("実験", "じっけん"),
+      "参加": rubyText("参加", "さんか"), "物語": rubyText("物語", "ものがたり"), "特に": `${rubyText("特", "とく")}に`, "完成": rubyText("完成", "かんせい"),
+      "答える": `${rubyText("答", "こた")}える`, "答え": `${rubyText("答", "こた")}え`, "言われた": `${rubyText("言", "い")}われた`, "冒険": rubyText("冒険", "ぼうけん"),
+      "見えない": `${rubyText("見", "み")}えない`, "勇気": rubyText("勇気", "ゆうき"), "星座": rubyText("星座", "せいざ"), "質問": rubyText("質問", "しつもん"),
+      "選んで": `${rubyText("選", "えら")}んで`, "選ぶ": `${rubyText("選", "えら")}ぶ`, "遊んで": `${rubyText("遊", "あそ")}んで`, "遊び": `${rubyText("遊", "あそ")}び`, "遊ぶ": `${rubyText("遊", "あそ")}ぶ`, "様子": rubyText("様子", "ようす"),
+      "多い": `${rubyText("多", "おお")}い`, "見て": `${rubyText("見", "み")}て`, "見る": `${rubyText("見", "み")}る`, "誘って": `${rubyText("誘", "さそ")}って`, "始める": `${rubyText("始", "はじ")}める`,
+      "思い": `${rubyText("思", "おも")}い`, "試して": `${rubyText("試", "ため")}して`, "試す": `${rubyText("試", "ため")}す`, "聞く": `${rubyText("聞", "き")}く`, "助け": `${rubyText("助", "たす")}け`, "待つ": `${rubyText("待", "ま")}つ`, "別": rubyText("別", "べつ"),
+      "姿": rubyText("姿", "すがた"), "決める": `${rubyText("決", "き")}める`, "入れる": `${rubyText("入", "はい")}れる`, "声": rubyText("声", "こえ"), "場": rubyText("場", "ば"),
+      "何か": `${rubyText("何", "なに")}か`, "前": rubyText("前", "まえ"), "考えて": `${rubyText("考", "かんが")}えて`, "考えた": `${rubyText("考", "かんが")}えた`, "考える": `${rubyText("考", "かんが")}える`, "見本": rubyText("見本", "みほん"), "話して": `${rubyText("話", "はな")}して`, "話す": `${rubyText("話", "はな")}す`, "楽しむ": `${rubyText("楽", "たの")}しむ`,
+      "先": rubyText("先", "さき"), "教えて": `${rubyText("教", "おし")}えて`, "教える": `${rubyText("教", "おし")}える`, "出る": `${rubyText("出", "で")}る`, "出す": `${rubyText("出", "だ")}す`, "音": rubyText("音", "おと"), "力": rubyText("力", "ちから"),
+      "形": rubyText("形", "かたち"), "心": rubyText("心", "こころ"), "道": rubyText("道", "みち"), "火": rubyText("火", "ひ"), "絵": rubyText("絵", "え"), "子": rubyText("子", "こ"), "座": rubyText("座", "ざ"), "次": rubyText("次", "つぎ"),
+      "回答": rubyText("回答", "かいとう"), "誰": rubyText("誰", "だれ"), "本人": rubyText("本人", "ほんにん"), "内容": rubyText("内容", "ないよう"), "保存": rubyText("保存", "ほぞん"),
+      "名前": rubyText("名前", "なまえ"), "学校名": rubyText("学校名", "がっこうめい"), "生年月日": rubyText("生年月日", "せいねんがっぴ"), "確認": rubyText("確認", "かくにん"),
+      "診断": rubyText("診断", "しんだん"), "結果": rubyText("結果", "けっか"), "男の子": `${rubyText("男", "おとこ")}の${rubyText("子", "こ")}`, "女の子": `${rubyText("女", "おんな")}の${rubyText("子", "こ")}`,
+      "その他": `その${rubyText("他", "た")}`, "相棒": rubyText("相棒", "あいぼう"), "自由": rubyText("自由", "じゆう"), "文字": rubyText("文字", "もじ"), "入力": rubyText("入力", "にゅうりょく"),
+      "調べて": `${rubyText("調", "しら")}べて`, "伝える": `${rubyText("伝", "つた")}える`, "新しい": `${rubyText("新", "あたら")}しい`, "発明家": rubyText("発明家", "はつめいか"),
+      "仲間": rubyText("仲間", "なかま"), "探検家": rubyText("探検家", "たんけんか"), "手がかり": `${rubyText("手", "て")}がかり`, "作戦": rubyText("作戦", "さくせん"),
+      "引き出す": `${rubyText("引", "ひ")}き${rubyText("出", "だ")}す`, "使い": `${rubyText("使", "つか")}い`, "役": rubyText("役", "やく"), "行きたい": `${rubyText("行", "い")}きたい`,
+      "表示": rubyText("表示", "ひょうじ"), "関係": rubyText("関係", "かんけい"), "種類": rubyText("種類", "しゅるい"), "準備": rubyText("準備", "じゅんび"), "書かなく": `${rubyText("書", "か")}かなく`, "書いて": `${rubyText("書", "か")}いて`, "任意": rubyText("任意", "にんい"),
+      "大人": rubyText("大人", "おとな"), "性格": rubyText("性格", "せいかく"), "好き": `${rubyText("好", "す")}き`, "付き": `${rubyText("付", "つ")}き`, "人": rubyText("人", "ひと"), "使う": `${rubyText("使", "つか")}う`,
+      "やる気": `やる${rubyText("気", "き")}`, "屋": rubyText("屋", "や"), "戻る": `${rubyText("戻", "もど")}る`
     };
     const furiganaPattern = new RegExp(Object.keys(furiganaReadings).sort((a, b) => b.length - a.length).join("|"), "g");
 
     function withFurigana(text) {
-      return text.replace(furiganaPattern, word => `<ruby>${word}<rt>${furiganaReadings[word]}</rt></ruby>`);
+      return text.replace(furiganaPattern, word => furiganaReadings[word]);
     }
 
     function questionText(text) {
@@ -1600,23 +1614,25 @@
         els.progressLabel.textContent = "はじめに";
       } else if (q.type === "gender") {
         els.progressBar.style.width = `${(2 / questions.length) * 100}%`;
-        els.progressLabel.textContent = "相棒の種類";
+        els.progressLabel.innerHTML = questionText("相棒の種類");
       } else if (q.type === "zodiac") {
         els.progressBar.style.width = `${(3 / questions.length) * 100}%`;
-        els.progressLabel.textContent = "星座";
+        els.progressLabel.innerHTML = questionText("星座");
       } else {
         const questionNumber = questions.slice(0, state.current + 1).filter(question => question.category).length;
         els.progressBar.style.width = `${((state.current + 1) / questions.length) * 100}%`;
         els.progressLabel.textContent = `${questionNumber} / 7`;
       }
+      els.backBtn.innerHTML = questionText("← ひとつ戻る");
+      els.nextBtn.innerHTML = questionText("次へ");
       els.backBtn.style.visibility = state.current === firstQuestionIndex ? "hidden" : "visible";
       els.nextBtn.style.display = "none";
 
       if (q.type === "respondent") {
         els.questionWrap.innerHTML = `
-          <p class="question-kicker">${q.kicker}</p>
-          <h2 class="question-title">${q.title}</h2>
-          <p class="question-help">${q.help}</p>
+          <p class="question-kicker">${questionText(q.kicker)}</p>
+          <h2 class="question-title">${questionText(q.title)}</h2>
+          <p class="question-help">${questionText(q.help)}</p>
           <div class="options respondent-options" role="radiogroup" aria-label="${q.title}">
             <button class="option respondent-option ${state.respondent === "adult" ? "selected" : ""}" type="button" role="radio" aria-checked="${state.respondent === "adult"}" data-respondent="adult"><span class="option-letter">A</span><span><strong>${withFurigana("大人が回答する")}</strong><small>${withFurigana("お子さんのいつもの様子を思い浮かべて回答する")}</small></span></button>
             <button class="option respondent-option ${state.respondent === "child" ? "selected" : ""}" type="button" role="radio" aria-checked="${state.respondent === "child"}" data-respondent="child"><span class="option-letter">B</span><span><strong>${withFurigana("子どもが回答する")}</strong><small>${withFurigana("自分のことを回答する・ふりがな付き")}</small></span></button>
@@ -1686,7 +1702,9 @@
           });
         });
       } else {
-        const help = state.respondent === "child" ? "あなたに一番近いものを選んでね。" : "一番よく見る姿に近いものを選んでください。";
+        const help = state.respondent === "child"
+          ? (q.childHelp || "あなたに一番近いものを選んでね。")
+          : (q.adultHelp || "一番よく見る姿に近いものを選んでください。");
         const otherSelected = state.answers[state.current] === "other";
         const freeAnswerLabel = state.respondent === "child" ? "自由に書いてね（書かなくてもOK）" : "自由に書いてください（任意）";
         const freeAnswerPlaceholder = state.respondent === "child" ? "どんなことをするか、自由に書いてね" : "どんな様子か、自由に書いてください";
@@ -1697,8 +1715,8 @@
           <h2 class="question-title">${questionText(q.title)}</h2>
           <p class="question-help">${questionText(help)}</p>
           <div class="options" role="radiogroup" aria-label="${q.title}">
-            ${q.options.map((option, i) => `<button class="option ${state.answers[state.current] === i ? "selected" : ""}" type="button" role="radio" aria-checked="${state.answers[state.current] === i}" data-index="${i}"><span class="option-letter">${String.fromCharCode(65+i)}</span><span>${questionText(option.text)}</span></button>`).join("")}
-             <button class="option other-option ${otherSelected ? "selected" : ""}" type="button" role="radio" aria-checked="${otherSelected}" data-other="true"><span class="option-letter">＋</span><span>${questionText("どれにも当てはまらない／ほかにある")}</span></button>
+            ${q.options.map((option, i) => `<button class="option ${state.answers[state.current] === i ? "selected" : ""}" type="button" role="radio" aria-checked="${state.answers[state.current] === i}" data-index="${i}"><span class="option-letter">${String.fromCharCode(65+i)}</span>${option.title ? `<span class="option-copy"><strong>${questionText(option.title)}</strong><small>${questionText(option.detail)}</small></span>` : `<span>${questionText(option.text)}</span>`}</button>`).join("")}
+             <button class="option other-option ${otherSelected ? "selected" : ""}" type="button" role="radio" aria-checked="${otherSelected}" data-other="true"><span class="option-letter">＋</span>${q.otherTitle ? `<span class="option-copy"><strong>${questionText(q.otherTitle)}</strong><small>${questionText(q.otherText)}</small></span>` : `<span>${questionText("どれにも当てはまらない／ほかにある")}</span>`}</button>
           </div>
           <div id="freeAnswerPanel" class="free-answer-panel" ${otherSelected ? "" : "hidden"}>
             <label class="free-answer-label" for="freeAnswerInput">${questionText(freeAnswerLabel)}</label>
@@ -1759,7 +1777,7 @@
       state.resultData = result;
       state.resultType = result.typeKey;
       state.diagnosisCreatedAt = new Date().toISOString();
-      document.getElementById("hatchEgg").textContent = "🥚";
+      document.getElementById("hatchEggImage").src = "assets/hatch-egg.png";
       showScreen(els.hatchScreen);
       window.setTimeout(() => {
         if (state.genderChoice === "other") {
